@@ -8999,7 +8999,7 @@
 	)
 	(text "Place close to IC"
 		(exclude_from_sim no)
-		(at 294.894 72.644 0)
+		(at 275.59 74.422 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9140,6 +9140,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "440f8cae-383c-45d6-abbc-fae3fb685a26")
+	)
+	(junction
+		(at 288.29 67.31)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "45467d76-e51f-48ca-a7ad-71275944db60")
 	)
 	(junction
 		(at 180.34 36.83)
@@ -10269,6 +10275,16 @@
 	)
 	(wire
 		(pts
+			(xy 288.29 67.31) (xy 298.45 67.31)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4dd9424c-3ba0-400a-b621-9bc4a3603a9d")
+	)
+	(wire
+		(pts
 			(xy 203.2 139.7) (xy 205.74 139.7)
 		)
 		(stroke
@@ -10599,16 +10615,6 @@
 	)
 	(wire
 		(pts
-			(xy 274.32 67.31) (xy 288.29 67.31)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "6a3362c4-1512-4e95-90ef-58e930c294ff")
-	)
-	(wire
-		(pts
 			(xy 170.18 36.83) (xy 180.34 36.83)
 		)
 		(stroke
@@ -10759,7 +10765,7 @@
 	)
 	(wire
 		(pts
-			(xy 256.54 67.31) (xy 266.7 67.31)
+			(xy 256.54 67.31) (xy 288.29 67.31)
 		)
 		(stroke
 			(width 0)
@@ -11496,6 +11502,16 @@
 			(type default)
 		)
 		(uuid "af5bc201-4891-465f-83eb-6afd179c0281")
+	)
+	(wire
+		(pts
+			(xy 298.45 67.31) (xy 298.45 68.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "af5c450a-ac52-4b50-a5ea-9f55e11cb7d5")
 	)
 	(wire
 		(pts
@@ -12249,6 +12265,16 @@
 	)
 	(wire
 		(pts
+			(xy 298.45 76.2) (xy 298.45 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e96fa503-ffe6-45c6-a475-9fd95f16621c")
+	)
+	(wire
+		(pts
 			(xy 237.49 198.12) (xy 247.65 198.12)
 		)
 		(stroke
@@ -12606,6 +12632,16 @@
 			(justify left bottom)
 		)
 		(uuid "1288100a-959f-44e6-8afb-6b9a3576cc7b")
+	)
+	(label "SW"
+		(at 257.81 39.37 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "1338324c-29e4-486c-bff3-675bed387a16")
 	)
 	(label "DN"
 		(at 96.52 63.5 180)
@@ -16578,6 +16614,73 @@
 		)
 	)
 	(symbol
+		(lib_name "GND_8")
+		(lib_id "power:GND")
+		(at 298.45 77.47 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "23d395c2-0c5a-4c16-8985-43b64fde4a66")
+		(property "Reference" "#PWR055"
+			(at 298.45 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 298.45 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 298.45 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 298.45 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 298.45 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "7399e4a5-582e-4089-b63b-a2bf9113b292")
+		)
+		(instances
+			(project "sisyphus"
+				(path "/8c0b3d8b-46d3-4173-ab1e-a61765f77d61"
+					(reference "#PWR055")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R_Small")
 		(at 250.19 198.12 90)
 		(unit 1)
@@ -17821,7 +17924,7 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 270.51 67.31 90)
+		(at 298.45 72.39 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -17829,7 +17932,7 @@
 		(dnp no)
 		(uuid "6d152f27-6491-434d-bd57-ce5c813510b2")
 		(property "Reference" "C24"
-			(at 272.288 64.262 90)
+			(at 301.244 71.374 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17838,7 +17941,7 @@
 			)
 		)
 		(property "Value" "10uF"
-			(at 272.796 70.612 90)
+			(at 300.99 73.406 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17847,7 +17950,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
-			(at 274.32 66.3448 0)
+			(at 299.4152 76.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17856,7 +17959,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 270.51 67.31 0)
+			(at 298.45 72.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17865,7 +17968,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 270.51 67.31 0)
+			(at 298.45 72.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
