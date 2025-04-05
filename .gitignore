@@ -33,3 +33,5 @@ fp-info-cache
 **/production/
 **/fabrication-toolkit-options.json
 *.round-tracks-config
+
+src/build/
