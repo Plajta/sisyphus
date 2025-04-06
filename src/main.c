@@ -4,6 +4,9 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+#include <boards/pico.h>
+#include <hardware/gpio.h>
+#include <pico/time.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <math.h>
@@ -12,7 +15,7 @@
 #include "pico/audio_i2s.h"
 #include "pico/binary_info.h"
 
-#include <lfs.h>
+#include "littlefs-pico.h"
 
 #include "wav_samples.h"
 
@@ -22,10 +25,8 @@ bi_decl(bi_3pins_with_names(PICO_AUDIO_I2S_DATA_PIN, "I2S DIN", PICO_AUDIO_I2S_C
 
 #define BUTTON_PIN 14
 
-extern uint32_t ADDR_LITTLEFS[];
-#define LITTLEFS_BASE_ADDR (uint32_t)(ADDR_LITTLEFS)
-
 bool running = false;
+lfs_t lfs;
 
 struct audio_buffer_pool *init_audio() {
 
@@ -64,11 +65,59 @@ struct audio_buffer_pool *init_audio() {
 }
 
 int main() {
-    // stdio_init_all();
+    #ifdef SISYPHUS_DEBUG
+    gpio_init(PICO_DEFAULT_LED_PIN);
+    gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
+
+    stdio_init_all();
+
+    gpio_put(PICO_DEFAULT_LED_PIN, 1);
+
+    while (!stdio_usb_connected()) {
+        sleep_ms(100);
+    }
+
+    gpio_put(PICO_DEFAULT_LED_PIN, 0);
+    printf("Connected\n");
+    #endif
 
     gpio_init(BUTTON_PIN);
     gpio_set_dir(BUTTON_PIN, GPIO_IN);
     gpio_pull_up(BUTTON_PIN);
+
+    int err = pico_lfs_init(&lfs);
+
+    if (err) {
+        gpio_put(PICO_DEFAULT_LED_PIN, 1);
+        sleep_ms(5000);
+        return 0;
+    }
+
+    // ONLY HERE AS A DEMONSTRATION
+    // ONLY HERE AS A DEMONSTRATION
+    // ONLY HERE AS A DEMONSTRATION
+    lfs_file_t file;
+
+    // read current count
+    uint32_t boot_count = 0;
+    lfs_file_open(&lfs, &file, "boot_count", LFS_O_RDWR | LFS_O_CREAT);
+    lfs_file_read(&lfs, &file, &boot_count, sizeof(boot_count));
+
+    // update boot count
+    boot_count += 1;
+    lfs_file_rewind(&lfs, &file);
+    lfs_file_write(&lfs, &file, &boot_count, sizeof(boot_count));
+
+    // remember the storage is not updated until the file is closed successfully
+    lfs_file_close(&lfs, &file);
+
+    // release any resources we were using
+    lfs_unmount(&lfs);
+
+    printf("boot_count: %d\n", boot_count);
+    // ONLY HERE AS A DEMONSTRATION
+    // ONLY HERE AS A DEMONSTRATION
+    // ONLY HERE AS A DEMONSTRATION
 
     struct audio_buffer_pool *ap = init_audio();
 
@@ -78,9 +127,9 @@ int main() {
         while (gpio_get(BUTTON_PIN) && (sample_index == 0)) {
             sleep_ms(10);
         }
-        running = true;
-
-        // printf("Button pressed, %i\n", LITTLEFS_BASE_ADDR);
+        if (!running){
+            running = true;
+        }
 
         struct audio_buffer *buffer = take_audio_buffer(ap, true);
         int16_t *samples = (int16_t *) buffer->buffer->bytes;
@@ -88,7 +137,7 @@ int main() {
         for (uint i = 0; i < buffer->max_sample_count; i++) {
             samples[i] = wav_data[sample_index++];
             if (sample_index >= WAV_SAMPLE_COUNT) {
-                sample_index = 0; // loop the WAV file
+                sample_index = 0;
                 running = false;
             }
         }
