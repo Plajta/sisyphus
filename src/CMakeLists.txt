@@ -6,7 +6,6 @@ set(PICO_EXTRAS_FETCH_FROM_GIT on)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 include(pico_sdk_import.cmake)
-
 include(pico_extras_import.cmake)
 
 project(sisyphus C CXX ASM)
@@ -14,6 +13,14 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 
 pico_sdk_init()
+
+add_library(littlefs STATIC
+  littlefs/lfs.c
+  littlefs/lfs_util.c
+)
+
+target_include_directories(littlefs PUBLIC littlefs)
+
 add_executable(${PROJECT_NAME}
   main.c
 )
@@ -33,6 +40,10 @@ pico_set_program_url(${PROJECT_NAME} "https://plajta.eu")
 
 pico_add_extra_outputs(${PROJECT_NAME})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE pico_stdlib pico_audio_i2s)
+set(PICO_FLASH_SIZE_BYTES_STRING "${PICO_FLASH_SIZE_BYTES}")
+set(LITTLEFS_SIZE_BYTES_STRING "512k")
 
-# pico_set_linker_script(${PROJECT_NAME} ${CMAKE_SOURCE_DIR}/memmap_custom.ld)
+target_link_libraries(${PROJECT_NAME} PRIVATE pico_stdlib pico_audio_i2s littlefs)
+
+configure_file(${CMAKE_CURRENT_LIST_DIR}/memmap_custom.ld ${CMAKE_BINARY_DIR}/memmap_custom.ld)
+pico_set_linker_script(${PROJECT_NAME} ${CMAKE_BINARY_DIR}/memmap_custom.ld)

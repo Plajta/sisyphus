@@ -7,12 +7,12 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <math.h>
-#include "hardware/clocks.h"
-#include "hardware/structs/clocks.h"
 #include "pico/audio.h"
 #include "pico/stdlib.h"
 #include "pico/audio_i2s.h"
 #include "pico/binary_info.h"
+
+#include <lfs.h>
 
 #include "wav_samples.h"
 
@@ -22,13 +22,16 @@ bi_decl(bi_3pins_with_names(PICO_AUDIO_I2S_DATA_PIN, "I2S DIN", PICO_AUDIO_I2S_C
 
 #define BUTTON_PIN 14
 
+extern uint32_t ADDR_LITTLEFS[];
+#define LITTLEFS_BASE_ADDR (uint32_t)(ADDR_LITTLEFS)
+
 bool running = false;
 
 struct audio_buffer_pool *init_audio() {
 
     static audio_format_t audio_format = {
         .format = AUDIO_BUFFER_FORMAT_PCM_S16,
-        .sample_freq = 44100, //TRY 44100
+        .sample_freq = 44100,
         .channel_count = 1,
     };
 
@@ -77,7 +80,7 @@ int main() {
         }
         running = true;
 
-        // printf("Button pressed\n");
+        // printf("Button pressed, %i\n", LITTLEFS_BASE_ADDR);
 
         struct audio_buffer *buffer = take_audio_buffer(ap, true);
         int16_t *samples = (int16_t *) buffer->buffer->bytes;
