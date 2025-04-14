@@ -5,7 +5,6 @@ import { Settings } from "lucide-react";
 import { NavItem, NavMain } from "~/components/nav-main";
 import { Sidebar, SidebarHeader, SidebarRail } from "~/components/ui/sidebar";
 import { Separator } from "~/components/ui/separator";
-import { Prisma } from "@prisma/client";
 
 export const navItems: NavItem[] = [
 	{
@@ -22,16 +21,7 @@ export const navItems: NavItem[] = [
 	},
 ];
 
-export function AppSidebar({
-	sheets,
-}: {
-	sheets: Prisma.SheetGetPayload<{
-		select: {
-			id: true;
-			name: true;
-		};
-	}>[];
-}) {
+export function AppSidebar({ sheets }: { sheets: any[] }) {
 	const configurationItem = navItems[0];
 
 	configurationItem.subItems = sheets.map((sheet) => ({
