@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { uploadSheet } from "~/actions/sheet/upload";
+// import { uploadSheet } from "~/actions/sheet/upload";
 import { Button } from "~/components/ui/button";
 
 const colors = {
@@ -61,55 +61,45 @@ export function Serial() {
 	}
 
 	async function handleSynchronization() {
-		if (writer) {
-			const resp = await uploadSheet();
-
-			if (!resp) {
-				return;
-			}
-
-			if (!resp.data) {
-				return;
-			}
-
-			for (const sheet of resp.data.data) {
-				for (const [rowIndex, row] of sheet.buttons.entries()) {
-					for (const [buttonIndex, button] of row.entries()) {
-						const voiceFile = button.files.find((file) => file.type === "VOICE");
-
-						if (voiceFile) {
-							const filename = `${
-								colors[sheet.colorCode as keyof typeof colors]
-							}${rowIndex}${buttonIndex}.wav`;
-
-							await writer.write(Buffer.from("send-data\n", "utf-8"));
-							await writer.write(Buffer.from("filename\n", "utf-8"));
-							await writer.write(Buffer.from(`${filename}\n`, "utf-8"));
-
-							const fileResponse = await fetch(`http://localhost:3000/api/file/${voiceFile.id}.wav`);
-
-							if (fileResponse.ok) {
-								const buffer = await fileResponse.bytes();
-
-								const chunkSize = 512;
-								const numOfChunks = Math.ceil(buffer.length / chunkSize);
-
-								for (let i = 0; i < numOfChunks; i++) {
-									console.log(i, numOfChunks);
-									const start = i * chunkSize;
-									const end = start + chunkSize;
-									const chunk = buffer.subarray(start, end);
-									const chunkWithNewline = Buffer.concat([chunk, Buffer.from("\n")]);
-									await writer.write(chunkWithNewline);
-								}
-
-								await writer.write(Buffer.from("end-data\n", "utf-8"));
-							}
-						}
-					}
-				}
-			}
-		}
+		// if (writer) {
+		// 	const resp = await uploadSheet();
+		// 	if (!resp) {
+		// 		return;
+		// 	}
+		// 	if (!resp.data) {
+		// 		return;
+		// 	}
+		// 	for (const sheet of resp.data.data) {
+		// 		for (const [rowIndex, row] of sheet.buttons.entries()) {
+		// 			for (const [buttonIndex, button] of row.entries()) {
+		// 				const voiceFile = button.files.find((file) => file.type === "VOICE");
+		// 				if (voiceFile) {
+		// 					const filename = `${
+		// 						colors[sheet.colorCode as keyof typeof colors]
+		// 					}${rowIndex}${buttonIndex}.wav`;
+		// 					await writer.write(Buffer.from("send-data\n", "utf-8"));
+		// 					await writer.write(Buffer.from("filename\n", "utf-8"));
+		// 					await writer.write(Buffer.from(`${filename}\n`, "utf-8"));
+		// 					const fileResponse = await fetch(`http://localhost:3000/api/file/${voiceFile.id}.wav`);
+		// 					if (fileResponse.ok) {
+		// 						const buffer = await fileResponse.bytes();
+		// 						const chunkSize = 512;
+		// 						const numOfChunks = Math.ceil(buffer.length / chunkSize);
+		// 						for (let i = 0; i < numOfChunks; i++) {
+		// 							console.log(i, numOfChunks);
+		// 							const start = i * chunkSize;
+		// 							const end = start + chunkSize;
+		// 							const chunk = buffer.subarray(start, end);
+		// 							const chunkWithNewline = Buffer.concat([chunk, Buffer.from("\n")]);
+		// 							await writer.write(chunkWithNewline);
+		// 						}
+		// 						await writer.write(Buffer.from("end-data\n", "utf-8"));
+		// 					}
+		// 				}
+		// 			}
+		// 		}
+		// 	}
+		// }
 	}
 
 	return (
