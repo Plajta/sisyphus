@@ -10,10 +10,12 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <math.h>
+#include <string.h>
 #include "pico/audio.h"
 #include "pico/stdlib.h"
 #include "pico/audio_i2s.h"
 #include "pico/binary_info.h"
+#include "tusb.h"
 
 #include "littlefs-pico.h"
 
@@ -25,8 +27,13 @@ bi_decl(bi_3pins_with_names(PICO_AUDIO_I2S_DATA_PIN, "I2S DIN", PICO_AUDIO_I2S_C
 
 #define BUTTON_PIN 14
 
-bool running = false;
 lfs_t lfs;
+
+static struct audio_buffer_pool *ap;
+
+volatile bool wakeup = false;
+static uint32_t sample_index = 0;
+
 
 struct audio_buffer_pool *init_audio() {
 
@@ -64,26 +71,16 @@ struct audio_buffer_pool *init_audio() {
     return producer_pool;
 }
 
-int main() {
-    #ifdef SISYPHUS_DEBUG
-    gpio_init(PICO_DEFAULT_LED_PIN);
-    gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
+void button_interrupt(uint gpio, uint32_t events) {
+    wakeup = true;
+    sample_index = 0;
+}
 
+int main() {
     stdio_init_all();
 
-    gpio_put(PICO_DEFAULT_LED_PIN, 1);
-
-    while (!stdio_usb_connected()) {
-        sleep_ms(100);
-    }
-
-    gpio_put(PICO_DEFAULT_LED_PIN, 0);
-    printf("Connected\n");
-    #endif
-
-    gpio_init(BUTTON_PIN);
-    gpio_set_dir(BUTTON_PIN, GPIO_IN);
-    gpio_pull_up(BUTTON_PIN);
+    gpio_init(PICO_DEFAULT_LED_PIN);
+    gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
 
     int err = pico_lfs_init(&lfs);
 
@@ -92,6 +89,14 @@ int main() {
         sleep_ms(5000);
         return 0;
     }
+
+    // Init audio before initializing the button interrupt
+    ap = init_audio();
+
+    gpio_init(BUTTON_PIN);
+    gpio_set_dir(BUTTON_PIN, GPIO_IN);
+    gpio_pull_up(BUTTON_PIN);
+    gpio_set_irq_enabled_with_callback(BUTTON_PIN, GPIO_IRQ_EDGE_FALL, true, &button_interrupt);
 
     // ONLY HERE AS A DEMONSTRATION
     // ONLY HERE AS A DEMONSTRATION
@@ -119,31 +124,52 @@ int main() {
     // ONLY HERE AS A DEMONSTRATION
     // ONLY HERE AS A DEMONSTRATION
 
-    struct audio_buffer_pool *ap = init_audio();
-
-    uint32_t sample_index = 0;
-
     while (true) {
-        while (gpio_get(BUTTON_PIN) && (sample_index == 0)) {
-            sleep_ms(10);
-        }
-        if (!running){
-            running = true;
-        }
+        // Check for USB-CDC connection
+        if (stdio_usb_connected()) {
+            printf("USB connected!\n");
 
-        struct audio_buffer *buffer = take_audio_buffer(ap, true);
-        int16_t *samples = (int16_t *) buffer->buffer->bytes;
-
-        for (uint i = 0; i < buffer->max_sample_count; i++) {
-            samples[i] = wav_data[sample_index++];
-            if (sample_index >= WAV_SAMPLE_COUNT) {
-                sample_index = 0;
-                running = false;
+            while (stdio_usb_connected()) {
+                if (tud_cdc_available()) {
+                    char buf[64];
+                    uint32_t count = tud_cdc_read(buf, sizeof(buf));
+                    tud_cdc_write(buf, count);
+                    tud_cdc_write_flush();
+                }
+                sleep_ms(10);
             }
         }
 
-        buffer->sample_count = buffer->max_sample_count;
-        give_audio_buffer(ap, buffer);
+        // If not connected and no button pressed, go to sleep
+        wakeup = false;
+        while (!stdio_usb_connected() && !wakeup) {
+            // LED only as an indicator for development
+            gpio_put(PICO_DEFAULT_LED_PIN, 1);
+            __wfi(); // Low-power wait for interrupt
+            gpio_put(PICO_DEFAULT_LED_PIN, 0);
+        }
+
+        if (wakeup) {
+            bool running = true;
+
+            while (running) {
+                struct audio_buffer *buffer = take_audio_buffer(ap, true);
+                int16_t *samples = (int16_t *) buffer->buffer->bytes;
+
+                for (uint i = 0; i < buffer->max_sample_count; i++) {
+                    samples[i] = wav_data[sample_index++];
+                    if (sample_index >= WAV_SAMPLE_COUNT) {
+                        sample_index = 0;
+                        running = false;
+                    }
+                }
+
+                buffer->sample_count = buffer->max_sample_count;
+                give_audio_buffer(ap, buffer);
+            }
+        }
     }
+
+
     return 0;
 }
