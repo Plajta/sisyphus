@@ -13,7 +13,7 @@ static int pico_read(const struct lfs_config *c, lfs_block_t block, lfs_off_t of
 {
     uint32_t addr = LITTLEFS_BASE_ADDR + (block * c->block_size) + off;
 
-    #ifdef SISYPHUS_DEBUG
+    #ifdef LFS_DEBUG
     printf("[FS] READ - Addr: %p, Block: %d, Offset: %d, Size: %d\n", addr - XIP_BASE, block, off, size);
     #endif
 
@@ -25,7 +25,7 @@ static int pico_prog(const struct lfs_config *c, lfs_block_t block, lfs_off_t of
 {
     uint32_t addr = LITTLEFS_FLASH_OFFSET_ADDR + (block * c->block_size) + off;
 
-    #ifdef SISYPHUS_DEBUG
+    #ifdef LFS_DEBUG
     printf("[FS] WRITE - Addr: %p, Block: %d, Offset: %d, Size: %d\n", addr, block, off, size);
     #endif
 
@@ -40,7 +40,7 @@ static int pico_erase(const struct lfs_config *c, lfs_block_t block)
 {
     uint32_t offset = LITTLEFS_FLASH_OFFSET_ADDR + (block * c->block_size);
 
-    #ifdef SISYPHUS_DEBUG
+    #ifdef LFS_DEBUG
     printf("[FS] ERASE: Addr: %p, Block: %d\n", offset, block);
     #endif
 
