@@ -7475,22 +7475,20 @@
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
-			(property "Reference" "U6"
-				(at 2.1433 -17.78 0)
+			(property "Reference" "U"
+				(at 0 0 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(justify left)
 				)
 			)
-			(property "Value" "~"
-				(at 2.1433 -19.05 0)
+			(property "Value" ""
+				(at 0 0 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(justify left)
 				)
 			)
 			(property "Footprint" "Package_DFN_QFN:WQFN-24-1EP_4x4mm_P0.5mm_EP2.45x2.45mm"
@@ -7729,7 +7727,7 @@
 					)
 				)
 				(pin power_in line
-					(at -1.27 -17.78 90)
+					(at 0 -17.78 90)
 					(length 2.54)
 					(name "GND"
 						(effects
@@ -7945,38 +7943,7 @@
 					)
 				)
 			)
-			(symbol "TCA8418_0_1"
-				(rectangle
-					(start -11.43 13.97)
-					(end 11.43 -15.24)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
 			(symbol "TCA8418_1_0"
-				(pin power_in line
-					(at 1.27 -17.78 90)
-					(length 2.54)
-					(name "GND"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "25"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
 				(pin input line
 					(at 13.97 8.89 180)
 					(length 2.54)
@@ -7993,6 +7960,19 @@
 								(size 1.27 1.27)
 							)
 						)
+					)
+				)
+			)
+			(symbol "TCA8418_1_1"
+				(rectangle
+					(start -11.43 13.97)
+					(end 11.43 -15.24)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type background)
 					)
 				)
 			)
@@ -20697,9 +20677,6 @@
 		)
 		(pin "12"
 			(uuid "9372a259-8d48-46b9-bc50-b0619c7149ba")
-		)
-		(pin "25"
-			(uuid "849414fb-76bd-4117-89ee-abfdd69848eb")
 		)
 		(instances
 			(project ""

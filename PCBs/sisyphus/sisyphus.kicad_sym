@@ -1431,19 +1431,6 @@
 				)
 			)
 		)
-		(symbol "TCA8418_0_1"
-			(rectangle
-				(start -11.43 13.97)
-				(end 11.43 -15.24)
-				(stroke
-					(width 0)
-					(type default)
-				)
-				(fill
-					(type none)
-				)
-			)
-		)
 		(symbol "TCA8418_1_0"
 			(pin input line
 				(at 13.97 8.89 180)
@@ -1461,6 +1448,19 @@
 							(size 1.27 1.27)
 						)
 					)
+				)
+			)
+		)
+		(symbol "TCA8418_1_1"
+			(rectangle
+				(start -11.43 13.97)
+				(end 11.43 -15.24)
+				(stroke
+					(width 0)
+					(type solid)
+				)
+				(fill
+					(type background)
 				)
 			)
 		)
@@ -1536,57 +1536,18 @@
 				(hide yes)
 			)
 		)
-		(symbol "VEML3328_0_1"
-			(polyline
-				(pts
-					(xy 7.62 5.08) (xy 7.62 -7.62)
-				)
-				(stroke
-					(width 0.127)
-					(type default)
-				)
-				(fill
-					(type none)
-				)
-			)
-			(polyline
-				(pts
-					(xy 7.62 -7.62) (xy 33.02 -7.62)
-				)
-				(stroke
-					(width 0.127)
-					(type default)
-				)
-				(fill
-					(type none)
-				)
-			)
-			(polyline
-				(pts
-					(xy 33.02 5.08) (xy 7.62 5.08)
-				)
-				(stroke
-					(width 0.127)
-					(type default)
-				)
-				(fill
-					(type none)
-				)
-			)
-			(polyline
-				(pts
-					(xy 33.02 -7.62) (xy 33.02 5.08)
-				)
-				(stroke
-					(width 0.127)
-					(type default)
-				)
-				(fill
-					(type none)
-				)
-			)
-		)
 		(symbol "VEML3328_1_1"
+			(rectangle
+				(start 7.62 5.08)
+				(end 33.02 -7.62)
+				(stroke
+					(width 0)
+					(type solid)
+				)
+				(fill
+					(type background)
+				)
+			)
 			(pin power_in line
 				(at 0 0 0)
 				(length 7.62)
