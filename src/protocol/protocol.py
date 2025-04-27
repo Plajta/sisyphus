@@ -1,0 +1,120 @@
+import zlib
+import serial
+import time
+
+# Constants
+CHUNK_SIZE = 1024
+EOT = b'\x04'
+
+# CRC32 helper
+def crc32(data, crc=0):
+    return zlib.crc32(data, crc) & 0xFFFFFFFF
+
+class ProtocolClient:
+    def __init__(self, port, baudrate=115200):
+        self.serial = serial.Serial(port, baudrate, timeout=1)
+
+    def send_command(self, cmd):
+        if isinstance(cmd, str):
+            cmd = cmd.encode('ascii')
+        self.serial.write(cmd + EOT)
+        self.serial.flush()
+
+    def readline(self):
+        line = self.serial.readline()
+        return line.decode(errors='ignore').strip()
+
+    def ls(self):
+        """List remote files to an array"""
+
+        self.send_command('ls')
+
+        data = bytearray()
+        while True:
+            byte = self.serial.read(1)
+            if byte == EOT or not byte:
+                break
+            data.extend(byte)
+        text = data.decode('ascii', errors='ignore')
+
+        files = text.splitlines()[2:] # Remove . and ..
+
+        return files
+
+    def rm(self, filename):
+        """Remove a remote file"""
+
+        self.send_command(f"rm {filename}")
+        resp = self.readline()
+        return resp.startswith('ack'), resp
+
+    def mv(self, old, new):
+        """Move a remote file"""
+
+        self.send_command(f"mv {old} {new}")
+        resp = self.readline()
+        return resp.startswith('ack'), resp
+
+    def push(self, file, size, dest, progress_cb=None):
+        """Push a local file-like object to the remote device"""
+
+        checksum = crc32(file.read())
+        file.seek(0) # Reset to start of file
+
+        self.send_command(f"push {dest} {size} {checksum}")
+
+        if progress_cb is not None:
+            start = time.time()
+        sent = 0
+        while sent < size:
+            resp = self.readline()
+            if not resp or not resp.startswith('ack'):
+                return False, resp
+
+            chunk = file.read(CHUNK_SIZE)
+            self.serial.write(chunk)
+            sent += len(chunk)
+
+            if progress_cb is not None:
+                # Show transfer speed
+                elapsed = time.time() - start
+                speed = sent / elapsed / 1024  # in KB/s
+                progress_cb(sent, speed)
+
+        resp = self.readline()
+        return resp.startswith('ack'), resp
+
+    def pull(self, remote, file, progress_cb=None, size_cb=None):
+        """Pull a remote file from the device and write to a file-like object"""
+        self.send_command(f"pull {remote}")
+
+        resp = self.readline()
+        if not resp or not resp.startswith('ack'):
+            return False, resp
+
+        resp = resp.split(" ")
+        size, expected_checksum = map(int, resp[1:3])
+
+        if size_cb is not None:
+            size_cb(size)
+
+        if progress_cb is not None:
+            start = time.time()
+        data = bytearray();
+        while len(data) < size:
+            self.send_command('ack')
+            chunk = self.serial.read(min(CHUNK_SIZE, size - len(data)))
+            data.extend(chunk)
+
+            if progress_cb is not None:
+                # Show transfer speed
+                elapsed = time.time() - start
+                speed = len(data) / elapsed / 1024  # in KB/s
+                progress_cb(len(data), speed)
+
+        checksum = crc32(data)
+        if checksum != expected_checksum:
+            return False, f"Checksum mismatch! Expected {expected_checksum}, got {checksum}"
+        else:
+            file.write(data)
+            return True, ""

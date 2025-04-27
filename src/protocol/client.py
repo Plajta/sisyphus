@@ -5,59 +5,12 @@ import glob
 import os
 import sys
 import time
-import zlib
-import serial
+import protocol
+import threading
 from rich.console import Console
-
-# Constants
-CHUNK_SIZE = 1024
-EOT = b'\x04'
+from rich.progress import Progress
 
 console = Console()
-
-# CRC32 helper
-def crc32(data, crc=0):
-    return zlib.crc32(data, crc) & 0xFFFFFFFF
-
-class DeviceClient:
-    def __init__(self, port, baudrate=115200):
-        self.serial = serial.Serial(port, baudrate, timeout=1)
-
-    def send_command(self, cmd):
-        if isinstance(cmd, str):
-            cmd = cmd.encode('ascii')
-        self.serial.write(cmd + EOT)
-        self.serial.flush()
-
-    def readline(self):
-        line = self.serial.readline()
-        return line.decode(errors='ignore').strip()
-
-    def ls(self, output=False):
-        """List remote files. Returns list of filenames if False; otherwise prints."""
-
-        self.send_command('ls')
-
-        data = bytearray()
-        while True:
-            byte = self.serial.read(1)
-            if byte == EOT or not byte:
-                break
-            data.extend(byte)
-        text = data.decode('ascii', errors='ignore')
-
-        files = text.splitlines()[2:]
-
-        if output:
-            console.print("[red]<Filename>[/red] [green]<Size in bytes>[/green]")
-
-        remote_files = []
-        for file in files:
-            file = file.split(" ")
-            remote_files.append(file[0])
-            if output:
-                console.print(f"[red]{file[0]}[/red] [green]{file[2]}[/green]")
-        return remote_files
 
 class DeviceShell(cmd.Cmd):
     prompt = "\033[1;36mSisyphus>\033[0m "
@@ -66,14 +19,32 @@ class DeviceShell(cmd.Cmd):
         super().__init__()
         self.device = device
         # cache remote files for completion
-        self.remote_files = self.device.ls(False)
+        self.autofill_remote_refresh()
 
     def preloop(self):
         readline.parse_and_bind('tab: complete')
 
+    def autofill_remote_refresh(self):
+        files = self.device.ls()
+        remote_files = []
+        for file in files:
+            file = file.split(" ")
+            remote_files.append(file[0])
+        self.remote_files = remote_files
+
     def do_ls(self, arg):
         "ls                List remote files"
-        self.remote_files = self.device.ls(True)
+        files = self.device.ls()
+        console.print("[red]<Filename>[/red] [green]<Size in bytes>[/green]")
+
+        remote_files = [] # Update it anyway, just in case
+        for file in files:
+            file = file.split(" ")
+
+            remote_files.append(file[0]) # Update it anyway, just in case
+
+            console.print(f"[red]{file[0]}[/red] [green]{file[2]}[/green]")
+        self.remote_files = remote_files
 
     def complete_ls(self, text, line, begidx, endidx):
         return []  # no args
@@ -85,13 +56,12 @@ class DeviceShell(cmd.Cmd):
         elif arg not in self.remote_files:
             console.print(f"[bold red]No such file: {arg}[/bold red]")
         else:
-            self.device.send_command(f"rm {arg}")
-            resp = self.device.readline()
-            if not resp.startswith('ack'):
-                console.print(f"[bold red]Error from device: {resp}[/bold red]")
-            else:
+            status, resp = self.device.rm(arg)
+            if status:
                 console.print(f"[green]File [bold]{arg}[/bold] removed")
-            self.remote_files = self.device.ls(False)
+            else:
+                console.print(f"[bold red]Error: {resp}[/bold red]")
+                self.autofill_remote_refresh()
 
     def complete_rm(self, text, line, begidx, endidx):
         return [f for f in self.remote_files if f.startswith(text)]
@@ -109,14 +79,13 @@ class DeviceShell(cmd.Cmd):
             console.print(f"[bold red]No such file: {old}[/bold red]")
             return
 
-        self.device.send_command(f"mv {old} {new}")
-        resp = self.device.readline()
-        if not resp.startswith('ack'):
-            console.print(f"[bold red]Error from device: {resp}[/bold red]")
-        else:
+        status, resp = self.device.mv(old, new)
+        if status:
             console.print(f"[green]File [bold]{old}[/bold] moved to [bold]{new}[/bold]")
+        else:
+            console.print(f"[bold red]Error: {resp}[/bold red]")
 
-        self.remote_files = self.device.ls(False)
+        self.autofill_remote_refresh()
 
     def complete_mv(self, text, line, begidx, endidx):
         args = line.split()
@@ -139,37 +108,29 @@ class DeviceShell(cmd.Cmd):
             return
         size = os.path.getsize(local)
 
-        with open(local,'rb') as f:
-            checksum = crc32(f.read())
-
-        self.device.send_command(f"push {remote} {size} {checksum}")
-
         console.print(f"[yellow]Uploading {local} as {remote} ({size} bytes)...[/yellow]")
 
-        sent = 0
-        start = time.time()
-        with open(local,'rb') as f:
-            while sent < size:
-                if not self.device.readline().startswith('ack'):
-                    console.print("[bold red]No ack, aborting[/bold red]")
-                    return
+        # with open(local,'rb') as f:
+        #     checksum = crc32(f.read())
 
-                chunk = f.read(CHUNK_SIZE)
-                self.device.serial.write(chunk)
-                sent += len(chunk)
+        # self.device.send_command(f"push {remote} {size} {checksum}")
 
-                # Show transfer speed
-                elapsed = time.time() - start
-                speed = sent / elapsed / 1024  # in KB/s
-                progress = (sent / size) * 100
-                console.print(f"[yellow]Progress: {progress:.1f}% - {speed:.1f} KB/s[/yellow]")
+        progress = Progress()
+        task = progress.add_task("[cyan]Transferring file...", total=size)
 
-        resp = self.device.readline()
-        if not resp.startswith('ack'):
-            console.print(f"[bold red]Error from device: {resp}[/bold red]")
+        def update_progress(transferred, speed):
+            speed_str = f"Speed: {speed:.2f} KB/s"
+            progress.update(task, completed=transferred, description=f"[cyan]{speed_str}")
+
+        with progress:
+            with open(local,'rb') as f:
+                status, resp = self.device.push(f, size, remote, update_progress)
+
+        if status:
+            console.print(f"[green]File [bold]{remote}[/bold] uploaded to device")
         else:
-            console.print(f"[green]File [bold]{local}[/bold] uploaded to device")
-        self.remote_files = self.device.ls(False)
+            console.print(f"[bold red]Error: {resp}[/bold red]")
+        self.autofill_remote_refresh()
 
     def complete_push(self, text, line, begidx, endidx):
         parts = line.split()
@@ -190,36 +151,27 @@ class DeviceShell(cmd.Cmd):
         remote = parts[0]
         local = parts[1] if len(parts)==2 else remote
 
-        self.device.send_command(f"pull {remote}")
         console.print(f"[yellow]Requesting {remote}...[/yellow]")
 
-        resp = self.device.readline().split()
-        if resp[0] != 'ack':
-            console.print(f"[bold red]{' '.join(resp)}[/bold red]")
-            return
+        progress = Progress()
+        task = None
 
-        size, expected_checksum = map(int, resp[1:3])
+        def create_task(total):
+            nonlocal task
+            task = progress.add_task("[cyan]Transferring file...", total=total)
 
-        data = bytearray();
-        start = time.time()
-        while len(data)<size:
-            self.device.send_command('ack')
-            chunk = self.device.serial.read(min(CHUNK_SIZE, size-len(data)))
-            data.extend(chunk)
+        def update_progress(transferred, speed):
+            speed_str = f"Speed: {speed:.2f} KB/s"
+            progress.update(task, completed=transferred, description=f"[cyan]{speed_str}")
 
-            # Show transfer speed
-            elapsed = time.time() - start
-            speed = len(data) / elapsed / 1024  # in KB/s
-            progress = (len(data) / size) * 100
-            console.print(f"[yellow]Progress: {progress:.1f}% - {speed:.1f} KB/s[/yellow]")
-
-        checksum = crc32(data)
-        if checksum != expected_checksum:
-            console.print(f"[bold red]Checksum mismatch! Expected {expected_checksum}, got {checksum}[/bold red]")
-        else:
+        with progress:
             with open(local,'wb') as f:
-                f.write(data)
+                status, resp = self.device.pull(remote, f, update_progress, create_task)
+
+        if status:
             console.print(f"[bold green]File {local} downloaded[/bold green]")
+        else:
+            console.print(f"[bold red]Error: {resp}[/bold red]")
 
     def complete_pull(self, text, line, begidx, endidx):
         parts = line.split()
@@ -239,7 +191,7 @@ if __name__ == '__main__':
     if len(sys.argv)<2:
         console.print(f"[bold red]Usage: {sys.argv[0]} <serial_port>[/bold red]")
         sys.exit(1)
-    device = DeviceClient(sys.argv[1])
+    device = protocol.ProtocolClient(sys.argv[1])
     shell = DeviceShell(device)
     try:
         shell.cmdloop()

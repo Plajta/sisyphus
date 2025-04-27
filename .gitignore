@@ -79,3 +79,4 @@ yarn-error.log*
 next-env.d.ts
 
 /web/files/
+__pycache__/
