@@ -5,14 +5,15 @@ add_library(littlefs STATIC
 
 target_include_directories(littlefs PUBLIC ../littlefs)
 
-add_library(util STATIC
-    littlefs-pico.c
+# littlefs_pico
+add_library(littlefs_pico STATIC
+    littlefs-pico/littlefs-pico.c
 )
 
-target_compile_definitions(util PUBLIC
+target_compile_definitions(littlefs_pico PUBLIC
     LITTLEFS_SIZE_BYTES=${LITTLEFS_SIZE_BYTES}
 )
 
-target_include_directories(util PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(littlefs_pico PUBLIC littlefs-pico)
 
-target_link_libraries(util PUBLIC littlefs hardware_flash hardware_sync)
+target_link_libraries(littlefs_pico PUBLIC littlefs hardware_flash hardware_sync)
