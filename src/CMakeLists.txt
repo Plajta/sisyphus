@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.13)
 
 option(SISYPHUS_DEBUG "Enable debug flag" OFF)
 
+# Temporary workaround before making custom tusb configs
+add_definitions(-DCFG_TUD_CDC_TX_BUFSIZE=1024)
+add_definitions(-DCFG_TUD_CDC_RX_BUFSIZE=1024)
+
 if(SISYPHUS_DEBUG)
     add_compile_definitions(SISYPHUS_DEBUG)
 endif()
@@ -22,6 +26,7 @@ pico_sdk_init()
 
 add_executable(${PROJECT_NAME}
   main.c
+  protocol/protocol.c
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
@@ -45,7 +50,9 @@ endif()
 add_subdirectory(util)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE pico_stdlib pico_audio_i2s
-                        util)
+                        littlefs_pico)
+
+target_include_directories(${PROJECT_NAME} PUBLIC protocol)
 
 pico_add_extra_outputs(${PROJECT_NAME})
 
@@ -62,3 +69,10 @@ target_link_options(${PROJECT_NAME} PRIVATE -Wl,--print-memory-usage)
 
 configure_file(${CMAKE_CURRENT_LIST_DIR}/memmap_custom.ld ${CMAKE_BINARY_DIR}/memmap_custom.ld)
 pico_set_linker_script(${PROJECT_NAME} ${CMAKE_BINARY_DIR}/memmap_custom.ld)
+
+add_custom_target(flash
+    COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR}  # Build the project
+    COMMAND picotool load -f -x ${PROJECT_NAME}.uf2  # Flash the device
+    DEPENDS ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.uf2  # Ensure that the .uf2 file exists before flashing
+    COMMENT "Building and flashing the RP2040"
+)

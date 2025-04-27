@@ -11,11 +11,14 @@
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
+#include "class/cdc/cdc_device.h"
+#include "lfs.h"
 #include "pico/audio.h"
 #include "pico/stdlib.h"
 #include "pico/audio_i2s.h"
 #include "pico/binary_info.h"
 #include "tusb.h"
+#include "protocol.h"
 
 #include "littlefs-pico.h"
 
@@ -98,46 +101,10 @@ int main() {
     gpio_pull_up(BUTTON_PIN);
     gpio_set_irq_enabled_with_callback(BUTTON_PIN, GPIO_IRQ_EDGE_FALL, true, &button_interrupt);
 
-    // ONLY HERE AS A DEMONSTRATION
-    // ONLY HERE AS A DEMONSTRATION
-    // ONLY HERE AS A DEMONSTRATION
-    lfs_file_t file;
-
-    // read current count
-    uint32_t boot_count = 0;
-    lfs_file_open(&lfs, &file, "boot_count", LFS_O_RDWR | LFS_O_CREAT);
-    lfs_file_read(&lfs, &file, &boot_count, sizeof(boot_count));
-
-    // update boot count
-    boot_count += 1;
-    lfs_file_rewind(&lfs, &file);
-    lfs_file_write(&lfs, &file, &boot_count, sizeof(boot_count));
-
-    // remember the storage is not updated until the file is closed successfully
-    lfs_file_close(&lfs, &file);
-
-    // release any resources we were using
-    lfs_unmount(&lfs);
-
-    printf("boot_count: %d\n", boot_count);
-    // ONLY HERE AS A DEMONSTRATION
-    // ONLY HERE AS A DEMONSTRATION
-    // ONLY HERE AS A DEMONSTRATION
-
     while (true) {
         // Check for USB-CDC connection
         if (stdio_usb_connected()) {
-            printf("USB connected!\n");
-
-            while (stdio_usb_connected()) {
-                if (tud_cdc_available()) {
-                    char buf[64];
-                    uint32_t count = tud_cdc_read(buf, sizeof(buf));
-                    tud_cdc_write(buf, count);
-                    tud_cdc_write_flush();
-                }
-                sleep_ms(10);
-            }
+            protocol_loop(&lfs);
         }
 
         // If not connected and no button pressed, go to sleep
