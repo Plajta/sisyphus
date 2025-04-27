@@ -90,7 +90,7 @@ class DeviceShell(cmd.Cmd):
             if not resp.startswith('ack'):
                 console.print(f"[bold red]Error from device: {resp}[/bold red]")
             else:
-                console.print(f"[green]File [bold]{resp}[/bold] removed")
+                console.print(f"[green]File [bold]{arg}[/bold] removed")
             self.remote_files = self.device.ls(False)
 
     def complete_rm(self, text, line, begidx, endidx):
@@ -158,8 +158,11 @@ class DeviceShell(cmd.Cmd):
                 self.device.serial.write(chunk)
                 sent += len(chunk)
 
+                # Show transfer speed
                 elapsed = time.time() - start
-                console.print(f"[yellow]Progress: {sent/size*100:.1f}% - {sent/1024/elapsed:.1f} KB/s[/yellow]")
+                speed = sent / elapsed / 1024  # in KB/s
+                progress = (sent / size) * 100
+                console.print(f"[yellow]Progress: {progress:.1f}% - {speed:.1f} KB/s[/yellow]")
 
         resp = self.device.readline()
         if not resp.startswith('ack'):
@@ -171,9 +174,9 @@ class DeviceShell(cmd.Cmd):
     def complete_push(self, text, line, begidx, endidx):
         parts = line.split()
 
-        if len(parts)==1:
+        if len(parts) <= 2:
             return glob.glob(text+'*')
-        elif len(parts)==2:
+        elif len(parts) == 3:
             return [f for f in self.remote_files if f.startswith(text)]
         return []
 
@@ -204,8 +207,11 @@ class DeviceShell(cmd.Cmd):
             chunk = self.device.serial.read(min(CHUNK_SIZE, size-len(data)))
             data.extend(chunk)
 
+            # Show transfer speed
             elapsed = time.time() - start
-            console.print(f"[yellow]Progress: {len(data)/size*100:.1f}% - {len(data)/1024/elapsed:.1f} KB/s[/yellow]")
+            speed = len(data) / elapsed / 1024  # in KB/s
+            progress = (len(data) / size) * 100
+            console.print(f"[yellow]Progress: {progress:.1f}% - {speed:.1f} KB/s[/yellow]")
 
         checksum = crc32(data)
         if checksum != expected_checksum:
@@ -216,7 +222,12 @@ class DeviceShell(cmd.Cmd):
             console.print(f"[bold green]File {local} downloaded[/bold green]")
 
     def complete_pull(self, text, line, begidx, endidx):
-        return [f for f in self.remote_files if f.startswith(text)]
+        parts = line.split()
+        if len(parts) <= 2:
+            return [f for f in self.remote_files if f.startswith(text)]
+        elif len(parts) == 3:
+            return glob.glob(text+'*')
+        return []
 
     def do_exit(self, arg):
         "exit                Exit shell"
