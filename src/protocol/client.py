@@ -27,8 +27,7 @@ class DeviceShell(cmd.Cmd):
         files = self.device.ls()
         remote_files = []
         for file in files:
-            file = file.split(" ")
-            remote_files.append(file[0])
+            remote_files.append(file.name)
         self.remote_files = remote_files
 
     def do_ls(self, arg):
@@ -38,11 +37,9 @@ class DeviceShell(cmd.Cmd):
 
         remote_files = [] # Update it anyway, just in case
         for file in files:
-            file = file.split(" ")
+            remote_files.append(file.name) # Update it anyway, just in case
 
-            remote_files.append(file[0]) # Update it anyway, just in case
-
-            console.print(f"[red]{file[0]}[/red] [green]{file[2]}[/green]")
+            console.print(f"[red]{file.name}[/red] [green]{file.size}[/green]")
         self.remote_files = remote_files
 
     def complete_ls(self, text, line, begidx, endidx):
@@ -195,6 +192,18 @@ class DeviceShell(cmd.Cmd):
 
     def complete_play(self, text, line, begidx, endidx):
         return [f for f in self.remote_files if f.startswith(text)]
+
+    def do_info(self, arg):
+        "info              Get information about the device"
+        info = self.device.info()
+        console.print(f"[yellow]Device Name: [/yellow][red]{info.device_name}[/red]")
+        console.print(f"[yellow]Protocol version: [/yellow][red]{info.protocol_version}[/red]")
+        console.print(f"[yellow]Git SHA: [/yellow][red]{info.git_commit_sha}[/red]")
+        console.print(f"[yellow]Build date: [/yellow][red]{info.build_date}[/red]")
+        console.print(f"[yellow]Filesystem: [/yellow][red]{info.free_space/1024} / {info.fs_size/1024} KB used[/red]")
+
+    def complete_info(self, text, line, begidx, endidx):
+        return []  # no args
 
     def do_exit(self, arg):
         "exit                Exit shell"

@@ -226,6 +226,13 @@ void mv_command(lfs_t *lfs, char *old_filename, char *new_filename) {
     print_newline("ack");
 }
 
+void info_command(lfs_t *lfs){
+    const struct lfs_config *used_lfs_config = lfs->cfg;
+    char info_buffer[128];
+    snprintf(info_buffer, sizeof(info_buffer), "%s %s %s %s %u %u %u", PROJECT_NAME, GIT_COMMIT_SHA, PROTOCOL_VERSION, BUILD_DATE, used_lfs_config->block_count, lfs_fs_size(lfs), used_lfs_config->block_size);
+    print_newline(info_buffer);
+}
+
 void play_command(lfs_t *lfs, char *filename) {
     struct lfs_info info;
 
@@ -303,6 +310,10 @@ void handle_command(lfs_t *lfs, char *cmd) {
         }
 
         play_command(lfs, args[1]);
+    }
+    else if (strcmp(args[0], "info") == 0)
+    {
+        info_command(lfs);
     }
     else{
         print_newline("err unknown command");
