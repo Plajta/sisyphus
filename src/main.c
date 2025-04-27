@@ -6,6 +6,7 @@
 
 #include <boards/pico.h>
 #include <hardware/gpio.h>
+#include <pico.h>
 #include <pico/time.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -22,8 +23,6 @@
 
 #include "littlefs-pico.h"
 
-#include "wav_samples.h"
-
 bi_decl(bi_3pins_with_names(PICO_AUDIO_I2S_DATA_PIN, "I2S DIN", PICO_AUDIO_I2S_CLOCK_PIN_BASE, "I2S BCK", PICO_AUDIO_I2S_CLOCK_PIN_BASE+1, "I2S LRCK"));
 
 #define SAMPLES_PER_BUFFER 256
@@ -31,12 +30,13 @@ bi_decl(bi_3pins_with_names(PICO_AUDIO_I2S_DATA_PIN, "I2S DIN", PICO_AUDIO_I2S_C
 #define BUTTON_PIN 14
 
 lfs_t lfs;
+bool file_open = false;
+lfs_file_t audio_file;
 
 static struct audio_buffer_pool *ap;
 
 volatile bool wakeup = false;
-static uint32_t sample_index = 0;
-
+volatile uint8_t button_index = 0;
 
 struct audio_buffer_pool *init_audio() {
 
@@ -76,7 +76,45 @@ struct audio_buffer_pool *init_audio() {
 
 void button_interrupt(uint gpio, uint32_t events) {
     wakeup = true;
-    sample_index = 0;
+    button_index = 0; // Here as a preparation for implementing matrix controller
+}
+
+void play_audio() {
+    int8_t error;
+
+    if (file_open){
+        lfs_file_close(&lfs, &audio_file);
+    }
+    // Implement filename picking from button index
+    file_open = true;
+    error = lfs_file_open(&lfs, &audio_file, "audio.wav", LFS_O_RDONLY);
+    if (error != LFS_ERR_OK) {
+        return;
+    }
+    // For now skip metadata, will implement later
+    lfs_file_seek(&lfs, &audio_file, 44, LFS_SEEK_SET);
+
+    bool running = true;
+
+    while (running) {
+        if (wakeup) {
+            lfs_file_close(&lfs, &audio_file);
+            file_open = false;
+            return;
+        }
+        struct audio_buffer *buffer = take_audio_buffer(ap, true);
+        int16_t *samples = (int16_t *) buffer->buffer->bytes;
+
+        // This uint32_t should not overflow as sample count per buffer will never be that high
+        uint32_t read_bytes = lfs_file_read(&lfs, &audio_file, samples, buffer->max_sample_count * sizeof(int16_t));
+        buffer->sample_count = read_bytes / sizeof(int16_t);
+        give_audio_buffer(ap, buffer);
+        if (read_bytes <= 1) { // If for whatever reason the file didn't have an even number of bytes
+            lfs_file_close(&lfs, &audio_file);
+            file_open = false;
+            return;
+        }
+    }
 }
 
 int main() {
@@ -108,7 +146,6 @@ int main() {
         }
 
         // If not connected and no button pressed, go to sleep
-        wakeup = false;
         while (!stdio_usb_connected() && !wakeup) {
             // LED only as an indicator for development
             gpio_put(PICO_DEFAULT_LED_PIN, 1);
@@ -117,23 +154,8 @@ int main() {
         }
 
         if (wakeup) {
-            bool running = true;
-
-            while (running) {
-                struct audio_buffer *buffer = take_audio_buffer(ap, true);
-                int16_t *samples = (int16_t *) buffer->buffer->bytes;
-
-                for (uint i = 0; i < buffer->max_sample_count; i++) {
-                    samples[i] = wav_data[sample_index++];
-                    if (sample_index >= WAV_SAMPLE_COUNT) {
-                        sample_index = 0;
-                        running = false;
-                    }
-                }
-
-                buffer->sample_count = buffer->max_sample_count;
-                give_audio_buffer(ap, buffer);
-            }
+            wakeup = false;
+            play_audio();
         }
     }
 
