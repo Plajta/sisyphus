@@ -9,6 +9,7 @@
 #include "tusb.h"
 #include "littlefs-pico.h"
 #include "protocol.h"
+#include "audio.h"
 
 void print_newline(char* c) {
     tud_cdc_write_str(c);
@@ -225,6 +226,20 @@ void mv_command(lfs_t *lfs, char *old_filename, char *new_filename) {
     print_newline("ack");
 }
 
+void play_command(lfs_t *lfs, char *filename) {
+    struct lfs_info info;
+
+    // Check if the file exists
+    if (lfs_stat(lfs, filename, &info) < LFS_ERR_OK) {
+        print_newline("err file not found");
+        return;
+    }
+
+    print_newline("ack");
+
+    play_audio(filename);
+}
+
 void handle_command(lfs_t *lfs, char *cmd) {
     char *args[4];
     int argc = 0;
@@ -279,6 +294,15 @@ void handle_command(lfs_t *lfs, char *cmd) {
         }
 
         mv_command(lfs, args[1], args[2]);
+    }
+    else if (strcmp(args[0], "play") == 0)
+    {
+        if (argc != 2) {
+            print_newline("err invalid arguments");
+            return;
+        }
+
+        play_command(lfs, args[1]);
     }
     else{
         print_newline("err unknown command");

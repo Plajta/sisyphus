@@ -180,6 +180,22 @@ class DeviceShell(cmd.Cmd):
             return glob.glob(text+'*')
         return []
 
+    def do_play(self, arg):
+        "play <filename>     Play a remote file"
+        if not arg:
+            console.print("[bold red]Usage: play <filename>[/bold red]")
+        elif arg not in self.remote_files:
+            console.print(f"[bold red]No such file: {arg}[/bold red]")
+        else:
+            status, resp = self.device.play(arg)
+            if status:
+                console.print(f"[green]File [bold]{arg}[/bold] played")
+            else:
+                console.print(f"[bold red]Error: {resp}[/bold red]")
+
+    def complete_play(self, text, line, begidx, endidx):
+        return [f for f in self.remote_files if f.startswith(text)]
+
     def do_exit(self, arg):
         "exit                Exit shell"
         console.print("[bold cyan]Goodbye![/bold cyan]")

@@ -26,6 +26,7 @@ pico_sdk_init()
 
 add_executable(${PROJECT_NAME}
   main.c
+  audio/audio.c
   protocol/protocol.c
 )
 
@@ -52,7 +53,7 @@ add_subdirectory(util)
 target_link_libraries(${PROJECT_NAME} PRIVATE pico_stdlib pico_audio_i2s
                         littlefs_pico)
 
-target_include_directories(${PROJECT_NAME} PUBLIC protocol)
+target_include_directories(${PROJECT_NAME} PUBLIC protocol audio)
 
 pico_add_extra_outputs(${PROJECT_NAME})
 

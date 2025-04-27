@@ -118,3 +118,10 @@ class ProtocolClient:
         else:
             file.write(data)
             return True, ""
+
+    def play(self, filename):
+        """Play a remote file"""
+
+        self.send_command(f"play {filename}")
+        resp = self.readline()
+        return resp.startswith('ack'), resp

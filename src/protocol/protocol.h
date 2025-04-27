@@ -1,5 +1,6 @@
-#ifndef PROTOCOL_H
-#define PROTOCOL_H
+#pragma once
+
+#include "lfs.h"
 
 #define CMD_BUF_SIZE 128
 #define MAX_BUF_SIZE 1024
@@ -11,4 +12,3 @@
 void print_newline(char* c);
 void handle_command(lfs_t *lfs, char *cmd);
 void protocol_loop(lfs_t *lfs);
-#endif
