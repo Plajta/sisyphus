@@ -23,7 +23,7 @@ Errors are reported with messages starting with `err`, and successful operations
 
 ## `ls`
 
-**List files in the filesystem.**
+List files in the filesystem.
 
 **Usage:**
 ```
@@ -59,7 +59,7 @@ Finished by EOT.
 
 ## `mv`
 
-**Rename or move a file.**
+Rename or move a file.
 
 **Usage:**
 ```
@@ -76,7 +76,7 @@ mv <source> <destination>
 
 ## `push`
 
-**Upload a file to the device.**
+Upload a file to the device.
 
 **Usage:**
 ```
@@ -115,7 +115,7 @@ push <filename> <size> <checksum>
 
 ## `pull`
 
-**Download a file from the device.**
+Download a file from the device.
 
 **Usage:**
 ```
@@ -150,7 +150,7 @@ pull <filename>
 
 ## `rm`
 
-**Remove a file.**
+Remove a file.
 
 **Usage:**
 ```
@@ -166,7 +166,34 @@ rm <filename>
 
 ## `info`
 
-> **Note:** This command is **listed** but **currently not implemented** in source code.
+Lists information about the device.
+
+**Usage:**
+```
+info
+```
+
+**Device response:**
+```
+<device name> <git commit sha> <protocol version> <build date> <block count> <free block count> <block size>
+```
+
+Terminated by a newline.
+
+---
+
+## `play`
+
+Plays a file.
+
+**Usage:**
+```
+play <filename>
+```
+
+**Device response:**
+- `ack` – if file played successfully
+- `err file not found` – if the file does not exist
 
 ---
 
