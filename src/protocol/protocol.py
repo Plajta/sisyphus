@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+from datetime import datetime
 import zlib
 import serial
 import time
@@ -5,6 +7,21 @@ import time
 # Constants
 CHUNK_SIZE = 1024
 EOT = b'\x04'
+
+@dataclass
+class ProtocolFileInfo:
+    name: str
+    type: str
+    size: int
+
+@dataclass
+class ProtocolInfo:
+    device_name: str
+    git_commit_sha: str
+    protocol_version: str
+    build_date: datetime
+    fs_size: int
+    free_space: int
 
 # CRC32 helper
 def crc32(data, crc=0):
@@ -39,7 +56,13 @@ class ProtocolClient:
 
         files = text.splitlines()[2:] # Remove . and ..
 
-        return files
+        file_list = []
+
+        for file in files:
+            name, type, size = file.split()
+            file_list.append(ProtocolFileInfo(name, type, int(size)))
+
+        return file_list
 
     def rm(self, filename):
         """Remove a remote file"""
@@ -125,3 +148,12 @@ class ProtocolClient:
         self.send_command(f"play {filename}")
         resp = self.readline()
         return resp.startswith('ack'), resp
+
+    def info(self):
+        """Get information about the device"""
+
+        self.send_command("info")
+        data = self.readline().split(" ")
+        build_date, block_count, fs_size, block_size = data[3:]
+        parsed_data = data[0:3]
+        return ProtocolInfo(*parsed_data, build_date = datetime.strptime(build_date, "%Y-%m-%d,%H:%M:%S"), fs_size = int(block_count)*int(block_size), free_space = int(fs_size)*int(block_size))

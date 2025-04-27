@@ -6,6 +6,33 @@ option(SISYPHUS_DEBUG "Enable debug flag" OFF)
 add_definitions(-DCFG_TUD_CDC_TX_BUFSIZE=1024)
 add_definitions(-DCFG_TUD_CDC_RX_BUFSIZE=1024)
 
+# Retrieve the Git commit hash
+execute_process(
+  COMMAND git rev-parse --short HEAD
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+  OUTPUT_VARIABLE GIT_COMMIT_SHA
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+# Check for uncommitted changes by looking at the output of git diff
+execute_process(
+  COMMAND git diff --quiet
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+  RESULT_VARIABLE GIT_DIFF_RESULT
+)
+
+# Get the current build date and time
+execute_process(
+  COMMAND date "+%Y-%m-%d,%H:%M:%S"
+  OUTPUT_VARIABLE BUILD_DATE
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+# If there are uncommitted changes, append -dirty to the commit SHA
+if(NOT GIT_DIFF_RESULT EQUAL 0)
+    set(GIT_COMMIT_SHA "${GIT_COMMIT_SHA}-dirty")
+endif()
+
 if(SISYPHUS_DEBUG)
     add_compile_definitions(SISYPHUS_DEBUG)
 endif()
@@ -33,6 +60,9 @@ add_executable(${PROJECT_NAME}
 target_compile_definitions(${PROJECT_NAME} PRIVATE
   PICO_AUDIO_I2S_MONO_INPUT=1
   PICO_AUDIO_I2S_MONO_OUTPUT=1
+  GIT_COMMIT_SHA="${GIT_COMMIT_SHA}"
+  PROJECT_NAME="${PROJECT_NAME}"
+  BUILD_DATE="${BUILD_DATE}"
 )
 
 pico_enable_stdio_usb(${PROJECT_NAME} 1)
@@ -70,6 +100,7 @@ target_link_options(${PROJECT_NAME} PRIVATE -Wl,--print-memory-usage)
 
 configure_file(${CMAKE_CURRENT_LIST_DIR}/memmap_custom.ld ${CMAKE_BINARY_DIR}/memmap_custom.ld)
 pico_set_linker_script(${PROJECT_NAME} ${CMAKE_BINARY_DIR}/memmap_custom.ld)
+
 
 add_custom_target(flash
     COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR}  # Build the project

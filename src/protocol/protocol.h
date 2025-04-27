@@ -2,6 +2,8 @@
 
 #include "lfs.h"
 
+#define PROTOCOL_VERSION "1"
+
 #define CMD_BUF_SIZE 128
 #define MAX_BUF_SIZE 1024
 #define CRC_BUF_SIZE 1024
