@@ -71,7 +71,7 @@ const struct lfs_config pico_lfs_cfg = {
     .block_count = LITTLEFS_SIZE_BYTES / FLASH_SECTOR_SIZE,
     .block_cycles = 128,
 
-    .cache_size = FLASH_PAGE_SIZE, // 256
+    .cache_size = FLASH_SECTOR_SIZE, // 4096
     .lookahead_size = FLASH_PAGE_SIZE,   // 256
 };
 
