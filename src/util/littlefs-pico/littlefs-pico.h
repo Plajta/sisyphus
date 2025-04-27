@@ -1,5 +1,4 @@
-#ifndef LITTLEFS_PICO_H
-#define LITTLEFS_PICO_H
+#pragma once
 
 #include "hardware/flash.h"
 
@@ -15,5 +14,3 @@ extern uint32_t ADDR_LITTLEFS[];
 #define LITTLEFS_FLASH_OFFSET_ADDR (LITTLEFS_BASE_ADDR-XIP_BASE)
 
 int pico_lfs_init(lfs_t *lfs);
-
-#endif
