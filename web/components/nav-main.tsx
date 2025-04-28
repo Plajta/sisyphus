@@ -2,12 +2,12 @@
 
 import { Collapsible } from "@radix-ui/react-collapsible";
 import { ChevronRight, type LucideIcon } from "lucide-react";
-import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { Serial } from "~/components/serial";
 import { Button } from "~/components/ui/button";
 
 import { CollapsibleContent, CollapsibleTrigger } from "~/components/ui/collapsible";
+import { Input } from "~/components/ui/input";
 
 import {
 	SidebarGroup,
@@ -19,6 +19,7 @@ import {
 	SidebarMenuSubButton,
 	SidebarMenuSubItem,
 } from "~/components/ui/sidebar";
+import { useConfigurationStore } from "~/store/useConfigurationStore";
 import { useDeviceStore } from "~/store/useDeviceStore";
 
 export interface NavItem {
@@ -34,19 +35,25 @@ export function NavMain({ items }: { items: NavItem[] }) {
 	const params = useParams();
 
 	const { connected } = useDeviceStore();
+	const { loadConfiguration } = useConfigurationStore();
 
 	return (
 		<SidebarGroup>
-			<div className="flex flex-col gap-1">
+			<div className="flex flex-col gap-2">
 				<Serial />
 
-				{connected && (
-					<Link className="mb-2" href={`/dashboard/configuration/sheet/${params.sheetId}/dialog/sheet/new`}>
-						<Button className="w-full" variant="outline">
-							Přidat Konfiguraci
-						</Button>
-					</Link>
-				)}
+				<Button asChild className="w-full" variant="outline">
+					<Input
+						type="file"
+						accept=".zip"
+						onChange={async (event: React.ChangeEvent<HTMLInputElement>) => {
+							const file = event.target.files?.[0];
+							if (!file) return;
+
+							await loadConfiguration(file);
+						}}
+					/>
+				</Button>
 			</div>
 
 			{connected && (
