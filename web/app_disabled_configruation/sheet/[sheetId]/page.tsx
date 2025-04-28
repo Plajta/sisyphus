@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { ExportSheetButton } from "~/components/export-sheet-button";
-import { ImageCard } from "~/components/image-card";
+import { ImageCard } from "~/components/button-card";
 import { prisma } from "~/modules/prisma";
 
 export default async function Page({ params }: { params: Promise<{ sheetId: string }> }) {

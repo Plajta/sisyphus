@@ -1,7 +1,38 @@
 "use client";
 
+import { ButtonCard } from "~/components/button-card";
+import { useConfigurationStore } from "~/store/useConfigurationStore";
+
 export default function Page() {
-	return (
+	const { configuration } = useConfigurationStore();
+
+	return configuration ? (
+		<div className="flex flex-1 flex-col gap-4 px-4 pb-0">
+			<div className="flex justify-between items-center">
+				<div className="flex gap-2 items-center">
+					<div
+						style={{
+							backgroundColor: configuration.colorCode,
+							width: 15,
+							height: 15,
+							borderRadius: "50%",
+							display: "inline-block",
+						}}
+					></div>
+
+					<p className="text-xl font-bold">{configuration.name}</p>
+				</div>
+
+				{/* <ExportSheetButton id={sheet.id} /> */}
+			</div>
+
+			<div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+				{configuration.buttons.map((item) => (
+					<ButtonCard key={item.label} button={item} />
+				))}
+			</div>
+		</div>
+	) : (
 		<div className="flex flex-1 flex-col gap-4 px-4 py-10 justify-center items-center">
 			<div className="flex flex-col">
 				<p className="text-xl font-bold text-center">Komunikátor není připojen.</p>
