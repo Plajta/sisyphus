@@ -157,3 +157,10 @@ class ProtocolClient:
         build_date, block_count, fs_size, block_size = data[3:]
         parsed_data = data[0:3]
         return ProtocolInfo(*parsed_data, build_date = datetime.strptime(build_date, "%Y-%m-%d,%H:%M:%S"), fs_size = int(block_count)*int(block_size), free_space = int(fs_size)*int(block_size))
+
+    def reset(self):
+        """Reset the device to bootloader - BREAKS THE CONNECTION"""
+        self.send_command("reset")
+        time.sleep(0.01)
+        self.serial.close() # Close the serial connection
+        del(self) # Delete itself

@@ -205,6 +205,17 @@ class DeviceShell(cmd.Cmd):
     def complete_info(self, text, line, begidx, endidx):
         return []  # no args
 
+    def do_reset(self, arg):
+        "reset              Reset the device to bootloader"
+        self.device.reset()
+        return self.do_exit('')
+
+    def complete_reset(self, text, line, begidx, endidx):
+        parts = line.split()
+        if len(parts) <= 2:
+            return ['boot']
+        return []
+
     def do_exit(self, arg):
         "exit                Exit shell"
         console.print("[bold cyan]Goodbye![/bold cyan]")

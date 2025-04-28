@@ -2,10 +2,6 @@ cmake_minimum_required(VERSION 3.13)
 
 option(SISYPHUS_DEBUG "Enable debug flag" OFF)
 
-# Temporary workaround before making custom tusb configs
-add_definitions(-DCFG_TUD_CDC_TX_BUFSIZE=1024)
-add_definitions(-DCFG_TUD_CDC_RX_BUFSIZE=1024)
-
 # Retrieve the Git commit hash
 execute_process(
   COMMAND git rev-parse --short HEAD
@@ -55,6 +51,7 @@ add_executable(${PROJECT_NAME}
   main.c
   audio/audio.c
   protocol/protocol.c
+  usb/usb_descriptors.c
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
@@ -64,9 +61,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
   PROJECT_NAME="${PROJECT_NAME}"
   BUILD_DATE="${BUILD_DATE}"
 )
-
-pico_enable_stdio_usb(${PROJECT_NAME} 1)
-pico_enable_stdio_uart(${PROJECT_NAME} 0)
 
 set(LITTLEFS_SIZE_BYTES_STRING "(1024 * 1024)") # Size in bytes eg. 512 * 1024 = 512kB
 
@@ -80,10 +74,10 @@ endif()
 
 add_subdirectory(util)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE pico_stdlib pico_audio_i2s
-                        littlefs_pico)
+target_link_libraries(${PROJECT_NAME} PRIVATE pico_stdlib pico_audio_i2s pico_bootrom
+                        littlefs_pico tinyusb_device tinyusb_board)
 
-target_include_directories(${PROJECT_NAME} PUBLIC protocol audio)
+target_include_directories(${PROJECT_NAME} PUBLIC protocol audio usb)
 
 pico_add_extra_outputs(${PROJECT_NAME})
 
@@ -102,9 +96,13 @@ configure_file(${CMAKE_CURRENT_LIST_DIR}/memmap_custom.ld ${CMAKE_BINARY_DIR}/me
 pico_set_linker_script(${PROJECT_NAME} ${CMAKE_BINARY_DIR}/memmap_custom.ld)
 
 
+set(RESET_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/sisyphus_reset.sh)
+
 add_custom_target(flash
-    COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR}  # Build the project
-    COMMAND picotool load -f -x ${PROJECT_NAME}.uf2  # Flash the device
-    DEPENDS ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.uf2  # Ensure that the .uf2 file exists before flashing
-    COMMENT "Building and flashing the RP2040"
+    COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR}
+    COMMAND sh -c "${RESET_SCRIPT} 2>&1"
+    COMMAND picotool load -f -x ${PROJECT_NAME}.uf2
+    DEPENDS ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.uf2 ${RESET_SCRIPT}
+    COMMENT "Building, resetting, and flashing the RP2040"
+    USES_TERMINA
 )

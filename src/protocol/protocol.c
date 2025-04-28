@@ -1,9 +1,12 @@
 #include <pico.h>
+#include <pico/time.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
+#include "pico/bootrom.h"
+#include "hardware/watchdog.h"
 #include "class/cdc/cdc_device.h"
 #include "lfs.h"
 #include "tusb.h"
@@ -247,6 +250,12 @@ void play_command(lfs_t *lfs, char *filename) {
     play_audio(filename);
 }
 
+void reset_command(lfs_t *lfs) {
+    lfs_unmount(lfs);
+    rom_reset_usb_boot(0,0);
+    while (1) tight_loop_contents(); // Just in case
+}
+
 void handle_command(lfs_t *lfs, char *cmd) {
     char *args[4];
     int argc = 0;
@@ -315,6 +324,16 @@ void handle_command(lfs_t *lfs, char *cmd) {
     {
         info_command(lfs);
     }
+    else if (strcmp(args[0], "reset") == 0)
+    {
+        if (argc == 1) {
+            reset_command(lfs);
+        }
+        else{
+            print_newline("err invalid arguments");
+            return;
+        }
+    }
     else{
         print_newline("err unknown command");
     }
@@ -327,7 +346,7 @@ void protocol_loop(lfs_t *lfs)
     char cmd_buf[CMD_BUF_SIZE];
     size_t cmd_len = 0;
 
-    while (stdio_usb_connected()) {
+    while (tud_cdc_connected()) {
         if (tud_cdc_available()) {
             int n = tud_cdc_read(&cmd_buf[cmd_len], CMD_BUF_SIZE - cmd_len);
 
