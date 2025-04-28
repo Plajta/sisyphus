@@ -21,6 +21,8 @@
 #define CFG_TUD_CDC_RX_BUFSIZE  (1024)
 #define CFG_TUD_CDC_TX_BUFSIZE  (1024)
 
+#define CFG_TUD_CDC_EP_BUFSIZE  (1024)
+
 #define CFG_TUD_ENDPOINT0_SIZE  (64)
 
 #endif /* _TUSB_CONFIG_H_ */
