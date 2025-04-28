@@ -27,15 +27,17 @@ def convert_audio_to_wav_pcm(file_path):
     return buffer
 
 if __name__ == "__main__":
-    if len(sys.argv) < 4:
-        print("Usage: python convert.py <port> <input_file> <remote_name>")
+    if len(sys.argv) < 2:
+        print("Usage: python convert.py <input_file> [remote_name]")
+        sys.exit(1)
+    elif len(sys.argv) > 3:
+        print("Too many arguments")
         sys.exit(1)
 
-    port = sys.argv[1]
-    input_path = sys.argv[2]
-    remote_name = sys.argv[3]
+    input_path = sys.argv[1]
+    remote_name = sys.argv[2] if len(sys.argv) == 3 else "audio.wav"
 
-    device = protocol.ProtocolClient(port)
+    device = protocol.ProtocolClient()
 
     wav_buffer = convert_audio_to_wav_pcm(input_path)
 
