@@ -223,10 +223,7 @@ class DeviceShell(cmd.Cmd):
     do_quit = do_exit
 
 if __name__ == '__main__':
-    if len(sys.argv)<2:
-        console.print(f"[bold red]Usage: {sys.argv[0]} <serial_port>[/bold red]")
-        sys.exit(1)
-    device = protocol.ProtocolClient(sys.argv[1])
+    device = protocol.ProtocolClient()
     shell = DeviceShell(device)
     try:
         shell.cmdloop()
