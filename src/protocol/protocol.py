@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from datetime import datetime
 import zlib
 import serial
+import serial.tools.list_ports
 import time
 
 # Constants
@@ -23,12 +24,29 @@ class ProtocolInfo:
     fs_size: int
     free_space: int
 
+def find_serial_port(target_vid: int, target_pid: int):
+    """
+    Scan available serial ports and return the device name of the first port
+    whose USB VID/PID match the targets. Returns None if not found.
+    """
+    ports = serial.tools.list_ports.comports()
+    for port in ports:
+        # On some systems port.vid/pid may be None
+        if port.vid is None or port.pid is None:
+            continue
+        if (port.vid, port.pid) == (target_vid, target_pid):
+            return port.device
+    return None
+
 # CRC32 helper
 def crc32(data, crc=0):
     return zlib.crc32(data, crc) & 0xFFFFFFFF
 
 class ProtocolClient:
-    def __init__(self, port, baudrate=115200):
+    def __init__(self, baudrate=115200):
+        port = find_serial_port(0xCAFE, 0x6942)
+        if port is None:
+            raise ValueError("No Sisyphus device found")
         self.serial = serial.Serial(port, baudrate, timeout=1)
 
     def send_command(self, cmd):
