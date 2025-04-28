@@ -1,23 +1,35 @@
 "use client";
 
-import { useParams, usePathname } from "next/navigation";
-import { navItems } from "~/components/app-sidebar";
+import { ConfigurationActions } from "~/components/configuration-actions";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage } from "~/components/ui/breadcrumb";
+import { useConfigurationStore } from "~/store/useConfigurationStore";
 
 export function PageBreadcrumb() {
-	const pathname = usePathname();
-	const params = useParams();
-
-	const navItem = navItems.find(
-		(item) => item.url === pathname.split("/dialog")[0].replace(`/${params.sheetId}`, "")
-	);
+	const { configuration } = useConfigurationStore();
 
 	return (
-		navItem && (
-			<Breadcrumb>
-				<BreadcrumbList>
-					<BreadcrumbItem>
-						<BreadcrumbPage className="line-clamp-1">{navItem.description}</BreadcrumbPage>
+		configuration && (
+			<Breadcrumb className="flex-1 flex">
+				<BreadcrumbList className="flex-1 flex">
+					<BreadcrumbItem className="flex-1 flex">
+						<BreadcrumbPage className="line-clamp-1 flex-1 flex">
+							<div className="flex-1 flex justify-between pr-1">
+								<div className="flex gap-2 items-center">
+									<div
+										style={{
+											backgroundColor: configuration.colorCode,
+											width: 15,
+											height: 15,
+											borderRadius: "50%",
+											display: "inline-block",
+										}}
+									></div>
+
+									<p className="font-bold">{configuration.name}</p>
+								</div>
+								<ConfigurationActions />
+							</div>
+						</BreadcrumbPage>
 					</BreadcrumbItem>
 				</BreadcrumbList>
 			</Breadcrumb>
