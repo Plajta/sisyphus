@@ -1,4 +1,5 @@
 import { Card, CardHeader, CardContent } from "~/components/ui/card";
+import { Input } from "~/components/ui/input";
 import { Separator } from "~/components/ui/separator";
 import { VoiceButton } from "~/components/voice-button";
 import { Button as ButtonType } from "~/store/useConfigurationStore";
@@ -17,7 +18,7 @@ export function ButtonCard({ button: { label, imageUrl, audioUrl } }: { button: 
 			<CardContent>
 				<div className="flex flex-col gap-4">
 					<div className="flex justify-between items-center">
-						<p className="text-lg">{label}</p>
+						<Input className="text-lg p-0 m-0" variant="ghost" defaultValue={label} />
 
 						<div className="flex gap-1">
 							<VoiceButton source={audioUrl} />
