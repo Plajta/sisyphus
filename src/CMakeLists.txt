@@ -1,21 +1,29 @@
 cmake_minimum_required(VERSION 3.13)
 
 option(SISYPHUS_DEBUG "Enable debug flag" OFF)
+option(USE_ETERNITY "Enable usage of Eternity serial bootloader" OFF)
 
-# Retrieve the Git commit hash
-execute_process(
-  COMMAND git rev-parse --short HEAD
-  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-  OUTPUT_VARIABLE GIT_COMMIT_SHA
-  OUTPUT_STRIP_TRAILING_WHITESPACE
-)
+if(NOT DEFINED GIT_COMMIT_SHA OR GIT_COMMIT_SHA STREQUAL "")
+    # Retrieve the Git commit hash
+    execute_process(
+    COMMAND git rev-parse --short HEAD
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    OUTPUT_VARIABLE GIT_COMMIT_SHA
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
 
-# Check for uncommitted changes by looking at the output of git diff
-execute_process(
-  COMMAND git diff --quiet
-  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-  RESULT_VARIABLE GIT_DIFF_RESULT
-)
+    # Check for uncommitted changes by looking at the output of git diff
+    execute_process(
+    COMMAND git diff --quiet
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    RESULT_VARIABLE GIT_DIFF_RESULT
+    )
+
+    # If there are uncommitted changes, append -dirty to the commit SHA
+    if(NOT GIT_DIFF_RESULT EQUAL 0)
+        set(GIT_COMMIT_SHA "${GIT_COMMIT_SHA}-dirty")
+    endif()
+endif()
 
 # Get the current build date and time
 execute_process(
@@ -23,11 +31,6 @@ execute_process(
   OUTPUT_VARIABLE BUILD_DATE
   OUTPUT_STRIP_TRAILING_WHITESPACE
 )
-
-# If there are uncommitted changes, append -dirty to the commit SHA
-if(NOT GIT_DIFF_RESULT EQUAL 0)
-    set(GIT_COMMIT_SHA "${GIT_COMMIT_SHA}-dirty")
-endif()
 
 if(SISYPHUS_DEBUG)
     add_compile_definitions(SISYPHUS_DEBUG)
@@ -60,6 +63,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
   GIT_COMMIT_SHA="${GIT_COMMIT_SHA}"
   PROJECT_NAME="${PROJECT_NAME}"
   BUILD_DATE="${BUILD_DATE}"
+  USE_ETERNITY=$<BOOL:${USE_ETERNITY}>
 )
 
 set(LITTLEFS_SIZE_BYTES_STRING "(1024 * 1024)") # Size in bytes eg. 512 * 1024 = 512kB
@@ -90,19 +94,75 @@ pico_set_program_url(${PROJECT_NAME} "https://plajta.eu")
 
 # Flash setup
 
+if(USE_ETERNITY)
+    add_subdirectory(eternity)
+endif()
+
 target_link_options(${PROJECT_NAME} PRIVATE -Wl,--print-memory-usage)
 
-configure_file(${CMAKE_CURRENT_LIST_DIR}/memmap_custom.ld ${CMAKE_BINARY_DIR}/memmap_custom.ld)
-pico_set_linker_script(${PROJECT_NAME} ${CMAKE_BINARY_DIR}/memmap_custom.ld)
+if (USE_ETERNITY)
+    configure_file(${CMAKE_CURRENT_LIST_DIR}/memmap_eternity.ld.template ${CMAKE_CURRENT_BINARY_DIR}/memmap_custom.ld)
+else()
+    configure_file(${CMAKE_CURRENT_LIST_DIR}/memmap_stage2.ld.template ${CMAKE_CURRENT_BINARY_DIR}/memmap_custom.ld)
+endif()
 
+pico_set_linker_script(${PROJECT_NAME} ${CMAKE_CURRENT_BINARY_DIR}/memmap_custom.ld)
 
 set(RESET_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/sisyphus_reset.sh)
 
 add_custom_target(flash
-    COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR}
+    COMMAND ${CMAKE_COMMAND} --build ${CMAKE_CURRENT_BINARY_DIR}
     COMMAND sh -c "${RESET_SCRIPT} 2>&1"
-    COMMAND picotool load -f -x ${PROJECT_NAME}.uf2
-    DEPENDS ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.uf2 ${RESET_SCRIPT}
-    COMMENT "Building, resetting, and flashing the RP2040"
-    USES_TERMINA
+    COMMENT "Resetting, and flashing the RP2040"
+    USES_TERMINAL
 )
+
+if(USE_ETERNITY)
+    add_custom_command(TARGET flash POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E env python3 ${CMAKE_SOURCE_DIR}/eternity/protocol/flasher.py ${PROJECT_NAME}.bin
+    )
+else()
+    add_custom_command(TARGET flash POST_BUILD
+        COMMAND picotool load -f -x ${PROJECT_NAME}.uf2
+    )
+endif()
+
+if (USE_ETERNITY)
+    # Convert string to integer
+    math(EXPR ETERNITY_SIZE_BYTES "${ETERNITY_SIZE_BYTES_STRING}")
+
+    set(OUTPUT_BIN "${CMAKE_BINARY_DIR}/combined.bin")
+
+    # Run the script after building main_app
+    add_custom_command(
+        OUTPUT ${OUTPUT_BIN}
+        COMMAND ${CMAKE_COMMAND} -E env python3 ${CMAKE_SOURCE_DIR}/eternity/merge_binaries.py
+            ${CMAKE_BINARY_DIR}/eternity/eternity.bin
+            ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.bin
+            ${ETERNITY_SIZE_BYTES}
+            ${OUTPUT_BIN}
+        DEPENDS ${PROJECT_NAME} eternity
+        COMMENT "Generating combined binary"
+        VERBATIM
+    )
+
+    if(NOT PICO_NO_PICOTOOL)
+        set(OUTPUT_UF2 "${CMAKE_BINARY_DIR}/combined.uf2")
+
+        add_custom_command(
+            OUTPUT ${OUTPUT_UF2}
+            COMMAND picotool uf2 convert --quiet --family rp2040 ${OUTPUT_BIN} ${OUTPUT_UF2}
+            DEPENDS ${OUTPUT_BIN}
+            COMMENT "Generating combined UF2"
+            VERBATIM
+        )
+        add_custom_target(combine_eternity ALL
+            DEPENDS ${OUTPUT_BIN} ${OUTPUT_UF2}
+        )
+    else()
+        message(STATUS "PICO_NO_PICOTOOL is set — only generating .bin")
+        add_custom_target(combine_eternity ALL
+            DEPENDS ${OUTPUT_BIN}
+        )
+    endif()
+endif()
