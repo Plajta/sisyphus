@@ -11,10 +11,19 @@ on:
 
 jobs:
   firmware_build:
-    name: Build sisyphus firmware
+    name: Build Sisyphus firmware
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    strategy:
+      matrix:
+        config:
+          - name: "Default"
+            cmake_args: ""
+            suffix: "default"
+          - name: "Eternity"
+            cmake_args: "-DUSE_ETERNITY=ON"
+            suffix: "eternity"
 
     steps:
       - name: Checkout
@@ -26,16 +35,16 @@ jobs:
         id: vars
         run: echo "GIT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
-      - name: Build firmware
+      - name: Build firmware - ${{ matrix.config.name }}
         id: build
         uses: samyarsadat/Pico-Build-Action@v1.3.0
         with:
           source_dir: "src"
           output_ext: "*.uf2 sisyphus.elf sisyphus.elf.map sisyphus.bin"
-          cmake_args: "-DGIT_COMMIT_SHA=${{ env.GIT_SHA }}"
+          cmake_args: "-DGIT_COMMIT_SHA=${{ env.GIT_SHA }} ${{ matrix.config.cmake_args }}"
 
-      - name: Upload Build Artifacts
+      - name: Upload Build Artifacts - ${{ matrix.config.name }}
         uses: actions/upload-artifact@v4
         with:
-          name: workspace_artifacts
+          name: output_bins_${{ matrix.config.suffix }}
           path: ${{ steps.build.outputs.output_dir }}
