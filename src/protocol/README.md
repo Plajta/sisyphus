@@ -184,7 +184,7 @@ info
 
 **Device response:**
 ```
-<device name> <git commit sha> <protocol version> <build date> <block count> <free block count> <block size>
+<device name> <git commit sha> <protocol version> <build date> <block count> <free block count> <block size> <uses eternity>
 ```
 
 - `<device name>` – Name of the device set by CMakeLists.txt
@@ -194,13 +194,14 @@ info
 - `<block count>` – Number of blocks taken up by LittleFS - total size set in CMakeLists.txt
 - `<free block count>` – Number of free/unused blocks in LittleFS
 - `<block size>` – Size of each block of LittleFS
+- `<uses eternity>` – If the FW was built with Eternity's bootloader
 
 Terminated by a newline.
 
 Example:
 
 ```
-sisyphus 7b82af1-dirty 1 2025-05-05,00:45:02 256 2 4096
+sisyphus 7b82af1-dirty 1 2025-05-05,00:45:02 256 2 4096 1
 ```
 
 ---

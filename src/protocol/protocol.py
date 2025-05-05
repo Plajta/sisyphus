@@ -23,6 +23,7 @@ class ProtocolInfo:
     build_date: datetime
     fs_size: int
     free_space: int
+    uses_eternity: bool
 
 def find_serial_port(target_vid: int, target_pid: int):
     """
@@ -172,9 +173,9 @@ class ProtocolClient:
 
         self.send_command("info")
         data = self.readline().split(" ")
-        build_date, block_count, fs_size, block_size = data[3:]
+        build_date, block_count, fs_size, block_size, use_eternity = data[3:]
         parsed_data = data[0:3]
-        return ProtocolInfo(*parsed_data, build_date = datetime.strptime(build_date, "%Y-%m-%d,%H:%M:%S"), fs_size = int(block_count)*int(block_size), free_space = int(fs_size)*int(block_size))
+        return ProtocolInfo(*parsed_data, build_date = datetime.strptime(build_date, "%Y-%m-%d,%H:%M:%S"), fs_size = int(block_count)*int(block_size), free_space = int(fs_size)*int(block_size), uses_eternity = bool(use_eternity))
 
     def reset(self):
         """Reset the device to bootloader - BREAKS THE CONNECTION"""
