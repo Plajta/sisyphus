@@ -1,7 +1,6 @@
 // Based on https://dominicmaas.co.nz/pages/pico-filesystem-littlefs
 
 #include "littlefs-pico.h"
-#include <hardware/regs/addressmap.h>
 #include <string.h>
 
 #include "hardware/flash.h"
