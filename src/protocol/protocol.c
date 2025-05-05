@@ -232,7 +232,7 @@ void mv_command(lfs_t *lfs, char *old_filename, char *new_filename) {
 void info_command(lfs_t *lfs){
     const struct lfs_config *used_lfs_config = lfs->cfg;
     char info_buffer[128];
-    snprintf(info_buffer, sizeof(info_buffer), "%s %s %s %s %u %u %u", PROJECT_NAME, GIT_COMMIT_SHA, PROTOCOL_VERSION, BUILD_DATE, used_lfs_config->block_count, lfs_fs_size(lfs), used_lfs_config->block_size);
+    snprintf(info_buffer, sizeof(info_buffer), "%s %s %s %s %u %u %u %b", PROJECT_NAME, GIT_COMMIT_SHA, PROTOCOL_VERSION, BUILD_DATE, used_lfs_config->block_count, lfs_fs_size(lfs), used_lfs_config->block_size, USE_ETERNITY);
     print_newline(info_buffer);
 }
 
@@ -252,16 +252,20 @@ void play_command(lfs_t *lfs, char *filename) {
 
 void reset_command(lfs_t *lfs) {
     lfs_unmount(lfs);
-    rom_reset_usb_boot(0,0);
+    #if USE_ETERNITY
+        watchdog_reboot(0, 0, 0); // reboot to eternity
+    #else
+        rom_reset_usb_boot(0,0); // reboot to bootrom
+    #endif
     while (1) tight_loop_contents(); // Just in case
 }
 
 void handle_command(lfs_t *lfs, char *cmd) {
-    char *args[4];
+    char *args[MAX_ARG_COUNT];
     int argc = 0;
 
     char *token = strtok(cmd, " ");
-    while (token && argc < 4) {
+    while (token && argc < MAX_ARG_COUNT) {
         args[argc++] = token;
         token = strtok(NULL, " ");
     }
@@ -360,7 +364,6 @@ void protocol_loop(lfs_t *lfs)
                 continue;
             }
 
-            // Look for newline
             for (size_t i = cmd_len-n; i < cmd_len; ++i) {
                 if (cmd_buf[i] == EOT_CHAR) { // 4 is EOT
                     cmd_buf[i] = '\0';  // Null-terminate line
@@ -372,6 +375,6 @@ void protocol_loop(lfs_t *lfs)
                 }
             }
         }
-        sleep_ms(10); // Maybe replace with tight_loop_contents();
+        sleep_ms(10);
     }
 }
