@@ -28,10 +28,10 @@ def convert_audio_to_wav_pcm(file_path):
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python convert.py <input_file> [remote_name]")
+        print("\033[1;31mUsage: python convert.py <input_file> [remote_name]\033[0m")
         sys.exit(1)
     elif len(sys.argv) > 3:
-        print("Too many arguments")
+        print("\033[1;31mToo many arguments\033[0m")
         sys.exit(1)
 
     input_path = sys.argv[1]
@@ -44,6 +44,6 @@ if __name__ == "__main__":
     size = wav_buffer.getbuffer().nbytes
 
     def update_progress(transferred, speed):
-        print(f"Transferred: {transferred/size*100:.2f} %, Speed: {speed:.2f} KB/s", end="\r")
+        print(f"\033[33mTransferred: {transferred/size*100:.2f} %, Speed: {speed:.2f} KB/s\033[0m", end="\r")
 
     device.push(wav_buffer, size, remote_name, update_progress)
