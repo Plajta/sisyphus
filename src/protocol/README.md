@@ -8,6 +8,17 @@ The device responds according to the specific command.
 
 Errors are reported with messages starting with `err`, and successful operations respond with `ack`.
 
+On invalid arguments:
+  ```
+  err invalid arguments
+  ```
+On overflow of the command buffer (128 bytes set in [protocol.h](./protocol.h)):
+  ```
+  err command buffer overflow
+  ```
+
+A handy python shell to test things out is [here](./shell.py), it uses `PySerial` wrapped in a backend package [here](./protocol.py) and also requires `rich` for nice color output.
+
 ---
 
 ## Command List
@@ -17,7 +28,10 @@ Errors are reported with messages starting with `err`, and successful operations
 - [push](#push) – Upload a file to the device
 - [pull](#pull) – Download a file from the device
 - [rm](#rm) – Remove a file
-- [info](#info) – (Not implemented currently)
+- [info](#info) – Get information about the device and firmware
+- [play](#play) – Play an audio file
+- [reset](#reset) – Reset the device into bootloader
+
 
 ---
 
@@ -49,11 +63,10 @@ data f 456
 folder d
 ```
 
-Finished by EOT.
+Terminated by EOT.
 
 **Errors:**
-- If root directory cannot be opened:
-  `err cannot open root directory`
+- `err cannot open root directory`
 
 ---
 
@@ -67,10 +80,10 @@ mv <source> <destination>
 ```
 
 **Device response:**
-- `ack` – if the operation succeeded
-- `err file not found` – if the source file does not exist
-- `err destination exists` – if the destination already exists
-- `err rename file` – if renaming failed
+- `ack` – on success
+- `err file not found` – if source doesn't exist
+- `err destination exists` – if destination already exists
+- `err rename file` – on failure
 
 ---
 
@@ -96,16 +109,8 @@ push <filename> <size> <checksum>
    - After each chunk, **wait for device to send** `ack` **before sending the next chunk**.
 3. After all bytes are sent:
    - Device calculates CRC32 and verifies it against `<checksum>`.
-   - If matching, device responds:
-     ```
-     ack
-     ```
-   - Otherwise:
-     ```
-     err checksum mismatch
-     ```
 
-**Errors during transfer:**
+**Errors:**
 - `err open file`
 - `err timeout`
 - `err write file`
@@ -141,6 +146,8 @@ pull <filename>
 4. After each chunk:
    - Host must send `ack` back to device to receive the next chunk.
 
+5. Host should verify the received data against the expected checksum.
+
 **Errors:**
 - `err cannot open file`
 - `err calculate crc`
@@ -158,8 +165,8 @@ rm <filename>
 ```
 
 **Device response:**
-- `ack` – if file deleted successfully
-- `err file not found` – if the file does not exist
+- `ack` – if deleted successfully
+- `err file not found`
 - `err delete file` – if deletion failed
 
 ---
@@ -178,34 +185,51 @@ info
 <device name> <git commit sha> <protocol version> <build date> <block count> <free block count> <block size>
 ```
 
+- `<device name>` – Name of the device set by CMakeLists.txt
+- `<git commit sha>` – Git commit SHA at compile time, when compiled from a repository with uncommitted changes `-dirty` gets appended behind it
+- `<protocol version>` – Version of the protocol set in [protocol.h](./protocol.h)
+- `<build date>` – Date and time of the firmware build in `YYYY-MM-DD,HH:MM:SS`
+- `<block count>` – Number of blocks taken up by LittleFS - total size set in CMakeLists.txt
+- `<free block count>` – Number of free/unused blocks in LittleFS
+- `<block size>` – Size of each block of LittleFS
+
 Terminated by a newline.
+
+Example:
+
+```
+sisyphus 7b82af1-dirty 1 2025-05-05,00:45:02 256 2 4096
+```
 
 ---
 
 ## `play`
 
-Plays a file.
+Play an audio file stored on the device.
 
 **Usage:**
 ```
 play <filename>
 ```
 
-**Device response:**
+**Response:**
 - `ack` – if file played successfully
 - `err file not found` – if the file does not exist
 
 ---
 
-# Notes
+## `reset`
 
-- Commands are terminated by **EOT** (`0x04`) character.
-- Errors always start with `err`.
-- On invalid arguments, device responds:
-  ```
-  err invalid arguments
-  ```
-- Device uses a **command buffer** internally and will reset if overflowed:
-  ```
-  err command buffer overflow
-  ```
+Resets the device into either the bootrom or Eternity, based on CMake configuration.
+
+**Usage:**
+
+```
+reset
+```
+
+**Device response:**
+
+* None (device resets and reboots into USB bootloader)
+
+---
