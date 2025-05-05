@@ -46,7 +46,7 @@ class ProtocolClient:
     def __init__(self, baudrate=115200):
         port = find_serial_port(0xCAFE, 0x6942)
         if port is None:
-            raise ValueError("No Sisyphus device found")
+            raise ConnectionRefusedError("No Sisyphus device found")
         self.serial = serial.Serial(port, baudrate, timeout=1)
 
     def send_command(self, cmd):
