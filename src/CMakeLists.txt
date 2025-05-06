@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
 
+set(DEVICE_NAME "Sisyphus" CACHE STRING "The device name used for the \"info\" command")
 option(SISYPHUS_DEBUG "Enable debug flag" OFF)
 option(USE_ETERNITY "Enable usage of Eternity serial bootloader" OFF)
 
@@ -61,7 +62,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
   PICO_AUDIO_I2S_MONO_INPUT=1
   PICO_AUDIO_I2S_MONO_OUTPUT=1
   GIT_COMMIT_SHA="${GIT_COMMIT_SHA}"
-  PROJECT_NAME="${PROJECT_NAME}"
+  DEVICE_NAME="${DEVICE_NAME}"
   BUILD_DATE="${BUILD_DATE}"
   USE_ETERNITY=$<BOOL:${USE_ETERNITY}>
 )

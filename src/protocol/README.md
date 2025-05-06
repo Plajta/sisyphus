@@ -184,9 +184,10 @@ info
 
 **Device response:**
 ```
-<device name> <git commit sha> <protocol version> <build date> <block count> <free block count> <block size> <uses eternity>
+<protocol> <device name> <git commit sha> <protocol version> <build date> <block count> <free block count> <block size> <uses eternity>
 ```
 
+- `<protocol>` – Always `sisyphus`
 - `<device name>` – Name of the device set by CMakeLists.txt
 - `<git commit sha>` – Git commit SHA at compile time, when compiled from a repository with uncommitted changes `-dirty` gets appended behind it
 - `<protocol version>` – Version of the protocol set in [protocol.h](./protocol.h)
