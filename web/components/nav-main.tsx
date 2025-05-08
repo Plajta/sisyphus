@@ -19,6 +19,7 @@ import {
 	SidebarMenuSubButton,
 	SidebarMenuSubItem,
 } from "~/components/ui/sidebar";
+import { useEternityClient } from "~/hooks/useEternityClient";
 import { useConfigurationStore } from "~/store/useConfigurationStore";
 import { useDeviceStore } from "~/store/useDeviceStore";
 
@@ -37,20 +38,37 @@ export function NavMain({ items }: { items: NavItem[] }) {
 	const { connected } = useDeviceStore();
 	const { loadConfiguration } = useConfigurationStore();
 
+	const { connect, client } = useEternityClient();
+
 	return (
 		<SidebarGroup>
 			<div className="flex flex-col gap-2">
-				<Serial />
+				<Button onClick={async () => await connect()} className="w-full" variant="outline">
+					<p>Připojit Komunikátor</p>
+				</Button>
+
+				<Button
+					onClick={async () => {
+						const response = await client.info();
+
+						console.log(response);
+					}}
+					className="w-full"
+					variant="outline"
+				>
+					<p>poslat command</p>
+				</Button>
 
 				<Button asChild className="w-full" variant="outline">
 					<Input
 						type="file"
-						accept=".zip"
 						onChange={async (event: React.ChangeEvent<HTMLInputElement>) => {
 							const file = event.target.files?.[0];
 							if (!file) return;
 
-							await loadConfiguration(file);
+							const a = await client.push(file, "test");
+
+							console.log(a);
 						}}
 					/>
 				</Button>
