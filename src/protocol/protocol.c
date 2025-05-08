@@ -232,7 +232,7 @@ void mv_command(lfs_t *lfs, char *old_filename, char *new_filename) {
 void info_command(lfs_t *lfs){
     const struct lfs_config *used_lfs_config = lfs->cfg;
     char info_buffer[128];
-    snprintf(info_buffer, sizeof(info_buffer), "%s %s %s %s %u %u %u %b", PROJECT_NAME, GIT_COMMIT_SHA, PROTOCOL_VERSION, BUILD_DATE, used_lfs_config->block_count, lfs_fs_size(lfs), used_lfs_config->block_size, USE_ETERNITY);
+    snprintf(info_buffer, sizeof(info_buffer), "sisyphus %s %s %s %s %u %u %u %b", DEVICE_NAME, GIT_COMMIT_SHA, PROTOCOL_VERSION, BUILD_DATE, used_lfs_config->block_count, lfs_fs_size(lfs), used_lfs_config->block_size, USE_ETERNITY);
     print_newline(info_buffer);
 }
 
