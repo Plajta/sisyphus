@@ -48,7 +48,7 @@
         "silk_text_thickness": 0.15,
         "silk_text_upright": false,
         "zones": {
-          "min_clearance": 0.0
+          "min_clearance": 0.4
         }
       },
       "diff_pair_dimensions": [
@@ -90,7 +90,7 @@
         "items_not_allowed": "error",
         "length_out_of_range": "error",
         "lib_footprint_issues": "warning",
-        "lib_footprint_mismatch": "warning",
+        "lib_footprint_mismatch": "ignore",
         "malformed_courtyard": "error",
         "microvia_drill_out_of_range": "error",
         "mirrored_text_on_front_layer": "warning",
@@ -915,6 +915,14 @@
     [
       "8c0b3d8b-46d3-4173-ab1e-a61765f77d61",
       "Root"
+    ],
+    [
+      "129d5b5c-8633-4296-9137-1037c935b2ab",
+      "Batery and power"
+    ],
+    [
+      "41cd1868-5e42-438c-a963-bbf0dbfe5966",
+      "Peripheral"
     ]
   ],
   "text_variables": {}
