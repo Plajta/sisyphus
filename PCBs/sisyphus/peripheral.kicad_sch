@@ -3858,7 +3858,7 @@
 					)
 				)
 			)
-			(property "Value" ""
+			(property "Value" "TCA8418"
 				(at 0 0 0)
 				(effects
 					(font
@@ -8705,7 +8705,7 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "~"
+		(property "Value" "TCA8418"
 			(at 195.1833 76.2 0)
 			(effects
 				(font

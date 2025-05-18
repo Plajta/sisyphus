@@ -2995,9 +2995,9 @@
 			(embedded_fonts no)
 		)
 	)
-	(text "Make sure C8 is close to pin 45 of RP2040"
+	(text "Make sure this one is close to pin 45 of RP2040 ->"
 		(exclude_from_sim no)
-		(at 54.356 70.866 0)
+		(at 45.72 70.612 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -3008,7 +3008,7 @@
 	)
 	(text "Decoupling for LEDs"
 		(exclude_from_sim no)
-		(at 247.142 93.726 0)
+		(at 248.158 96.012 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -3016,7 +3016,7 @@
 		)
 		(uuid "9922c964-c349-4b4d-b72f-fc96eb593b67")
 	)
-	(text "Make sure R3 and R4 are close to RP2040"
+	(text "Make sure these are close to RP2040"
 		(exclude_from_sim no)
 		(at 71.374 91.694 0)
 		(effects
@@ -3038,9 +3038,9 @@
 		)
 		(uuid "bb0f5ed7-e627-4d1e-901f-ee63288e86d6")
 	)
-	(text "Make sure C10 is close to pin 44 of RP2040"
+	(text "^\n|\nMake sure this one is close to pin 44 of RP2040"
 		(exclude_from_sim no)
-		(at 146.812 76.708 90)
+		(at 148.844 70.358 90)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5473,7 +5473,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "DNF"
+		(property "Value" "10k"
 			(at 217.678 44.323 0)
 			(effects
 				(font

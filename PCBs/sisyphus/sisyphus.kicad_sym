@@ -971,7 +971,7 @@
 				)
 			)
 		)
-		(property "Value" ""
+		(property "Value" "TCA8418"
 			(at 0 0 0)
 			(effects
 				(font
