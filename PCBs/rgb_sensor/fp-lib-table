@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "rgb_sensor")(type "KiCad")(uri "${KIPRJMOD}/rgb_sensor.pretty")(options "")(descr ""))
+)
