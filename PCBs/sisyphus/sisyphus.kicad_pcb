@@ -478,6 +478,7 @@
 		)
 		(embedded_fonts no)
 		(model "${KICAD9_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_1x02_P2.54mm_Vertical.step"
+			(hide yes)
 			(offset
 				(xyz 0 0 0)
 			)
@@ -9927,6 +9928,7 @@
 		)
 		(embedded_fonts no)
 		(model "${KICAD9_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_1x03_P2.54mm_Vertical.wrl"
+			(hide yes)
 			(offset
 				(xyz 0 0 0)
 			)
@@ -10440,7 +10442,7 @@
 		(path "/41cd1868-5e42-438c-a963-bbf0dbfe5966/99087050-f11a-468a-bd41-4b2d49556a5a")
 		(sheetname "/Peripheral/")
 		(sheetfile "peripheral.kicad_sch")
-		(attr through_hole exclude_from_bom dnp)
+		(attr through_hole exclude_from_bom)
 		(fp_line
 			(start -1.33 6.41)
 			(end 1.33 6.41)
@@ -10637,6 +10639,7 @@
 		)
 		(embedded_fonts no)
 		(model "${KICAD9_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_1x03_P2.54mm_Vertical.wrl"
+			(hide yes)
 			(offset
 				(xyz 0 0 0)
 			)
@@ -14590,6 +14593,7 @@
 		)
 		(embedded_fonts no)
 		(model "${KICAD9_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_1x04_P2.54mm_Vertical.wrl"
+			(hide yes)
 			(offset
 				(xyz 0 0 0)
 			)
@@ -17749,7 +17753,7 @@
 		(path "/41cd1868-5e42-438c-a963-bbf0dbfe5966/deb30183-f487-4d0b-a6f5-0f9aa0eba6e4")
 		(sheetname "/Peripheral/")
 		(sheetfile "peripheral.kicad_sch")
-		(attr through_hole exclude_from_bom dnp)
+		(attr through_hole exclude_from_bom)
 		(fp_line
 			(start -1.33 3.87)
 			(end 1.33 3.87)
@@ -17935,6 +17939,7 @@
 		)
 		(embedded_fonts no)
 		(model "${KICAD9_3DMODEL_DIR}/Connector_PinSocket_2.54mm.3dshapes/PinSocket_1x02_P2.54mm_Vertical.step"
+			(hide yes)
 			(offset
 				(xyz 0 0 0)
 			)
