@@ -45,13 +45,9 @@ int main() {
     // Run tud_task every millisecond just like pico_stdio would do
     add_repeating_timer_ms(1, usb_background_task, NULL, &usb_timer);
 
-    gpio_init(PICO_DEFAULT_LED_PIN);
-    gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
-
     int err = pico_lfs_init(&lfs);
 
     if (err) {
-        gpio_put(PICO_DEFAULT_LED_PIN, 1);
         sleep_ms(5000);
         return 0;
     }
@@ -72,10 +68,7 @@ int main() {
 
         // If not connected and no button pressed, go to sleep
         while (!tud_cdc_connected() && !wakeup) {
-            // LED only as an indicator for development
-            gpio_put(PICO_DEFAULT_LED_PIN, 1);
             __wfi(); // Low-power wait for interrupt
-            gpio_put(PICO_DEFAULT_LED_PIN, 0);
         }
 
         if (wakeup) {
