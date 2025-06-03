@@ -40,6 +40,11 @@ endif()
 set(PICO_SDK_FETCH_FROM_GIT on)
 set(PICO_EXTRAS_FETCH_FROM_GIT on)
 
+set(PICO_BOARD_HEADER_DIRS ${CMAKE_CURRENT_LIST_DIR}/boards)
+
+# Might come in handy later
+# set(PICO_BOARD plajta_sisyfoss_beta)
+
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # Required for clangd
 
 include(pico_sdk_import.cmake)
@@ -67,7 +72,10 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
   USE_ETERNITY=$<BOOL:${USE_ETERNITY}>
 )
 
-set(LITTLEFS_SIZE_BYTES_STRING "(1024 * 1024)") # Size in bytes eg. 512 * 1024 = 512kB
+# If the board doesn't define this, provide a default; this will fit the majority of boards.
+if(NOT DEFINED LITTLEFS_SIZE_BYTES_STRING)
+    set(LITTLEFS_SIZE_BYTES_STRING "(1024 * 1024)") # Size in bytes eg. 512 * 1024 = 512kB
+endif()
 
 # Convert both strings to integers
 math(EXPR LITTLEFS_SIZE_BYTES "${LITTLEFS_SIZE_BYTES_STRING}")
