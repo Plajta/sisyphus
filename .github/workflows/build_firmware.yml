@@ -26,7 +26,7 @@ jobs:
             suffix: "pico-eternity"
           - name: "SisyFOSS Beta - Eternity"
             cmake_args: "-DPICO_BOARD=plajta_sisyfoss_beta -DUSE_ETERNITY=ON"
-            suffix: "pico-eternity"
+            suffix: "sisyfoss"
 
     steps:
       - name: Checkout
