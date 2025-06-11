@@ -20,10 +20,13 @@ jobs:
         config:
           - name: "Default"
             cmake_args: ""
-            suffix: "default"
+            suffix: "pico"
           - name: "Eternity"
             cmake_args: "-DUSE_ETERNITY=ON"
-            suffix: "eternity"
+            suffix: "pico-eternity"
+          - name: "SisyFOSS Beta - Eternity"
+            cmake_args: "-DPICO_BOARD=plajta_sisyfoss_beta -DUSE_ETERNITY=ON"
+            suffix: "pico-eternity"
 
     steps:
       - name: Checkout
