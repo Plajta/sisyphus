@@ -12,6 +12,7 @@
 #include <math.h>
 #include <string.h>
 #include <bsp/board_api.h>
+#include "pico/binary_info.h"
 #include <tusb.h>
 #include "protocol.h"
 #include "audio.h"
@@ -19,6 +20,10 @@
 #include "littlefs-pico.h"
 
 #define BUTTON_PIN 14
+
+#ifdef SISYFOSS_I2S_ENABLE
+bi_decl(bi_1pin_with_name(SISYFOSS_I2S_ENABLE, "I2S ENABLE"));
+#endif
 
 lfs_t lfs;
 
@@ -44,6 +49,12 @@ int main() {
     tusb_init();
     // Run tud_task every millisecond just like pico_stdio would do
     add_repeating_timer_ms(1, usb_background_task, NULL, &usb_timer);
+
+    #ifdef SISYFOSS_I2S_ENABLE
+    gpio_init(SISYFOSS_I2S_ENABLE);
+    gpio_set_dir(SISYFOSS_I2S_ENABLE, GPIO_OUT);
+    gpio_put(SISYFOSS_I2S_ENABLE, 1);
+    #endif
 
     int err = pico_lfs_init(&lfs);
 

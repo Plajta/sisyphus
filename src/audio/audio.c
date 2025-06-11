@@ -7,7 +7,19 @@
 bool file_open = false;
 lfs_file_t audio_file;
 
-bi_decl(bi_3pins_with_names(PICO_AUDIO_I2S_DATA_PIN, "I2S DIN", PICO_AUDIO_I2S_CLOCK_PIN_BASE, "I2S BCK", PICO_AUDIO_I2S_CLOCK_PIN_BASE+1, "I2S LRCK"));
+#ifndef SISYFOSS_I2S_DIN
+#define SISYFOSS_I2S_DIN PICO_AUDIO_I2S_DATA_PIN
+#endif
+
+#ifndef SISYFOSS_I2S_BIT_CLOCK
+#define SISYFOSS_I2S_BIT_CLOCK PICO_AUDIO_I2S_CLOCK_PIN_BASE
+#endif
+
+#ifndef SISYFOSS_I2S_FRAME_CLOCK
+#define SISYFOSS_I2S_FRAME_CLOCK PICO_AUDIO_I2S_CLOCK_PIN_BASE+1
+#endif
+
+bi_decl(bi_3pins_with_names(SISYFOSS_I2S_DIN, "I2S DIN", SISYFOSS_I2S_BIT_CLOCK, "I2S BCK", SISYFOSS_I2S_FRAME_CLOCK, "I2S LRCK"));
 
 static struct audio_buffer_pool *ap;
 
@@ -30,8 +42,8 @@ void init_audio() {
     const struct audio_format *output_format;
 
     struct audio_i2s_config config = {
-        .data_pin = PICO_AUDIO_I2S_DATA_PIN,
-        .clock_pin_base = PICO_AUDIO_I2S_CLOCK_PIN_BASE,
+        .data_pin = SISYFOSS_I2S_DIN,
+        .clock_pin_base = SISYFOSS_I2S_BIT_CLOCK,
         .dma_channel = 0,
         .pio_sm = 0,
     };

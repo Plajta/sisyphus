@@ -56,6 +56,24 @@
 #define PICO_DEFAULT_I2C_SCL_PIN 25
 #endif
 
+//------------- I2S -------------//
+#ifndef SISYFOSS_I2S_ENABLE
+#define SISYFOSS_I2S_ENABLE 26
+#endif
+
+#ifndef SISYFOSS_I2S_DIN
+#define SISYFOSS_I2S_DIN 27
+#endif
+
+#ifndef SISYFOSS_I2S_BIT_CLOCK
+#define SISYFOSS_I2S_BIT_CLOCK 28
+#endif
+
+#ifndef SISYFOSS_I2S_FRAME_CLOCK
+#define SISYFOSS_I2S_FRAME_CLOCK 29
+#endif
+
+
 //------------- FLASH -------------//
 
 #define PICO_BOOT_STAGE2_CHOOSE_W25Q080 1
