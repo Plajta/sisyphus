@@ -86,9 +86,10 @@ if(LITTLEFS_SIZE_BYTES GREATER_EQUAL FLASH_SIZE_BYTES)
 endif()
 
 add_subdirectory(util)
+add_subdirectory(keyboard)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE pico_stdlib pico_audio_i2s pico_bootrom
-                        littlefs_pico tinyusb_device tinyusb_board)
+target_link_libraries(${PROJECT_NAME} PRIVATE pico_stdlib pico_audio_i2s pico_bootrom hardware_i2c
+                        littlefs_pico tinyusb_device tinyusb_board keyboard_tca8418)
 
 target_include_directories(${PROJECT_NAME} PUBLIC protocol audio usb)
 

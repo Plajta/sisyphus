@@ -4,18 +4,19 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-#include <boards/pico.h>
 #include <hardware/gpio.h>
-#include <pico.h>
 #include <pico/time.h>
 #include <stdbool.h>
 #include <math.h>
 #include <string.h>
 #include <bsp/board_api.h>
+#include "class/cdc/cdc_device.h"
 #include "pico/binary_info.h"
 #include <tusb.h>
 #include "protocol.h"
+#include "hardware/i2c.h"
 #include "audio.h"
+#include "tca8418.h"
 
 #include "littlefs-pico.h"
 
@@ -25,10 +26,16 @@
 bi_decl(bi_1pin_with_name(SISYFOSS_I2S_ENABLE, "I2S ENABLE"));
 #endif
 
+#if !defined(i2c_default) || !defined(PICO_DEFAULT_I2C_SDA_PIN) || !defined(PICO_DEFAULT_I2C_SCL_PIN)
+#error Sisyphus requires a board with I2C pins
+#endif
+
 lfs_t lfs;
 
 volatile bool wakeup = false;
 volatile uint8_t button_index = 0;
+
+volatile uint8_t interrupts = 0;
 
 static repeating_timer_t usb_timer;
 
@@ -38,14 +45,50 @@ static bool usb_background_task(repeating_timer_t *rt) {
     return true; // Keep repeating
 }
 
+#ifndef SISYFOSS_HAS_KEYBORD_CONTROLLER
 void button_interrupt(uint gpio, uint32_t events) {
     if(!tud_cdc_connected()){
         wakeup = true;
-        button_index = 0; // Here as a preparation for implementing matrix controller
+        button_index = 0;
     }
 }
+#else
+void keyboard_interrupt(uint gpio, uint32_t events) {
+    if(!tca8418_k_int_available(i2c_default)){
+        return;
+    }
+
+    uint8_t kbd_events = tca8418_num_events(i2c_default);
+
+    // Re-check INT_STAT here (important per documentation)
+    if (!tca8418_k_int_available(i2c_default)) {
+        return;
+    }
+
+    uint8_t value;
+    bool pressed;
+
+    while (tca8418_num_events(i2c_default) > 0) {
+        tca8418_get_key_from_fifo(i2c_default, &value, &pressed);
+        if (pressed && !tud_cdc_connected()){
+            wakeup = true;
+            button_index = value;
+        }
+    }
+
+    // Clear the KE_INT interrupt bit by writing 1
+    tca8418_k_int_reset(i2c_default);
+}
+#endif
 
 int main() {
+    i2c_init(i2c_default, 100 * 1000);
+    gpio_set_function(PICO_DEFAULT_I2C_SDA_PIN, GPIO_FUNC_I2C);
+    gpio_set_function(PICO_DEFAULT_I2C_SCL_PIN, GPIO_FUNC_I2C);
+    gpio_pull_up(PICO_DEFAULT_I2C_SDA_PIN);
+    gpio_pull_up(PICO_DEFAULT_I2C_SCL_PIN);
+    bi_decl(bi_2pins_with_func(PICO_DEFAULT_I2C_SDA_PIN, PICO_DEFAULT_I2C_SCL_PIN, GPIO_FUNC_I2C));
+
     tusb_init();
     // Run tud_task every millisecond just like pico_stdio would do
     add_repeating_timer_ms(1, usb_background_task, NULL, &usb_timer);
@@ -66,10 +109,16 @@ int main() {
     // Init audio before initializing the button interrupt
     init_audio();
 
+    #ifndef SISYFOSS_HAS_KEYBORD_CONTROLLER
     gpio_init(BUTTON_PIN);
     gpio_set_dir(BUTTON_PIN, GPIO_IN);
     gpio_pull_up(BUTTON_PIN);
     gpio_set_irq_enabled_with_callback(BUTTON_PIN, GPIO_IRQ_EDGE_FALL, true, &button_interrupt);
+    #else
+    tca8418_init(i2c_default);
+    tca8418_setup_keyboard(i2c_default, 0b1111, 0b1111);
+    tca8418_setup_interrupt(&keyboard_interrupt);
+    #endif
 
     while (true) {
         // Check for USB-CDC connection
