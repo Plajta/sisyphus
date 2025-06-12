@@ -19,11 +19,7 @@
 // For board detection
 #define PLAJTA_SISYFOSS_BETA
 
-// On some samples, the xosc can take longer to stabilize than is usual
-// TODO: TEST IF ACTUALLY NEEDED
-// #ifndef PICO_XOSC_STARTUP_DELAY_MULTIPLIER
-// #define PICO_XOSC_STARTUP_DELAY_MULTIPLIER 64
-// #endif
+#define SISYFOSS_HAS_KEYBORD_CONTROLLER
 
 //------------- UART -------------//
 #ifndef PICO_DEFAULT_UART
@@ -54,6 +50,27 @@
 
 #ifndef PICO_DEFAULT_I2C_SCL_PIN
 #define PICO_DEFAULT_I2C_SCL_PIN 25
+#endif
+
+//------------- Misc ------------//
+#ifndef SISYFOSS_KEYBOARD_INTERRUPT
+#define SISYFOSS_KEYBOARD_INTERRUPT 14
+#endif
+
+#ifndef SISYFOSS_KEYBOARD_RESET
+#define SISYFOSS_KEYBOARD_RESET 15
+#endif
+
+#ifndef SISYFOSS_PMIC_INT
+#define SISYFOSS_PMIC_INT 18
+#endif
+
+#ifndef SISYFOSS_LIMIT_SWITCH
+#define SISYFOSS_LIMIT_SWITCH 19
+#endif
+
+#ifndef SISYFOSS_AUX_SENSOR_LED
+#define SISYFOSS_AUX_SENSOR_LED 20
 #endif
 
 //------------- I2S -------------//
