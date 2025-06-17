@@ -43,7 +43,7 @@ set(PICO_EXTRAS_FETCH_FROM_GIT on)
 set(PICO_BOARD_HEADER_DIRS ${CMAKE_CURRENT_LIST_DIR}/boards)
 
 # Might come in handy later
-# set(PICO_BOARD plajta_sisyfoss_beta)
+set(PICO_BOARD plajta_sisyfoss_beta)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # Required for clangd
 
