@@ -1,2 +1,7 @@
 CompileFlags:
   CompilationDatabase: build/
+  Add:
+    - -x
+    - c
+    - -isystem
+    - /usr/arm-none-eabi/include
