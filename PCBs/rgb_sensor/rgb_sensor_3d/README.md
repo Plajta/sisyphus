@@ -5,3 +5,6 @@ The file is included here without any changes and all of the rights belong to th
 Both of the files are direct extractions of [this](http://www.vishay.com/doc?80216) zip file which can be found linked from the manufacturer's [datasheet](https://www.vishay.com/docs/84968/veml3328.pdf).
 
 `© 2019 VISHAY INTERTECHNOLOGY, INC. ALL RIGHTS RESERVED`
+
+File [SM05B-SRSS-TB.STEP](./SM05B-SRSS-TB/SM05B-SRSS-TB.STEP) is used as the 3D model of the JST SH connector used on this board.
+The file is included here without any changes and all of the rights belong to SnapMagic Search and are licensed under Creative Commons Attribution‑ShareAlike 4.0 [(CC BY‑SA 4.0)](https://creativecommons.org/licenses/by-sa/4.0).
