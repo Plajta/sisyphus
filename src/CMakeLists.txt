@@ -87,6 +87,7 @@ endif()
 
 add_subdirectory(util)
 add_subdirectory(keyboard)
+add_subdirectory(battery)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE pico_stdlib pico_audio_i2s pico_bootrom hardware_i2c
                         littlefs_pico tinyusb_device tinyusb_board keyboard_tca8418)
