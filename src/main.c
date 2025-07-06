@@ -10,6 +10,7 @@
 #include <math.h>
 #include <string.h>
 #include <bsp/board_api.h>
+#include "bq25619.h"
 #include "class/cdc/cdc_device.h"
 #include "pico/binary_info.h"
 #include <tusb.h>
@@ -88,6 +89,7 @@ int main() {
     gpio_pull_up(PICO_DEFAULT_I2C_SDA_PIN);
     gpio_pull_up(PICO_DEFAULT_I2C_SCL_PIN);
     bi_decl(bi_2pins_with_func(PICO_DEFAULT_I2C_SDA_PIN, PICO_DEFAULT_I2C_SCL_PIN, GPIO_FUNC_I2C));
+    bq25619_init(i2c_default); // init charger before all due safety reasons
 
     tusb_init();
     // Run tud_task every millisecond just like pico_stdio would do
