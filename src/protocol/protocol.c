@@ -13,6 +13,7 @@
 #include "littlefs-pico.h"
 #include "protocol.h"
 #include "audio.h"
+#include "color.h"
 
 void print_newline(char* c) {
     tud_cdc_write_str(c);
@@ -236,6 +237,14 @@ void info_command(lfs_t *lfs){
     print_newline(info_buffer);
 }
 
+void measure_command(){
+    color_measurement colorm;
+    color_read_sensor(&colorm);
+    char measure_buffer[32];
+    snprintf(measure_buffer, sizeof(measure_buffer), "%d %d %d %d", colorm.red, colorm.green, colorm.blue, colorm.clear);
+    print_newline(measure_buffer);
+}
+
 void play_command(lfs_t *lfs, char *filename) {
     struct lfs_info info;
 
@@ -327,6 +336,10 @@ void handle_command(lfs_t *lfs, char *cmd) {
     else if (strcmp(args[0], "info") == 0)
     {
         info_command(lfs);
+    }
+    else if (strcmp(args[0], "measure") == 0)
+    {
+        measure_command();
     }
     else if (strcmp(args[0], "reset") == 0)
     {

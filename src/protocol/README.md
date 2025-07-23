@@ -25,14 +25,15 @@ Protocol version is incremented when there is a breaking change, it will NOT get
 
 ## Command List
 
-- [ls](#ls) – List files
-- [mv](#mv) – Move (rename) a file
-- [push](#push) – Upload a file to the device
-- [pull](#pull) – Download a file from the device
-- [rm](#rm) – Remove a file
-- [info](#info) – Get information about the device and firmware
-- [play](#play) – Play an audio file
-- [reset](#reset) – Reset the device into bootloader
+- [ls](#ls) - List files
+- [mv](#mv) - Move (rename) a file
+- [push](#push) - Upload a file to the device
+- [pull](#pull) - Download a file from the device
+- [rm](#rm) - Remove a file
+- [info](#info) - Get information about the device and firmware
+- [measure](#measure) - Get a color measurement from the device's color sensor
+- [play](#play) - Play an audio file
+- [reset](#reset) - Reset the device into bootloader
 
 
 ---
@@ -54,9 +55,9 @@ Each file or directory is listed on a separate line:
 <name> <type> <size>
 ```
 
-- `<name>` – file or directory name
-- `<type>` – `f` (file) or `d` (directory)
-- `<size>` – size in bytes (only present for files)
+- `<name>` - file or directory name
+- `<type>` - `f` (file) or `d` (directory)
+- `<size>` - size in bytes (only present for files)
 
 **Example:**
 ```
@@ -82,10 +83,10 @@ mv <source> <destination>
 ```
 
 **Device response:**
-- `ack` – on success
-- `err file not found` – if source doesn't exist
-- `err destination exists` – if destination already exists
-- `err rename file` – on failure
+- `ack` - on success
+- `err file not found` - if source doesn't exist
+- `err destination exists` - if destination already exists
+- `err rename file` - on failure
 
 ---
 
@@ -98,8 +99,8 @@ Upload a file to the device.
 push <filename> <size> <checksum>
 ```
 
-- `<size>` – file size in bytes
-- `<checksum>` – expected CRC32 checksum (unsigned integer)
+- `<size>` - file size in bytes
+- `<checksum>` - expected CRC32 checksum (unsigned integer)
 
 **Protocol:**
 
@@ -135,8 +136,8 @@ pull <filename>
    ```
    ack <size> <checksum>
    ```
-   - `<size>` – file size in bytes
-   - `<checksum>` – CRC32 checksum
+   - `<size>` - file size in bytes
+   - `<checksum>` - CRC32 checksum
 
 2. Host must immediately reply:
    ```
@@ -167,9 +168,9 @@ rm <filename>
 ```
 
 **Device response:**
-- `ack` – if deleted successfully
+- `ack` - if deleted successfully
 - `err file not found`
-- `err delete file` – if deletion failed
+- `err delete file` - if deletion failed
 
 ---
 
@@ -187,15 +188,15 @@ info
 <protocol> <device name> <git commit sha> <protocol version> <build date> <block count> <free block count> <block size> <uses eternity>
 ```
 
-- `<protocol>` – Always `sisyphus`
-- `<device name>` – Name of the device set by CMakeLists.txt
-- `<git commit sha>` – Git commit SHA at compile time, when compiled from a repository with uncommitted changes `-dirty` gets appended behind it
-- `<protocol version>` – Version of the protocol set in [protocol.h](./protocol.h)
-- `<build date>` – Date and time of the firmware build in `YYYY-MM-DD,HH:MM:SS`
-- `<block count>` – Number of blocks taken up by LittleFS - total size set in CMakeLists.txt
-- `<free block count>` – Number of free/unused blocks in LittleFS
-- `<block size>` – Size of each block of LittleFS
-- `<uses eternity>` – If the FW was built with Eternity's bootloader
+- `<protocol>` - Always `sisyphus`
+- `<device name>` - Name of the device set by CMakeLists.txt
+- `<git commit sha>` - Git commit SHA at compile time, when compiled from a repository with uncommitted changes `-dirty` gets appended behind it
+- `<protocol version>` - Version of the protocol set in [protocol.h](./protocol.h)
+- `<build date>` - Date and time of the firmware build in `YYYY-MM-DD,HH:MM:SS`
+- `<block count>` - Number of blocks taken up by LittleFS - total size set in CMakeLists.txt
+- `<free block count>` - Number of free/unused blocks in LittleFS
+- `<block size>` - Size of each block of LittleFS
+- `<uses eternity>` - If the FW was built with Eternity's bootloader
 
 Terminated by a newline.
 
@@ -203,6 +204,32 @@ Example:
 
 ```
 sisyphus 7b82af1-dirty 1 2025-05-05,00:45:02 256 2 4096 1
+```
+
+---
+
+## `measure`
+
+Get a color measurement from the device's color sensor.
+
+**Usage:**
+```
+measure
+```
+
+**Device response:**
+```
+<red> <green> <blue> <clear>
+```
+
+Colors are returned in a decimal 8 bit format. Clear is the amount of ambient light.
+
+Terminated by a newline.
+
+Example:
+
+```
+4 8 2 17
 ```
 
 ---
@@ -217,8 +244,8 @@ play <filename>
 ```
 
 **Response:**
-- `ack` – if file played successfully
-- `err file not found` – if the file does not exist
+- `ack` - if file played successfully
+- `err file not found` - if the file does not exist
 
 ---
 

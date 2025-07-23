@@ -17,6 +17,7 @@
 #include "protocol.h"
 #include "hardware/i2c.h"
 #include "audio.h"
+#include "color.h"
 #include "tca8418.h"
 
 #include "littlefs-pico.h"
@@ -40,6 +41,8 @@ volatile uint8_t interrupts = 0;
 
 static repeating_timer_t usb_timer;
 
+i2c_inst_t *sisyfoss_i2c_inst = i2c_default;
+
 static bool usb_background_task(repeating_timer_t *rt) {
     (void) rt;
     tud_task();  // TinyUSB background task
@@ -55,22 +58,22 @@ void button_interrupt(uint gpio, uint32_t events) {
 }
 #else
 void keyboard_interrupt(uint gpio, uint32_t events) {
-    if(!tca8418_k_int_available(i2c_default)){
+    if(!tca8418_k_int_available(sisyfoss_i2c_inst)){
         return;
     }
 
-    uint8_t kbd_events = tca8418_num_events(i2c_default);
+    uint8_t kbd_events = tca8418_num_events(sisyfoss_i2c_inst);
 
     // Re-check INT_STAT here (important per documentation)
-    if (!tca8418_k_int_available(i2c_default)) {
+    if (!tca8418_k_int_available(sisyfoss_i2c_inst)) {
         return;
     }
 
     uint8_t value;
     bool pressed;
 
-    while (tca8418_num_events(i2c_default) > 0) {
-        tca8418_get_key_from_fifo(i2c_default, &value, &pressed);
+    while (tca8418_num_events(sisyfoss_i2c_inst) > 0) {
+        tca8418_get_key_from_fifo(sisyfoss_i2c_inst, &value, &pressed);
         if (pressed && !tud_cdc_connected()){
             wakeup = true;
             button_index = value;
@@ -78,18 +81,18 @@ void keyboard_interrupt(uint gpio, uint32_t events) {
     }
 
     // Clear the KE_INT interrupt bit by writing 1
-    tca8418_k_int_reset(i2c_default);
+    tca8418_k_int_reset(sisyfoss_i2c_inst);
 }
 #endif
 
 int main() {
-    i2c_init(i2c_default, 100 * 1000);
+    i2c_init(sisyfoss_i2c_inst, 100 * 1000);
     gpio_set_function(PICO_DEFAULT_I2C_SDA_PIN, GPIO_FUNC_I2C);
     gpio_set_function(PICO_DEFAULT_I2C_SCL_PIN, GPIO_FUNC_I2C);
     gpio_pull_up(PICO_DEFAULT_I2C_SDA_PIN);
     gpio_pull_up(PICO_DEFAULT_I2C_SCL_PIN);
     bi_decl(bi_2pins_with_func(PICO_DEFAULT_I2C_SDA_PIN, PICO_DEFAULT_I2C_SCL_PIN, GPIO_FUNC_I2C));
-    bq25619_init(i2c_default); // init charger before all due safety reasons
+    bq25619_init(sisyfoss_i2c_inst); // init charger before all due safety reasons
 
     tusb_init();
     // Run tud_task every millisecond just like pico_stdio would do
@@ -105,11 +108,11 @@ int main() {
 
     if (err) {
         sleep_ms(5000);
-        return 0;
+        return 0; // Todo add a color indicated error
     }
 
-    // Init audio before initializing the button interrupt
     init_audio();
+    err = color_init();
 
     #ifndef SISYFOSS_HAS_KEYBORD_CONTROLLER
     gpio_init(BUTTON_PIN);
@@ -117,8 +120,8 @@ int main() {
     gpio_pull_up(BUTTON_PIN);
     gpio_set_irq_enabled_with_callback(BUTTON_PIN, GPIO_IRQ_EDGE_FALL, true, &button_interrupt);
     #else
-    tca8418_init(i2c_default);
-    tca8418_setup_keyboard(i2c_default, 0b1111, 0b1111);
+    tca8418_init(sisyfoss_i2c_inst);
+    tca8418_setup_keyboard(sisyfoss_i2c_inst, 0b1111, 0b1111);
     tca8418_setup_interrupt(&keyboard_interrupt);
     #endif
 

@@ -59,6 +59,7 @@ pico_sdk_init()
 add_executable(${PROJECT_NAME}
   main.c
   audio/audio.c
+  color/color.c
   protocol/protocol.c
   usb/usb_descriptors.c
 )
@@ -88,11 +89,12 @@ endif()
 add_subdirectory(util)
 add_subdirectory(keyboard)
 add_subdirectory(battery)
+add_subdirectory(color/sensors)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE pico_stdlib pico_audio_i2s pico_bootrom hardware_i2c
                         littlefs_pico tinyusb_device tinyusb_board keyboard_tca8418 charger_bq25619)
 
-target_include_directories(${PROJECT_NAME} PUBLIC protocol audio usb)
+target_include_directories(${PROJECT_NAME} PUBLIC protocol audio usb color)
 
 pico_add_extra_outputs(${PROJECT_NAME})
 

@@ -20,6 +20,7 @@
 #define PLAJTA_SISYFOSS_BETA
 
 #define SISYFOSS_HAS_KEYBORD_CONTROLLER
+#define SISYFOSS_COLOR_VEML3328
 
 //------------- UART -------------//
 #ifndef PICO_DEFAULT_UART
