@@ -128,7 +128,7 @@ int main() {
     while (true) {
         // Check for USB-CDC connection
         if (tud_cdc_connected()) {
-            protocol_loop(&lfs);
+            protocol_loop();
         }
 
         // If not connected and no button pressed, go to sleep
