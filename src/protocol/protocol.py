@@ -25,6 +25,13 @@ class ProtocolInfo:
     free_space: int
     uses_eternity: bool
 
+@dataclass
+class MeasuredColor:
+    red: int
+    green: int
+    blue: int
+    clear: int
+
 def find_serial_port(target_vid: int, target_pid: int):
     """
     Scan available serial ports and return the device name of the first port
@@ -178,6 +185,14 @@ class ProtocolClient:
         build_date, block_count, fs_size, block_size, use_eternity = data[4:]
         parsed_data = data[1:4]
         return ProtocolInfo(*parsed_data, build_date = datetime.strptime(build_date, "%Y-%m-%d,%H:%M:%S"), fs_size = int(block_count)*int(block_size), free_space = int(fs_size)*int(block_size), uses_eternity = bool(use_eternity))
+
+    def measure(self):
+        """Get a color measurement from the device's color sensor"""
+
+        self.send_command("measure")
+        data = self.readline().split(" ")
+        red, green, blue, clear = data
+        return MeasuredColor(int(red), int(green), int(blue), int(clear))
 
     def reset(self):
         """Reset the device to bootloader - BREAKS THE CONNECTION"""
