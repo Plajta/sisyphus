@@ -5,7 +5,6 @@ It works as a visualiser for color data so we can calibrate better.
 '''
 
 import sys
-import random
 import protocol
 
 from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget, QHBoxLayout
