@@ -1,3 +1,12 @@
+/**
+ * This code contains parts of Raspberry Pi's sine_wave.c for I2S audio: https://github.com/raspberrypi/pico-playground/blob/master/audio/sine_wave/sine_wave.c
+ *
+ * Copyright (c) 2020 Raspberry Pi (Trading) Ltd.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+
 #include "lfs.h"
 #include "pico/audio.h"
 #include "pico/binary_info.h"
