@@ -71,6 +71,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
   DEVICE_NAME="${DEVICE_NAME}"
   BUILD_DATE="${BUILD_DATE}"
   USE_ETERNITY=$<BOOL:${USE_ETERNITY}>
+  SISYPHUS_DEBUG_STATUS=$<BOOL:${SISYPHUS_DEBUG}> # Just for the info command
 )
 
 # If the board doesn't define this, provide a default; this will fit the majority of boards.

@@ -201,6 +201,9 @@ class DeviceShell(cmd.Cmd):
         console.print(f"[yellow]Build date: [/yellow][red]{info.build_date}[/red]")
         console.print(f"[yellow]Filesystem: [/yellow][red]{info.free_space/1024} / {info.fs_size/1024} KB used[/red]")
         console.print(f"[yellow]Uses Eternity: [/yellow][red]{info.uses_eternity}[/red]")
+        console.print(f"[yellow]Debug mode: [/yellow][red]{info.debug_mode}[/red]")
+        if info.debug_mode:
+            console.print("[bold red]DO NOT SHIP THIS FIRMWARE, OR DEVICE!!!\nDEBUG MODE IS ON[/bold red]")
 
     def complete_info(self, text, line, begidx, endidx):
         return []  # no args
