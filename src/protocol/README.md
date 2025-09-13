@@ -185,7 +185,7 @@ info
 
 **Device response:**
 ```
-<protocol> <device name> <git commit sha> <protocol version> <build date> <block count> <free block count> <block size> <uses eternity>
+<protocol> <device name> <git commit sha> <protocol version> <build date> <block count> <free block count> <block size> <uses eternity> <debug mode>
 ```
 
 - `<protocol>` - Always `sisyphus`
@@ -197,6 +197,7 @@ info
 - `<free block count>` - Number of free/unused blocks in LittleFS
 - `<block size>` - Size of each block of LittleFS
 - `<uses eternity>` - If the FW was built with Eternity's bootloader
+- `<debug mode>` - Shows if debug mode is on, if developing a user-friendly frontend make it VERY clear that this is NOT `true` so devs don't accidentaly ship a debug device.
 
 Terminated by a newline.
 

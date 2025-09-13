@@ -24,6 +24,7 @@ class ProtocolInfo:
     fs_size: int
     free_space: int
     uses_eternity: bool
+    debug_mode: bool
 
 @dataclass
 class MeasuredColor:
@@ -182,9 +183,9 @@ class ProtocolClient:
         data = self.readline().split(" ")
         if data[0] != "sisyphus":
             raise ValueError("Unexpected response from device")
-        build_date, block_count, fs_size, block_size, use_eternity = data[4:]
+        build_date, block_count, fs_size, block_size, use_eternity, debug_mode = data[4:]
         parsed_data = data[1:4]
-        return ProtocolInfo(*parsed_data, build_date = datetime.strptime(build_date, "%Y-%m-%d,%H:%M:%S"), fs_size = int(block_count)*int(block_size), free_space = int(fs_size)*int(block_size), uses_eternity = bool(use_eternity))
+        return ProtocolInfo(*parsed_data, build_date = datetime.strptime(build_date, "%Y-%m-%d,%H:%M:%S"), fs_size = int(block_count)*int(block_size), free_space = int(fs_size)*int(block_size), uses_eternity = bool(int(use_eternity)), debug_mode = bool(int(debug_mode)))
 
     def measure(self):
         """Get a color measurement from the device's color sensor"""
