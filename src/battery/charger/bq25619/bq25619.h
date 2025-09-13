@@ -33,7 +33,7 @@ typedef struct {
     bool cin_dpm_mode; // Input dynamic current management
     bool top_off_timer_active;
     bool adapter_overvoltage;
-}bq25619_status;
+} bq25619_status;
 
 typedef struct {
     uint8_t charge_fault;
@@ -41,7 +41,7 @@ typedef struct {
     bool watchdog_expired;
     bool boost_fault;
     bool battery_overvoltage;
-}bq25619_fault_status;
+} bq25619_fault_status;
 
 int bq25619_init(i2c_inst_t *i2c);
 int bq25619_read_status(i2c_inst_t *i2c, bq25619_status *status);
