@@ -4,7 +4,6 @@ import readline
 import glob
 import os
 import sys
-import time
 import protocol
 from rich.console import Console
 from rich.progress import Progress
