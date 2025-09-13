@@ -94,7 +94,7 @@ add_subdirectory(color/sensors)
 target_link_libraries(${PROJECT_NAME} PRIVATE pico_stdlib pico_audio_i2s pico_bootrom hardware_i2c
                         littlefs_pico tinyusb_device tinyusb_board keyboard_tca8418 charger_bq25619)
 
-target_include_directories(${PROJECT_NAME} PUBLIC protocol audio usb color)
+target_include_directories(${PROJECT_NAME} PUBLIC protocol audio usb color util)
 
 pico_add_extra_outputs(${PROJECT_NAME})
 

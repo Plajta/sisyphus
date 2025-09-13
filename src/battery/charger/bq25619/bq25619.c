@@ -8,19 +8,14 @@
 #include <pico/time.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include "error.h"
 
 
 int bq25619_read_register(i2c_inst_t *i2c, uint8_t reg, uint8_t *value){
     int ret;
     uint8_t status[1];
-    ret = i2c_write_blocking(i2c, BQ25619_I2C_ADDRESS, &reg, 1, false);
-    if (ret < PICO_OK) {
-        return ret;
-    }
-    ret = i2c_read_blocking(i2c, BQ25619_I2C_ADDRESS, status, 1, false);
-    if (ret < PICO_OK) {
-        return ret;
-    }
+    RETURN_IF_ERROR(i2c_write_blocking(i2c, BQ25619_I2C_ADDRESS, &reg, 1, false));
+    RETURN_IF_ERROR(i2c_read_blocking(i2c, BQ25619_I2C_ADDRESS, status, 1, false));
     *value = status[0];
     return PICO_OK;
 }
@@ -33,13 +28,13 @@ int bq25619_write_register(i2c_inst_t *i2c, uint8_t reg, uint8_t value) {
 
 int bq25619_read_status(i2c_inst_t *i2c, bq25619_status *status){
     uint8_t raw_status;
-    bq25619_read_register(i2c, BQ25619_REG_STATUS_0, &raw_status);
+    RETURN_IF_ERROR(bq25619_read_register(i2c, BQ25619_REG_STATUS_0, &raw_status));
     status->v_bus = raw_status >> 5;
     status->charge_status = (raw_status >> 3) & 0x3;
     status->power_good = raw_status & 0x4;
     status->termal_regulated = raw_status & 0x2;
     status->sys_regulation = raw_status & 0x1;
-    bq25619_read_register(i2c, BQ25619_REG_STATUS_2, &raw_status);
+    RETURN_IF_ERROR(bq25619_read_register(i2c, BQ25619_REG_STATUS_2, &raw_status));
     status->source_good = raw_status & 0x80;
     status->vin_dpm_mode = raw_status & 0x40;
     status->cin_dpm_mode = raw_status & 0x20;
@@ -50,7 +45,7 @@ int bq25619_read_status(i2c_inst_t *i2c, bq25619_status *status){
 
 int bq25619_read_fault(i2c_inst_t *i2c, bq25619_fault_status *status){
     uint8_t raw_status;
-    bq25619_read_register(i2c, BQ25619_REG_STATUS_1, &raw_status);
+    RETURN_IF_ERROR(bq25619_read_register(i2c, BQ25619_REG_STATUS_1, &raw_status));
     status->watchdog_expired = raw_status & 0x80;
     status->boost_fault = raw_status & 0x40;
     status->charge_fault = (raw_status >> 4) & 0x3;
@@ -156,11 +151,11 @@ int bq25619_set_max_vin_drop(i2c_inst_t *i2c, int threshold){
 
 
 int bq25619_set_defaults(i2c_inst_t *i2c){
-    bq25619_write_register(i2c, BQ25619_REG_INPUT_CURRENT_LIMIT, BQ25619_DEFAULT_INPUT_CURRENT_LIMIT);
-    bq25619_write_register(i2c, BQ25619_REG_CHARGE_CURRENT_LIMIT, BQ25619_DEFAULT_CHARGE_CURRENT_LIMIT);
-    bq25619_write_register(i2c, BQ25619_REG_PRECHARGE_TERM_CURRENT_LIMIT, BQ25619_DEFAULT_RECHARGE_TERM_CURRENT_LIMIT);
-    bq25619_write_register(i2c, BQ25619_REG_CHARGE_VOLTAGE_LIMIT, BQ25619_DEFAULT_VOLTAGE_LIMIT);
-    bq25619_write_register(i2c, BQ25619_REG_CONTROL1, BQ25619_DEFAULT_CONTROL1);
+    RETURN_IF_ERROR(bq25619_write_register(i2c, BQ25619_REG_INPUT_CURRENT_LIMIT, BQ25619_DEFAULT_INPUT_CURRENT_LIMIT));
+    RETURN_IF_ERROR(bq25619_write_register(i2c, BQ25619_REG_CHARGE_CURRENT_LIMIT, BQ25619_DEFAULT_CHARGE_CURRENT_LIMIT));
+    RETURN_IF_ERROR(bq25619_write_register(i2c, BQ25619_REG_PRECHARGE_TERM_CURRENT_LIMIT, BQ25619_DEFAULT_RECHARGE_TERM_CURRENT_LIMIT));
+    RETURN_IF_ERROR(bq25619_write_register(i2c, BQ25619_REG_CHARGE_VOLTAGE_LIMIT, BQ25619_DEFAULT_VOLTAGE_LIMIT));
+    RETURN_IF_ERROR(bq25619_write_register(i2c, BQ25619_REG_CONTROL1, BQ25619_DEFAULT_CONTROL1));
     return PICO_OK;
 }
 
