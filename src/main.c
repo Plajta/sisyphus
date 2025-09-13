@@ -122,6 +122,16 @@ int main() {
     while (true) {
         // Check for USB-CDC connection
         if (tud_cdc_connected()) {
+            #ifdef SISYPHUS_DEBUG
+            char buf[128];
+            // Get the things you wanna debug here
+            snprintf(buf, sizeof(buf), "DEBUG MODE ON, DO NOT SHIP!!!\r\n");
+            tud_cdc_write_str(buf);
+            tud_cdc_write_flush();
+            snprintf(buf, sizeof(buf), "DEBUG DATA: \r\n"); //add your debug data here
+            tud_cdc_write_str(buf);
+            tud_cdc_write_flush();
+            #endif
             protocol_loop();
         }
 
