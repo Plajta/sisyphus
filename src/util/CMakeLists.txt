@@ -17,3 +17,5 @@ target_compile_definitions(littlefs_pico PUBLIC
 target_include_directories(littlefs_pico PUBLIC littlefs-pico)
 
 target_link_libraries(littlefs_pico PUBLIC littlefs hardware_flash hardware_sync)
+
+add_subdirectory(error)
