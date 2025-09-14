@@ -7,7 +7,7 @@ It works as a visualiser for color data so we can calibrate better.
 import sys
 import protocol
 
-from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget, QHBoxLayout
+from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget, QHBoxLayout, QLabel
 from PyQt6.QtCharts import QChart, QChartView, QLineSeries, QValueAxis
 from PyQt6.QtGui import QPainter, QColor, QPen
 from PyQt6.QtCore import Qt
@@ -38,29 +38,46 @@ QPushButton:pressed {
 }
 """
 
+class ColorPreview(QWidget):
+    """A small widget that shows the current color in HSV space."""
+    def __init__(self):
+        super().__init__()
+        self.setFixedSize(80, 50)  # Small rectangle
+        self.color = QColor(0, 0, 0)  # Default black
+
+    def set_color(self, h, s, v):
+        """Update the displayed color from HSV values (h:0-360, s/v:0-100)."""
+        self.color.setHsvF(h/360.0, s/100.0, v/100.0)
+        self.update()  # Trigger repaint
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+        painter.fillRect(self.rect(), self.color)
+
 class ColorIntensityApp(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Color Intensity Graph (Dark Mode)")
+        self.setWindowTitle("Color measurement doohickey")
         self.setMinimumSize(800, 600)
 
         # --- Chart Setup ---
         self.chart = QChart()
         self.chart.setTheme(QChart.ChartTheme.ChartThemeDark)
-        self.chart.setTitle("Color Intensity Measurements")
+        self.chart.setTitle("Color measurements (HSV)")
 
         # --- Data Series ---
-        self.red_series = QLineSeries()
-        self.red_series.setName("Red")
-        self.red_series.setColor(QColor("#ff5555"))
+        self.hue_series = QLineSeries()
+        self.hue_series.setName("Hue")
+        self.hue_series.setColor(QColor("#ff55ff"))
 
-        self.green_series = QLineSeries()
-        self.green_series.setName("Green")
-        self.green_series.setColor(QColor("#55ff55"))
+        self.saturation_series = QLineSeries()
+        self.saturation_series.setName("Saturation")
+        self.saturation_series.setColor(QColor("#ffff55"))
 
-        self.blue_series = QLineSeries()
-        self.blue_series.setName("Blue")
-        self.blue_series.setColor(QColor("#5555ff"))
+        self.value_series = QLineSeries()
+        self.value_series.setName("Value")
+        self.value_series.setColor(QColor("#55ffff"))
 
         self.clear_series = QLineSeries()
         self.clear_series.setName("Clear")
@@ -68,7 +85,7 @@ class ColorIntensityApp(QMainWindow):
         clear_pen.setStyle(Qt.PenStyle.DashLine)
         self.clear_series.setPen(clear_pen)
 
-        for series in (self.red_series, self.green_series, self.blue_series, self.clear_series):
+        for series in (self.hue_series, self.saturation_series, self.value_series, self.clear_series):
             self.chart.addSeries(series)
 
         # --- Axes (Manual Creation) ---
@@ -80,11 +97,10 @@ class ColorIntensityApp(QMainWindow):
         self.chart.addAxis(self.axis_x, Qt.AlignmentFlag.AlignBottom)
 
         self.axis_y = QValueAxis()
-        self.axis_y.setTitleText("Intensity (0–255)")
-        self.axis_y.setRange(0, 255)
+        self.axis_y.setRange(0, 360)
         self.chart.addAxis(self.axis_y, Qt.AlignmentFlag.AlignLeft)
 
-        for series in (self.red_series, self.green_series, self.blue_series, self.clear_series):
+        for series in (self.hue_series, self.saturation_series, self.value_series, self.clear_series):
             series.attachAxis(self.axis_x)
             series.attachAxis(self.axis_y)
 
@@ -92,6 +108,10 @@ class ColorIntensityApp(QMainWindow):
         self.chart_view = QChartView(self.chart)
         self.chart_view.setRenderHint(QPainter.RenderHint.Antialiasing)
         self.measurement_count = 0
+
+        # --- HSV Preview Widget ---
+        self.color_preview = ColorPreview()
+        self.hsv_label = QLabel("Clear: --  H: --  S: --  V: --");
 
         # --- UI Controls ---
         self.new_button = QPushButton("New Measurement")
@@ -103,6 +123,9 @@ class ColorIntensityApp(QMainWindow):
         button_layout = QHBoxLayout()
         button_layout.addWidget(self.new_button)
         button_layout.addWidget(self.reset_button)
+        button_layout.addStretch()
+        button_layout.addWidget(self.hsv_label)
+        button_layout.addWidget(self.color_preview)
 
         main_layout = QVBoxLayout()
         main_layout.addWidget(self.chart_view)
@@ -118,17 +141,20 @@ class ColorIntensityApp(QMainWindow):
 
         color = device.measure()
 
-        self.red_series.append(self.measurement_count, color.red)
-        self.green_series.append(self.measurement_count, color.green)
-        self.blue_series.append(self.measurement_count, color.blue)
+        self.hue_series.append(self.measurement_count, color.hue)
+        self.saturation_series.append(self.measurement_count, color.saturation)
+        self.value_series.append(self.measurement_count, color.value)
         self.clear_series.append(self.measurement_count, color.clear)
+
+        self.color_preview.set_color(color.hue, color.saturation, color.value)
+        self.hsv_label.setText(f"Clear: {color.clear}  H: {color.hue:.1f}°  S: {color.saturation:.1f}%  V: {color.value:.1f}%")
 
         # Always grow the X-axis max (Qt ignores shrinking below current max)
         self.axis_x.setMax(self.measurement_count)
 
     def reset_plot(self):
         """Clears all data from the series and resets the view."""
-        for series in (self.red_series, self.green_series, self.blue_series, self.clear_series):
+        for series in (self.hue_series, self.saturation_series, self.value_series, self.clear_series):
             series.clear()
 
         self.measurement_count = 0

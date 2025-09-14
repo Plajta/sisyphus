@@ -243,7 +243,7 @@ void measure_command(){
     color_measurement colorm;
     color_read_sensor(&colorm);
     char measure_buffer[32];
-    snprintf(measure_buffer, sizeof(measure_buffer), "%d %d %d %d", colorm.red, colorm.green, colorm.blue, colorm.clear);
+    snprintf(measure_buffer, sizeof(measure_buffer), "%d %d %d %d", colorm.hue, colorm.saturation, colorm.value, colorm.clear);
     print_newline(measure_buffer);
 }
 

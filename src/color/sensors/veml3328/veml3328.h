@@ -33,5 +33,12 @@ typedef union {
     };
 } veml3328_cfg_reg;
 
+int veml3328_setup(i2c_inst_t *i2c);
+int veml3328_trigger(i2c_inst_t *i2c);
 int veml3328_shutdown(i2c_inst_t *i2c, bool shutdown);
 int veml3328_read_color(i2c_inst_t *i2c, color_measurement *color);
+
+// Debug code
+#ifdef SISYPHUS_DEBUG
+int veml3328_read_raw_color(i2c_inst_t *i2c, raw_color_measurement *color);
+#endif

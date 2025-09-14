@@ -211,7 +211,7 @@ sisyphus 7b82af1-dirty 1 2025-05-05,00:45:02 256 2 4096 1
 
 ## `measure`
 
-Get a color measurement from the device's color sensor.
+Get a color measurement from the device's color sensor. These are the actual values used for color detection with all color processing included.
 
 **Usage:**
 ```
@@ -220,17 +220,20 @@ measure
 
 **Device response:**
 ```
-<red> <green> <blue> <clear>
+<hue> <saturation> <value> <clear>
 ```
 
-Colors are returned in a decimal 8 bit format. Clear is the amount of ambient light.
+- `<hue>` - 0-360 - hue in degrees
+- `<saturation>` - 0-100 - saturation as a percentage
+- `<value>` - 0-100 - value as a percentage
+- `<clear>` - 0-255 - brightness in a 8 bit range
 
 Terminated by a newline.
 
 Example:
 
 ```
-4 8 2 17
+4 56 33 17
 ```
 
 ---

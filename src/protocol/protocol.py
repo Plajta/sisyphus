@@ -28,9 +28,9 @@ class ProtocolInfo:
 
 @dataclass
 class MeasuredColor:
-    red: int
-    green: int
-    blue: int
+    hue: int
+    saturation: int
+    value: int
     clear: int
 
 def find_serial_port(target_vid: int, target_pid: int):
@@ -192,8 +192,8 @@ class ProtocolClient:
 
         self.send_command("measure")
         data = self.readline().split(" ")
-        red, green, blue, clear = data
-        return MeasuredColor(int(red), int(green), int(blue), int(clear))
+        hue, saturation, value, clear = data
+        return MeasuredColor(int(hue), int(saturation), int(value), int(clear))
 
     def reset(self):
         """Reset the device to bootloader - BREAKS THE CONNECTION"""

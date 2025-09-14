@@ -211,9 +211,9 @@ class DeviceShell(cmd.Cmd):
     def do_measure(self, arg):
         "measure              Get a color measurement from the device's color sensor"
         color = self.device.measure()
-        console.print(f"[red]Red: {color.red}[/red]")
-        console.print(f"[green]Green: {color.green}[/green]")
-        console.print(f"[blue]Blue: {color.blue}[/blue]")
+        console.print(f"[magenta]Hue: {color.hue}[/magenta]")
+        console.print(f"[yellow]Saturation: {color.saturation}[/yellow]")
+        console.print(f"[cyan]Value: {color.value}[/cyan]")
         console.print(f"[white]Clear: {color.clear}[/white]")
 
     def complete_measure(self, text, line, begidx, endidx):
