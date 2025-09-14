@@ -4,4 +4,4 @@ add_library(color_sensor_veml3328 STATIC
 
 target_include_directories(color_sensor_veml3328 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-target_link_libraries(color_sensor_veml3328 PUBLIC hardware_i2c)
+target_link_libraries(color_sensor_veml3328 PUBLIC hardware_i2c error)

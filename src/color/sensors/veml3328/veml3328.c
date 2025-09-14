@@ -3,20 +3,13 @@
 #include <hardware/i2c.h>
 #include <hardware/gpio.h>
 #include <pico/error.h>
+#include "error.h"
 
 int veml3328_read_registers(i2c_inst_t *i2c, uint8_t cmd, uint16_t *value) {
-    int ret;
-
-    ret = i2c_write_blocking(i2c, VEML3328_I2C_ADDRESS, &cmd, 1, true);
-    if (ret < PICO_OK) {
-        return ret;
-    }
+    RETURN_IF_ERROR(i2c_write_blocking(i2c, VEML3328_I2C_ADDRESS, &cmd, 1, true));
 
     uint8_t buffer[2];
-    ret = i2c_read_blocking(i2c, VEML3328_I2C_ADDRESS, buffer, 2, false);
-    if (ret < PICO_OK) {
-        return ret;
-    }
+    RETURN_IF_ERROR(i2c_read_blocking(i2c, VEML3328_I2C_ADDRESS, buffer, 2, false));
     *value = buffer[0] | (buffer[1] << 8);
 
     return PICO_OK;
