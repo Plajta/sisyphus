@@ -150,7 +150,7 @@ int color_lut_load(){
     color_lut.data = color_entries;
     color_lut.len = color_count;
 
-    // Succesfuly read
+    // Successfully read
     return 0;
 }
 
