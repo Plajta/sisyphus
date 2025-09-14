@@ -44,7 +44,7 @@ static bool usb_background_task(repeating_timer_t *rt) {
     return true; // Keep repeating
 }
 
-#ifndef SISYFOSS_HAS_KEYBORD_CONTROLLER
+#ifndef SISYFOSS_HAS_KEYBOARD_CONTROLLER
 void button_interrupt(uint gpio, uint32_t events) {
     if(!tud_cdc_connected()){
         wakeup = true;
@@ -109,7 +109,7 @@ int main() {
     init_audio();
     err = color_init();
 
-    #ifndef SISYFOSS_HAS_KEYBORD_CONTROLLER
+    #ifndef SISYFOSS_HAS_KEYBOARD_CONTROLLER
     gpio_init(BUTTON_PIN);
     gpio_set_dir(BUTTON_PIN, GPIO_IN);
     gpio_pull_up(BUTTON_PIN);
