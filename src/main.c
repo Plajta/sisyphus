@@ -2,6 +2,7 @@
 #include <pico/time.h>
 #include <stdbool.h>
 #include <math.h>
+#include <stdio.h>
 #include <string.h>
 #include <bsp/board_api.h>
 #include "bq25619.h"
@@ -142,7 +143,16 @@ int main() {
 
         if (wakeup) {
             wakeup = false;
-            play_audio("audio.wav");
+
+            color_measurement color;
+            color_read_sensor(&color);
+            char c = color_lut_get_code(&color, 200, 170);
+            // 200 was just a shot i guessed and it seems to work, should probably be lowered
+            // 170 is measured specifically for Sisyfoss's experimental 3D model right now, should be treated as a test number
+
+            char filename[16]; // 16 should be enough
+            snprintf(filename, sizeof(filename), "%c_%d.wav", c, button_index);
+            play_audio(filename);
         }
     }
 
