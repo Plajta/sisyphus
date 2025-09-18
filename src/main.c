@@ -32,7 +32,12 @@ lfs_t lfs;
 volatile bool wakeup = false;
 volatile uint8_t button_index = 0;
 
+volatile bool trigger_color_scan = false;
+volatile bool trigger_audio = false;
+
 static repeating_timer_t usb_timer;
+
+char color_code = 0;
 
 i2c_inst_t *sisyfoss_i2c_inst = i2c_default;
 
@@ -42,15 +47,17 @@ static bool usb_background_task(repeating_timer_t *rt) {
     return true; // Keep repeating
 }
 
-#ifndef SISYFOSS_HAS_KEYBOARD_CONTROLLER
-void button_interrupt(uint gpio, uint32_t events) {
-    if(!tud_cdc_connected()){
-        wakeup = true;
-        button_index = 0;
-    }
+// Taken out so we can call it before loop and on trigger
+void scan_color(){
+    color_measurement color;
+    color_read_sensor(&color);
+    // 200 was just a shot i guessed and it seems to work, should probably be lowered
+    // 170 is measured specifically for Sisyfoss's experimental 3D model right now, should be treated as a test number
+    color_code = color_lut_get_code(&color, 200, 170);
 }
-#else
+
 void keyboard_interrupt(uint gpio, uint32_t events) {
+    #ifdef SISYFOSS_HAS_KEYBOARD_CONTROLLER
     if(!tca8418_k_int_available(sisyfoss_i2c_inst)){
         return;
     }
@@ -75,8 +82,18 @@ void keyboard_interrupt(uint gpio, uint32_t events) {
 
     // Clear the KE_INT interrupt bit by writing 1
     tca8418_k_int_reset(sisyfoss_i2c_inst);
+    #else // !SISYFOSS_HAS_KEYBOARD_CONTROLLER
+    if(!tud_cdc_connected()){
+        wakeup = true;
+        button_index = 0;
+    }
+    #endif // SISYFOSS_HAS_KEYBOARD_CONTROLLER
 }
-#endif
+
+void lid_detect_interrupt(uint gpio, uint32_t events) {
+    wakeup = true;
+    trigger_color_scan = true;
+}
 
 int main() {
     i2c_init(sisyfoss_i2c_inst, 100 * 1000);
@@ -111,12 +128,21 @@ int main() {
     gpio_init(BUTTON_PIN);
     gpio_set_dir(BUTTON_PIN, GPIO_IN);
     gpio_pull_up(BUTTON_PIN);
-    gpio_set_irq_enabled_with_callback(BUTTON_PIN, GPIO_IRQ_EDGE_FALL, true, &button_interrupt);
+    gpio_set_irq_enabled_with_callback(BUTTON_PIN, GPIO_IRQ_EDGE_FALL, true, &keyboard_interrupt);
     #else
     tca8418_init(sisyfoss_i2c_inst);
     tca8418_setup_keyboard(sisyfoss_i2c_inst, 0b1111, 0b1111);
     tca8418_setup_interrupt(&keyboard_interrupt);
     #endif
+
+    #ifdef SISYFOSS_LID_DETECT
+    gpio_init(SISYFOSS_LID_DETECT);
+    gpio_set_dir(SISYFOSS_LID_DETECT, GPIO_IN);
+    gpio_pull_up(SISYFOSS_LID_DETECT);
+    gpio_set_irq_enabled_with_callback(SISYFOSS_LID_DETECT, GPIO_IRQ_EDGE_FALL, true, &lid_detect_interrupt);
+    #endif
+
+    scan_color();
 
     while (true) {
         // Check for USB-CDC connection
@@ -140,17 +166,20 @@ int main() {
         }
 
         if (wakeup) {
+            if (trigger_color_scan) {
+                scan_color();
+                trigger_color_scan = false;
+            }
+
+            if(trigger_audio){
+                char filename[16]; // 16 should be enough
+                snprintf(filename, sizeof(filename), "%c_%d.wav", color_code, button_index);
+                play_audio(filename);
+
+                trigger_audio = false;
+            }
+
             wakeup = false;
-
-            color_measurement color;
-            color_read_sensor(&color);
-            char c = color_lut_get_code(&color, 200, 170);
-            // 200 was just a shot i guessed and it seems to work, should probably be lowered
-            // 170 is measured specifically for Sisyfoss's experimental 3D model right now, should be treated as a test number
-
-            char filename[16]; // 16 should be enough
-            snprintf(filename, sizeof(filename), "%c_%d.wav", c, button_index);
-            play_audio(filename);
         }
     }
 
