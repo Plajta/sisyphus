@@ -172,10 +172,11 @@ int main() {
             }
 
             if(trigger_audio){
-                char filename[16]; // 16 should be enough
-                snprintf(filename, sizeof(filename), "%c_%d.wav", color_code, button_index);
-                play_audio(filename);
-
+                if (color_code != 0){
+                    char filename[16]; // 16 should be enough
+                    snprintf(filename, sizeof(filename), "%c_%d.wav", color_code, button_index);
+                    play_audio(filename);
+                }
                 trigger_audio = false;
             }
 
