@@ -32,8 +32,6 @@ lfs_t lfs;
 volatile bool wakeup = false;
 volatile uint8_t button_index = 0;
 
-volatile uint8_t interrupts = 0;
-
 static repeating_timer_t usb_timer;
 
 i2c_inst_t *sisyfoss_i2c_inst = i2c_default;
