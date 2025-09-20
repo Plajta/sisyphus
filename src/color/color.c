@@ -155,19 +155,20 @@ int color_lut_load(){
 }
 
 int color_init() {
-    RETURN_IF_ERROR(color_lut_load());
-
     #ifdef SISYFOSS_AUX_SENSOR_LED
     gpio_init(SISYFOSS_AUX_SENSOR_LED);
     gpio_set_dir(SISYFOSS_AUX_SENSOR_LED, GPIO_OUT);
     gpio_put(SISYFOSS_AUX_SENSOR_LED, true);
     #endif
 
+    // Does not immediately return because LUT can be missing and that would leave a part of the device unitialized
+    int err = color_lut_load();
+
     #ifdef SISYFOSS_COLOR_VEML3328
-    veml3328_setup(sisyfoss_i2c_inst);
+    err = veml3328_setup(sisyfoss_i2c_inst);
     #endif
 
-    return PICO_OK;
+    return err;
 }
 
 int color_read_sensor(color_measurement *color) {
