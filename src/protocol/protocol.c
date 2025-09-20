@@ -247,6 +247,17 @@ void measure_command(){
     print_newline(measure_buffer);
 }
 
+#ifdef SISYPHUS_DEBUG
+void last_press_filename_command(){
+    extern char color_code;
+    extern volatile uint8_t button_index;
+    char filename[16]; // 16 should be enough
+    snprintf(filename, sizeof(filename), "%c_%d.wav", color_code, button_index);
+
+    print_newline(filename);
+}
+#endif // SISYPHUS_DEBUG
+
 void play_command(char *filename) {
     struct lfs_info info;
 
@@ -353,6 +364,12 @@ void handle_command(char *cmd) {
             return;
         }
     }
+    #ifdef SISYPHUS_DEBUG
+    else if (strcmp(args[0], "lastPressFilename") == 0)
+    {
+        last_press_filename_command();
+    }
+    #endif // SISYPHUS_DEBUG
     else{
         print_newline("err unknown command");
     }

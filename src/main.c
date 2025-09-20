@@ -56,8 +56,7 @@ void scan_color(){
     color_code = color_lut_get_code(&color, 200, 170);
 }
 
-void keyboard_interrupt(uint gpio, uint32_t events) {
-    #ifdef SISYFOSS_HAS_KEYBOARD_CONTROLLER
+void keyboard_interrupt() {
     if(!tca8418_k_int_available(sisyfoss_i2c_inst)){
         return;
     }
@@ -74,25 +73,37 @@ void keyboard_interrupt(uint gpio, uint32_t events) {
 
     while (tca8418_num_events(sisyfoss_i2c_inst) > 0) {
         tca8418_get_key_from_fifo(sisyfoss_i2c_inst, &value, &pressed);
+        button_index = value;
         if (pressed && !tud_cdc_connected()){
             wakeup = true;
-            button_index = value;
+            trigger_audio = true;
         }
     }
 
     // Clear the KE_INT interrupt bit by writing 1
     tca8418_k_int_reset(sisyfoss_i2c_inst);
-    #else // !SISYFOSS_HAS_KEYBOARD_CONTROLLER
-    if(!tud_cdc_connected()){
-        wakeup = true;
-        button_index = 0;
-    }
-    #endif // SISYFOSS_HAS_KEYBOARD_CONTROLLER
 }
 
-void lid_detect_interrupt(uint gpio, uint32_t events) {
-    wakeup = true;
-    trigger_color_scan = true;
+void gpio_irq_dispatcher(uint gpio, uint32_t events){
+    if (gpio == SISYFOSS_LID_DETECT && (events & GPIO_IRQ_EDGE_FALL)) {
+        wakeup = true;
+        trigger_color_scan = true;
+    }
+    else if (gpio == SISYFOSS_LID_DETECT && (events & GPIO_IRQ_EDGE_RISE)) {
+        color_code = 0;
+    }
+    #ifndef SISYFOSS_HAS_KEYBOARD_CONTROLLER
+    else if (gpio == BUTTON_PIN && (events & GPIO_IRQ_EDGE_FALL)) {
+        if(!tud_cdc_connected()){
+            wakeup = true;
+            button_index = 0;
+        }
+    }
+    #else
+    else if (gpio == SISYFOSS_KEYBOARD_INTERRUPT && (events & GPIO_IRQ_EDGE_FALL)) {
+        keyboard_interrupt();
+    }
+    #endif
 }
 
 int main() {
@@ -124,11 +135,13 @@ int main() {
     init_audio();
     err = color_init();
 
+    gpio_set_irq_callback(&gpio_irq_dispatcher);
+
     #ifndef SISYFOSS_HAS_KEYBOARD_CONTROLLER
     gpio_init(BUTTON_PIN);
     gpio_set_dir(BUTTON_PIN, GPIO_IN);
     gpio_pull_up(BUTTON_PIN);
-    gpio_set_irq_enabled_with_callback(BUTTON_PIN, GPIO_IRQ_EDGE_FALL, true, &keyboard_interrupt);
+    gpio_set_irq_enabled(BUTTON_PIN, GPIO_IRQ_EDGE_FALL, true);
     #else
     tca8418_init(sisyfoss_i2c_inst);
     tca8418_setup_keyboard(sisyfoss_i2c_inst, 0b1111, 0b1111);
@@ -139,8 +152,11 @@ int main() {
     gpio_init(SISYFOSS_LID_DETECT);
     gpio_set_dir(SISYFOSS_LID_DETECT, GPIO_IN);
     gpio_pull_up(SISYFOSS_LID_DETECT);
-    gpio_set_irq_enabled_with_callback(SISYFOSS_LID_DETECT, GPIO_IRQ_EDGE_FALL, true, &lid_detect_interrupt);
+    gpio_set_irq_enabled(SISYFOSS_LID_DETECT, GPIO_IRQ_EDGE_FALL | GPIO_IRQ_EDGE_RISE, true);
     #endif
+
+    // Enable GPIO IRQs
+    irq_set_enabled(IO_IRQ_BANK0, true);
 
     scan_color();
 
@@ -166,6 +182,8 @@ int main() {
         }
 
         if (wakeup) {
+            wakeup = false;
+
             if (trigger_color_scan) {
                 scan_color();
                 trigger_color_scan = false;
@@ -179,8 +197,6 @@ int main() {
                 }
                 trigger_audio = false;
             }
-
-            wakeup = false;
         }
     }
 
