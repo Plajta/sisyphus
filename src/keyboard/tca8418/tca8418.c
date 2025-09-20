@@ -53,7 +53,7 @@ void tca8418_setup_interrupt(gpio_irq_callback_t callback) {
     gpio_init(SISYFOSS_KEYBOARD_INTERRUPT);
     gpio_set_dir(SISYFOSS_KEYBOARD_INTERRUPT, GPIO_IN);
     gpio_pull_up(SISYFOSS_KEYBOARD_INTERRUPT);
-    gpio_set_irq_enabled_with_callback(SISYFOSS_KEYBOARD_INTERRUPT, GPIO_IRQ_EDGE_FALL, true, callback);
+    gpio_set_irq_enabled(SISYFOSS_KEYBOARD_INTERRUPT, GPIO_IRQ_EDGE_FALL, true);
 }
 
 bool tca8418_k_int_available(i2c_inst_t *i2c) {
