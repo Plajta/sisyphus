@@ -185,17 +185,17 @@ int main() {
             wakeup = false;
 
             if (trigger_color_scan) {
-                scan_color();
                 trigger_color_scan = false;
+                scan_color();
             }
 
             if(trigger_audio){
+                trigger_audio = false;
                 if (color_code != 0){
                     char filename[16]; // 16 should be enough
                     snprintf(filename, sizeof(filename), "%c_%d.wav", color_code, button_index);
                     play_audio(filename);
                 }
-                trigger_audio = false;
             }
         }
     }
