@@ -25,20 +25,21 @@
 typedef union {
     struct {
         // STATUS_0 register
-        bool sys_regulation       : 1; // Bit 7
-        bool termal_regulated     : 1; // Bit 6
-        bool power_good           : 1; // Bit 5
+        uint8_t vbus_status       : 3; // Bits 7-5
         uint8_t charge_status     : 2; // Bits 4-3
-        uint8_t v_bus             : 3; // Bits 2-0
+        bool power_good           : 1; // Bit 2
+        bool termal_regulated     : 1; // Bit 1
+        bool sys_regulation       : 1; // Bit 0
 
         // STATUS_2 register
-        bool adapter_overvoltage  : 1; // Bit 7
-        bool top_off_timer_active : 1; // Bit 6
-        bool reserved1            : 1; // Bit 5
-        bool cin_dpm_mode         : 1; // Bit 4 // Input dynamic current management
-        bool vin_dpm_mode         : 1; // Bit 3 // Input dynamic voltage management
-        bool source_good          : 1; // Bit 2
-        uint8_t __reserved2       : 2; // Bits 1-0
+        bool vbus_source_good     : 1; // Bit 7
+        bool vin_dpm_mode         : 1; // Bit 6 // Input dynamic voltage management
+        bool cin_dpm_mode         : 1; // Bit 5 // Input dynamic current management
+        bool bat_sense_ok         : 1; // Bit 4
+        bool in_topoff            : 1; // Bit 3
+        bool acov_mode            : 1; // Bit 2
+        bool vin_dpm_irq          : 1; // Bit 1
+        bool cin_dpm_irq          : 1; // Bit 0
     };
     struct {
         uint8_t raw_status0;
