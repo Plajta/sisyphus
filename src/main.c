@@ -1,13 +1,11 @@
 #include <hardware/gpio.h>
 #include <pico/time.h>
 #include <stdbool.h>
-#include <math.h>
 #include <stdio.h>
-#include <string.h>
 #include <bsp/board_api.h>
 #include "bq25619.h"
 #include "class/cdc/cdc_device.h"
-#include "pico/binary_info.h"
+#include "pico/binary_info.h" // IWYU pragma: keep
 #include <tusb.h>
 #include "protocol.h"
 #include "hardware/i2c.h"
