@@ -22,28 +22,42 @@
 #define NTC_TEMP_COLD 5
 #define NTC_TEMP_HOT 6
 
-typedef struct {
-    uint8_t v_bus;
-    uint8_t charge_status;
-    bool power_good;
-    bool termal_regulated;
-    bool sys_regulation;
-    bool source_good;
-    bool vin_dpm_mode; // Input dynamic voltage management
-    bool cin_dpm_mode; // Input dynamic current management
-    bool top_off_timer_active;
-    bool adapter_overvoltage;
+typedef union {
+    struct {
+        // STATUS_0 register
+        bool sys_regulation       : 1; // Bit 7
+        bool termal_regulated     : 1; // Bit 6
+        bool power_good           : 1; // Bit 5
+        uint8_t charge_status     : 2; // Bits 4-3
+        uint8_t v_bus             : 3; // Bits 2-0
+
+        // STATUS_2 register
+        bool adapter_overvoltage  : 1; // Bit 7
+        bool top_off_timer_active : 1; // Bit 6
+        bool reserved1            : 1; // Bit 5
+        bool cin_dpm_mode         : 1; // Bit 4 // Input dynamic current management
+        bool vin_dpm_mode         : 1; // Bit 3 // Input dynamic voltage management
+        bool source_good          : 1; // Bit 2
+        uint8_t __reserved2       : 2; // Bits 1-0
+    };
+    struct {
+        uint8_t raw_status0;
+        uint8_t raw_status2;
+    };
+    uint16_t raw_all;
 } bq25619_status;
 
-typedef struct {
-    uint8_t charge_fault;
-    uint8_t ntc_temp;
-    bool watchdog_expired;
-    bool boost_fault;
-    bool battery_overvoltage;
+typedef union {
+    struct {
+        bool watchdog_expired      : 1; // Bit 7
+        bool boost_fault           : 1; // Bit 6
+        uint8_t charge_fault       : 2; // Bits 4-5
+        bool battery_overvoltage   : 1; // Bit 3
+        uint8_t ntc_temp           : 3; // Bits 0-2
+    };
+    uint8_t raw_status1;
 } bq25619_fault_status;
 
 int bq25619_init(i2c_inst_t *i2c);
 int bq25619_read_status(i2c_inst_t *i2c, bq25619_status *status);
 int bq25619_read_fault_status(i2c_inst_t *i2c, bq25619_fault_status *fault_status);
-uint8_t bq25619_test(i2c_inst_t *i2c);

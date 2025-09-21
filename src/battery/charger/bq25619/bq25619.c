@@ -27,19 +27,8 @@ int bq25619_write_register(i2c_inst_t *i2c, uint8_t reg, uint8_t value) {
 }
 
 int bq25619_read_status(i2c_inst_t *i2c, bq25619_status *status){
-    uint8_t raw_status;
-    RETURN_IF_ERROR(bq25619_read_register(i2c, BQ25619_REG_STATUS_0, &raw_status));
-    status->v_bus = raw_status >> 5;
-    status->charge_status = (raw_status >> 3) & 0x3;
-    status->power_good = raw_status & 0x4;
-    status->termal_regulated = raw_status & 0x2;
-    status->sys_regulation = raw_status & 0x1;
-    RETURN_IF_ERROR(bq25619_read_register(i2c, BQ25619_REG_STATUS_2, &raw_status));
-    status->source_good = raw_status & 0x80;
-    status->vin_dpm_mode = raw_status & 0x40;
-    status->cin_dpm_mode = raw_status & 0x20;
-    status->top_off_timer_active = raw_status & 0x08;
-    status->adapter_overvoltage = raw_status & 0x04;
+    RETURN_IF_ERROR(bq25619_read_register(i2c, BQ25619_REG_STATUS_0, &status->raw_status0));
+    RETURN_IF_ERROR(bq25619_read_register(i2c, BQ25619_REG_STATUS_2, &status->raw_status2));
     return PICO_OK;
 }
 
