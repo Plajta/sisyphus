@@ -32,122 +32,62 @@ int bq25619_read_status(i2c_inst_t *i2c, bq25619_status *status){
     return PICO_OK;
 }
 
-int bq25619_read_fault(i2c_inst_t *i2c, bq25619_fault_status *status){
-    uint8_t raw_status;
-    RETURN_IF_ERROR(bq25619_read_register(i2c, BQ25619_REG_STATUS_1, &raw_status));
-    status->watchdog_expired = raw_status & 0x80;
-    status->boost_fault = raw_status & 0x40;
-    status->charge_fault = (raw_status >> 4) & 0x3;
-    status->battery_overvoltage = raw_status & 0x08;
-    status->ntc_temp = raw_status & 0x7;
-    return PICO_OK;
-}
-
-int bq25619_power_from_adapter(i2c_inst_t *i2c, bool enable){
+int bq25619_set_input_current_limit(i2c_inst_t *i2c, int max_current){
+    bq25619_input_settings s;
+    RETURN_IF_ERROR(bq25619_read_register(i2c, BQ25619_REG_INPUT_CURRENT_LIMIT, &s.raw_input_settings));
+    s.input_current_limit = max_current / BQ25619_INPUT_CURRENT_STEP;
+    RETURN_IF_ERROR(bq25619_write_register(i2c, BQ25619_REG_INPUT_CURRENT_LIMIT, s.raw_input_settings));
     return PICO_OK;
 }
 
 int bq25619_set_TS_ignore(i2c_inst_t *i2c, bool enable){
+    bq25619_input_settings s;
+    RETURN_IF_ERROR(bq25619_read_register(i2c, BQ25619_REG_INPUT_CURRENT_LIMIT, &s.raw_input_settings));
+    s.ignore_ts = enable;
+    RETURN_IF_ERROR(bq25619_write_register(i2c, BQ25619_REG_INPUT_CURRENT_LIMIT, s.raw_input_settings));
     return PICO_OK;
 }
 
-
-int bq25619_set_bat_sense(i2c_inst_t *i2c, bool enable){
-    return PICO_OK;
-}
-
-int bq25619_set_input_cutrent_limit(i2c_inst_t *i2c, int max_current){
-    return PICO_OK;
-}
-
-int bq25619_set_boost_mode(i2c_inst_t *i2c, bool enable){
-    return PICO_OK;
-}
-
-int bq25619_set_charging(i2c_inst_t *i2c, bool enable){
-    return PICO_OK;
-}
-
-int bq25619_set_sys_min(i2c_inst_t *i2c, int min_voltage){
-    return PICO_OK;
-}
-
-int bq25619_set_vbat_min_in_boost(i2c_inst_t *i2c, bool mode){
-    return PICO_OK;
-}
-
-
-int bq25619_set_q1_mode(i2c_inst_t *i2c, bool mode){
-    return PICO_OK;
-}
-
-int bq25619_set_charge_cutrent_limit(i2c_inst_t *i2c, int max_current){
-    return PICO_OK;
-}
-
-int bq25619_set_precharge_cutrent_limit(i2c_inst_t *i2c, int max_current){
-    return PICO_OK;
-}
-
-int bq25619_set_termination_cutrent_limit(i2c_inst_t *i2c, int max_current){
+int bq25619_set_charge_current_limit(i2c_inst_t *i2c, int max_current){
+    bq25619_charge_settings s;
+    RETURN_IF_ERROR(bq25619_read_register(i2c, BQ25619_REG_CHARGE_CURRENT_LIMIT, &s.raw_charge_settings));
+    s.charge_current_limit = BQ25619_ENCODE_CHARGE_CURRENT(max_current);
+    RETURN_IF_ERROR(bq25619_write_register(i2c, BQ25619_REG_CHARGE_CURRENT_LIMIT, s.raw_charge_settings));
     return PICO_OK;
 }
 
 int bq25619_set_vbat_limit(i2c_inst_t *i2c, int max_voltage){
+    bq25619_battery_settings s;
+    RETURN_IF_ERROR(bq25619_read_register(i2c, BQ25619_REG_BATTERY_SETTINGS, &s.raw_battery_settings));
+    s.max_battery_voltage = BQ25619_ENCODE_CHARGE_VOLTAGE(max_voltage);
+    RETURN_IF_ERROR(bq25619_write_register(i2c, BQ25619_REG_BATTERY_SETTINGS, s.raw_battery_settings));
     return PICO_OK;
 }
 
-int bq25619_set_topoff_timer(i2c_inst_t *i2c, int time_mode){
+int bq25619_set_precharge_current_limit(i2c_inst_t *i2c, int max_current){
+    bq25619_precharge_termination_settings s;
+    RETURN_IF_ERROR(bq25619_read_register(i2c, BQ25619_REG_PRECHARGE_TERM_CURRENT_LIMIT, &s.raw_precharge_termination_settings));
+    s.precharge_current_limit = max_current / BQ25619_PRECHARGE_CURRENT_STEP;
+    RETURN_IF_ERROR(bq25619_write_register(i2c, BQ25619_REG_PRECHARGE_TERM_CURRENT_LIMIT, s.raw_precharge_termination_settings));
     return PICO_OK;
 }
 
-int bq25619_set_recharge_threshold(i2c_inst_t *i2c, bool mode){
+int bq25619_set_termination_current_limit(i2c_inst_t *i2c, int max_current){
+    bq25619_precharge_termination_settings s;
+    RETURN_IF_ERROR(bq25619_read_register(i2c, BQ25619_REG_PRECHARGE_TERM_CURRENT_LIMIT, &s.raw_precharge_termination_settings));
+    s.termination_current_limit = max_current / BQ25619_TERMINATION_CURRENT_STEP;
+    RETURN_IF_ERROR(bq25619_write_register(i2c, BQ25619_REG_PRECHARGE_TERM_CURRENT_LIMIT, s.raw_precharge_termination_settings));
     return PICO_OK;
 }
-
-int bq25619_set_termination_charging(i2c_inst_t *i2c, bool enable){
-    return PICO_OK;
-}
-
-int bq25619_set_watchdog_timer(i2c_inst_t *i2c, bool enable){
-    return PICO_OK;
-}
-
-int bq25619_set_charge_safety_timer(i2c_inst_t *i2c, bool enable){
-    return PICO_OK;
-}
-
-int bq25619_set_fastcharge_safety_timer(i2c_inst_t *i2c, bool enable){
-    return PICO_OK;
-}
-
-int bq25619_set_termal_regualation_threshold(i2c_inst_t *i2c, bool threshold){
-    return PICO_OK;
-}
-
-int bq25619_set_boost_voltage(i2c_inst_t *i2c, int threshold){
-    return PICO_OK;
-}
-
-int bq25619_disconnect_battery(i2c_inst_t *i2c, bool immediately){
-    return PICO_OK;
-}
-
-
-int bq25619_set_max_vin_drop(i2c_inst_t *i2c, int threshold){
-    return PICO_OK;
-}
-
 
 int bq25619_set_defaults(i2c_inst_t *i2c){
-    RETURN_IF_ERROR(bq25619_write_register(i2c, BQ25619_REG_INPUT_CURRENT_LIMIT, BQ25619_DEFAULT_INPUT_CURRENT_LIMIT));
-    RETURN_IF_ERROR(bq25619_write_register(i2c, BQ25619_REG_CHARGE_CURRENT_LIMIT, BQ25619_DEFAULT_CHARGE_CURRENT_LIMIT));
-    RETURN_IF_ERROR(bq25619_write_register(i2c, BQ25619_REG_PRECHARGE_TERM_CURRENT_LIMIT, BQ25619_DEFAULT_RECHARGE_TERM_CURRENT_LIMIT));
-    RETURN_IF_ERROR(bq25619_write_register(i2c, BQ25619_REG_CHARGE_VOLTAGE_LIMIT, BQ25619_DEFAULT_VOLTAGE_LIMIT));
-    RETURN_IF_ERROR(bq25619_write_register(i2c, BQ25619_REG_CONTROL1, BQ25619_DEFAULT_CONTROL1));
+    RETURN_IF_ERROR(bq25619_set_charge_current_limit(i2c, BQ25619_DEFAULT_CHARGE_CURRENT_LIMIT));
+    RETURN_IF_ERROR(bq25619_set_vbat_limit(i2c, BQ25619_DEFAULT_CHARGE_VOLTAGE_LIMIT));
+    RETURN_IF_ERROR(bq25619_set_precharge_current_limit(i2c, BQ25619_DEFAULT_PRECHARGE_CURRENT_LIMIT));
+    RETURN_IF_ERROR(bq25619_set_termination_current_limit(i2c, BQ25619_DEFAULT_TERMINATION_CURRENT_LIMIT));
+    RETURN_IF_ERROR(bq25619_set_input_current_limit(i2c, BQ25619_DEFAULT_INPUT_CURRENT_LIMIT));
     return PICO_OK;
 }
-
 
 void bq25619_irq_callback(uint gpio, uint32_t event_mask){
     return;
