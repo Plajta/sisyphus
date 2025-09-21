@@ -22,6 +22,12 @@
 #define NTC_TEMP_COLD 5
 #define NTC_TEMP_HOT 6
 
+#define BQ25619_DEFAULT_CHARGE_CURRENT_LIMIT SISYFOSS_PMIC_MAX_CHARGE_CURRENT
+#define BQ25619_DEFAULT_INPUT_CURRENT_LIMIT SISYFOSS_PMIC_MAX_INPUT_CURRENT
+#define BQ25619_DEFAULT_CHARGE_VOLTAGE_LIMIT SISYFOSS_PMIC_MAX_CHARGE_VOLTAGE
+#define BQ25619_DEFAULT_PRECHARGE_CURRENT_LIMIT SISYFOSS_PMIC_MAX_PRECHARGE_CURRENT
+#define BQ25619_DEFAULT_TERMINATION_CURRENT_LIMIT SISYFOSS_PMIC_MAX_TERMINATION_CURRENT
+
 typedef union {
     struct {
         // STATUS_2 register
@@ -38,8 +44,8 @@ typedef union {
         bool sys_regulation       : 1; // Bit 0
         bool termal_regulated     : 1; // Bit 1
         bool power_good           : 1; // Bit 2
-        uint8_t charge_status     : 2; // Bits 4-3
-        uint8_t vbus_status       : 3; // Bits 7-5
+        uint8_t charge_status     : 2; // Bits 3-4
+        uint8_t vbus_status       : 3; // Bits 5-7
     };
     struct {
         uint8_t raw_status2;
@@ -50,11 +56,11 @@ typedef union {
 
 typedef union {
     struct {
-        bool watchdog_expired      : 1; // Bit 7
-        bool boost_fault           : 1; // Bit 6
-        uint8_t charge_fault       : 2; // Bits 4-5
-        bool battery_overvoltage   : 1; // Bit 3
         uint8_t ntc_temp           : 3; // Bits 0-2
+        bool battery_overvoltage   : 1; // Bit 3
+        uint8_t charge_fault       : 2; // Bits 4-5
+        bool boost_fault           : 1; // Bit 6
+        bool watchdog_expired      : 1; // Bit 7
     };
     uint8_t raw_status1;
 } bq25619_fault_status;

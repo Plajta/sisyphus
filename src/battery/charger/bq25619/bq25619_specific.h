@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdbool.h>
+#include <stdint.h>
 
 //  --- REGISTERS ---
 #define BQ25619_I2C_ADDRESS 0x6A
@@ -7,76 +9,88 @@
 #define BQ25619_REG_INPUT_CURRENT_LIMIT 0x00
 #define BQ25619_REG_CHARGE_CURRENT_LIMIT 0x02
 #define BQ25619_REG_PRECHARGE_TERM_CURRENT_LIMIT 0x03
-#define BQ25619_REG_CHARGE_VOLTAGE_LIMIT 0x04
+#define BQ25619_REG_BATTERY_SETTINGS 0x04
 #define BQ25619_REG_CONTROL1 0x05
 #define BQ25619_REG_STATUS_0 0x08
 #define BQ25619_REG_STATUS_1 0x09
 #define BQ25619_REG_STATUS_2 0x0A
 
-//  --- SPECIFIC VALUES ---
-#define BQ25619_MAX_INPUT_CURRENT_LIMIT 1600
-#define BQ25619_MAX_CHARGE_CURRENT_LIMIT_LINEAR 1180
-enum {
-    BQ25619_MAX_CHARGE_CURRENT_LIMIT_1290MA = 0b111100,
-    BQ25619_MAX_CHARGE_CURRENT_LIMIT_1360MA = 0b111101,
-    BQ25619_MAX_CHARGE_CURRENT_LIMIT_1430MA = 0b111110,
-    BQ25619_MAX_CHARGE_CURRENT_LIMIT_1500MA = 0b111111
-};
+//  --- VALUES ---
+#define BQ25619_INPUT_CURRENT_STEP 100
+#define BQ25619_CHARGE_CURRENT_STEP 20
+#define BQ25619_PRECHARGE_CURRENT_STEP 20
+#define BQ25619_TERMINATION_CURRENT_STEP 20
+#define BQ25619_CHARGE_VOLTAGE_STEP 10
 
-#define BQ25619_MAX_TERMINATION_CURRENT_LIMIT 260
-#define BQ25619_MAX_PRECHARGE_CURRENT_LIMIT 260
+typedef union {
+    struct {
+        uint8_t input_current_limit     : 5; // Bits 0-4
+        bool disable_bat_sense_pin      : 1; // Bit 5
+        bool ignore_ts                  : 1; // Bit 6
+        bool disconnect_battery         : 1; // Bit 7
+    };
+    uint8_t raw_input_settings;
+} bq25619_input_settings;
 
-//  --- MASKS ---
-#define BQ25619_IGNORE_TS_MASK 0x40
-#define BQ25619_DISABLE_BAT_SENSE_PIN_MASK 0x20
+typedef union {
+    struct {
+        uint8_t charge_current_limit    : 7; // Bits 0-6
+        uint8_t __reserved              : 1; // Bit 7
+    };
+    uint8_t raw_charge_settings;
+} bq25619_charge_settings;
 
+typedef union {
+    struct {
+        uint8_t termination_current_limit : 4; // Bits 0-3
+        uint8_t precharge_current_limit   : 4; // Bits 4-7
+    };
+    uint8_t raw_precharge_termination_settings;
+} bq25619_precharge_termination_settings;
+
+typedef union {
+    struct {
+        bool recharge_threshold             : 1; // Bit 0
+        uint8_t termination_current_limit   : 2; // Bits 1-2
+        uint8_t max_battery_voltage         : 5; // Bits 3-7
+    };
+    uint8_t raw_battery_settings;
+} bq25619_battery_settings;
+
+typedef union {
+    struct {
+        bool jeita_battery_voltage      : 1; // Bit 0
+        bool thermal_threshold          : 1; // Bit 1
+        bool charge_timer               : 1; // Bit 2
+        bool enable_safety_timer        : 1; // Bit 3
+        uint8_t watchdog_timer          : 2; // Bits 4-5
+        uint8_t __reserved              : 1; // Bit 6
+        bool en_termination             : 1; // Bit 7
+    };
+    uint8_t raw_safety_settings;
+} bq25619_safety_settings;
 
 // --- MACROS ---
-
-#define BQ25619_ENCODE_CHARGE_CURRENT(ma) ( \
-    ((ma) >= 1500) ? 0b111111 :             \
-    ((ma) >= 1430) ? 0b111110 :             \
-    ((ma) >= 1360) ? 0b111101 :             \
-    ((ma) >= 1290) ? 0b111100 :             \
-    (((ma) / 20) > 59) ? 59 : ((ma) / 20)   \
+#define BQ25619_ENCODE_CHARGE_CURRENT(ma) (     \
+    ((ma) >= 1500) ? 0b111111 :                 \
+    ((ma) >= 1430) ? 0b111110 :                 \
+    ((ma) >= 1360) ? 0b111101 :                 \
+    ((ma) >= 1290) ? 0b111100 :                 \
+    ((ma) >= 1180) ? 0b111011 :                 \
+    (ma / BQ25619_CHARGE_CURRENT_STEP)          \
 )
 
-#define BQ25619_ENCODE_CHARGE_VOLTAGE(voltage_mv) ( \
-    (voltage_mv <= 3504) ? 0b00000 : \
-    (voltage_mv <= 3600) ? 0b00001 : \
-    (voltage_mv <= 3696) ? 0b00010 : \
-    (voltage_mv <= 3800) ? 0b00011 : \
-    (voltage_mv <= 3904) ? 0b00100 : \
-    (voltage_mv <= 4000) ? 0b00101 : \
-    (voltage_mv <= 4100) ? 0b00110 : \
-    (voltage_mv <= 4150) ? 0b00111 : \
-    (voltage_mv <= 4200) ? 0b01000 : \
-    ((voltage_mv >= 4300 && voltage_mv <= 4520) ? (((voltage_mv - 4300) / 10) + 0b01001) : 0xFF) \
+#define BQ25619_ENCODE_CHARGE_VOLTAGE(voltage_mv) (                 \
+    (voltage_mv <= 3504) ? 0b00000 :                                \
+    (voltage_mv <= 3600) ? 0b00001 :                                \
+    (voltage_mv <= 3696) ? 0b00010 :                                \
+    (voltage_mv <= 3800) ? 0b00011 :                                \
+    (voltage_mv <= 3904) ? 0b00100 :                                \
+    (voltage_mv <= 4000) ? 0b00101 :                                \
+    (voltage_mv <= 4100) ? 0b00110 :                                \
+    (voltage_mv <= 4150) ? 0b00111 :                                \
+    (voltage_mv <= 4200) ? 0b01000 :                                \
+    (voltage_mv <= 4300) ? 0b01001 :                                \
+    (voltage_mv >= 4520) ? 0b11111 :                                \
+    ((voltage_mv - 4300) / BQ25619_CHARGE_VOLTAGE_STEP + 0b01001)   \
 )
-
-
-#define BQ25619_MAKE_INPUT_CURRENT_LIMIT(current_ma, ignore_ts, ignore_bat_sense) \
-    BQ25619_DISABLE_BAT_SENSE_PIN_MASK * (ignore_bat_sense) +                  \
-    BQ25619_IGNORE_TS_MASK * (ignore_ts) +                                     \
-    ((current_ma >= BQ25619_MAX_INPUT_CURRENT_LIMIT)                           \
-        ? BQ25619_MAX_INPUT_CURRENT_LIMIT : current_ma) / 100
-
-// --- DEFAULT VALUES ---
-
-#define BQ25619_DISABLE_BAT_SENSE 1
-#define BQ25619_SET_CHARGE_THRESHOLD 1
-
-#define BQ25619_DEFAULT_INPUT_CURRENT_LIMIT \
-    BQ25619_MAKE_INPUT_CURRENT_LIMIT(SISYFOSS_PMIC_MAX_INPUT_CURRENT, SISYFOSS_PMIC_IGNORE_TS, BQ25619_DISABLE_BAT_SENSE)
-
-#define BQ25619_DEFAULT_CHARGE_CURRENT_LIMIT BQ25619_ENCODE_CHARGE_CURRENT(SISYFOSS_PMIC_MAX_CHARGE_CURRENT)
-#define BQ25619_DEFAULT_RECHARGE_TERM_CURRENT_LIMIT \
-    ((SISYFOSS_PMIC_MAX_TERMINATION_CURRENT >= BQ25619_MAX_TERMINATION_CURRENT_LIMIT) ? \
-    BQ25619_MAX_TERMINATION_CURRENT_LIMIT : SISYFOSS_PMIC_MAX_TERMINATION_CURRENT) / 20 + \
-    \
-    ((((SISYFOSS_PMIC_MAX_PRECHARGE_CURRENT >= BQ25619_MAX_PRECHARGE_CURRENT_LIMIT) ? \
-    BQ25619_MAX_PRECHARGE_CURRENT_LIMIT : SISYFOSS_PMIC_MAX_PRECHARGE_CURRENT) / 20) << 4)
-
-#define BQ25619_DEFAULT_VOLTAGE_LIMIT (BQ25619_ENCODE_CHARGE_VOLTAGE(SISYFOSS_PMIC_MAX_CHARGE_VOLTAGE) << 3) + BQ25619_SET_CHARGE_THRESHOLD
-
-#define BQ25619_DEFAULT_CONTROL1 0b10011100 // Yep mby in future I will do this better, here is default values but MAX IC temperature is set to 90°C
