@@ -9,7 +9,7 @@
 
 #include "lfs.h"
 #include "pico/audio.h"
-#include "pico/binary_info.h"
+#include "pico/binary_info.h" // IWYU pragma: keep
 #include "pico/audio_i2s.h"
 #include "audio.h"
 
