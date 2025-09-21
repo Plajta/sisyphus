@@ -13,6 +13,7 @@
 #include "color.h"
 #include "tca8418.h"
 #include "ws2812.h"
+#include "lightshow.h"
 
 #include "littlefs-pico.h"
 
@@ -37,6 +38,8 @@ volatile bool trigger_audio = false;
 static repeating_timer_t usb_timer;
 
 char color_code = 0;
+
+int8_t system_status_code;
 
 i2c_inst_t *sisyfoss_i2c_inst = i2c_default;
 
@@ -110,6 +113,8 @@ int main() {
     // First of all get the status LED, so errors can be shown
     int err = ws2812_init(PICO_DEFAULT_WS2812_PIN);
     hard_assert(err);
+
+    lightshow_bootup_sequence(&system_status_code);
     #endif
 
     i2c_init(sisyfoss_i2c_inst, 100 * 1000);
