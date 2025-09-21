@@ -12,6 +12,7 @@
 #include "audio.h"
 #include "color.h"
 #include "tca8418.h"
+#include "ws2812.h"
 
 #include "littlefs-pico.h"
 
@@ -105,6 +106,12 @@ void gpio_irq_dispatcher(uint gpio, uint32_t events){
 }
 
 int main() {
+    #ifdef PICO_DEFAULT_WS2812_PIN
+    // First of all get the status LED, so errors can be shown
+    int err = ws2812_init(PICO_DEFAULT_WS2812_PIN);
+    hard_assert(err);
+    #endif
+
     i2c_init(sisyfoss_i2c_inst, 100 * 1000);
     gpio_set_function(PICO_DEFAULT_I2C_SDA_PIN, GPIO_FUNC_I2C);
     gpio_set_function(PICO_DEFAULT_I2C_SCL_PIN, GPIO_FUNC_I2C);
@@ -123,7 +130,7 @@ int main() {
     gpio_put(SISYFOSS_I2S_ENABLE, 1);
     #endif
 
-    int err = pico_lfs_init(&lfs);
+    err = pico_lfs_init(&lfs);
 
     if (err) {
         sleep_ms(5000);
