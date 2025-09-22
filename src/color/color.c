@@ -118,7 +118,7 @@ int color_lut_load(){
             while ((p - buffer) < i && isspace((unsigned char)*p)) p++; // Skip whitespace, with safety
 
             // Get color code name
-            char color_name = *p;
+            char color_name = *p++;
 
             if (!isalpha((unsigned char)color_name)) {
                 // Bad color code
