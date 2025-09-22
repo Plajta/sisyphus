@@ -1,4 +1,5 @@
 #include <hardware/gpio.h>
+#include <pico/error.h>
 #include <pico/time.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -37,7 +38,8 @@ volatile bool trigger_audio = false;
 
 static repeating_timer_t usb_timer;
 
-char color_code = 0;
+struct color_matched_entry matched_color;
+bool matched_color_valid = false;
 
 int8_t system_status_code;
 
@@ -55,7 +57,7 @@ void scan_color(){
     color_read_sensor(&color);
     // 200 was just a shot i guessed and it seems to work, should probably be lowered
     // 170 is measured specifically for Sisyfoss's experimental 3D model right now, should be treated as a test number
-    color_code = color_lut_get_code(&color, 200, 170);
+    matched_color_valid = (color_lut_get_entry(&color, &matched_color, 200, 170) == PICO_OK);
 }
 
 void keyboard_interrupt() {
@@ -92,7 +94,7 @@ void gpio_irq_dispatcher(uint gpio, uint32_t events){
         trigger_color_scan = true;
     }
     else if (gpio == SISYFOSS_LID_DETECT && (events & GPIO_IRQ_EDGE_RISE)) {
-        color_code = 0;
+        matched_color_valid = false;
     }
     #ifndef SISYFOSS_HAS_KEYBOARD_CONTROLLER
     else if (gpio == BUTTON_PIN && (events & GPIO_IRQ_EDGE_FALL)) {
@@ -201,9 +203,9 @@ int main() {
 
             if(trigger_audio){
                 trigger_audio = false;
-                if (color_code != 0){
+                if (matched_color_valid){
                     char filename[16]; // 16 should be enough
-                    snprintf(filename, sizeof(filename), "%c_%d.wav", color_code, button_index);
+                    snprintf(filename, sizeof(filename), "%c_%d.wav", matched_color.name, button_index);
                     play_audio(filename);
                 }
             }

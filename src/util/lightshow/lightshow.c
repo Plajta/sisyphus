@@ -1,9 +1,12 @@
 #include "lightshow.h"
+#include "color.h"
 #include "ws2812.h"
 
 volatile float t = 0.0f;
 
 volatile bool led_light_state = false;
+
+extern struct color_matched_entry matched_color;
 
 volatile uint blink_cycles = 0;
 #define LIGHTSHOW_POST_FADEON_BLINK_CYCLES 3
@@ -20,7 +23,7 @@ int64_t lightshow_blink_alarm_callback(alarm_id_t id, __unused void *user_data) 
     else {
         blink_cycles++;
         led_light_state = true;
-        ws2812_put_color(0xAA0000); // Placeholder color
+        ws2812_put_color(matched_color.led_color_representation);
     }
 
     return LIGHTSHOW_POST_FADEON_BLINK_CYCLE_DELAY_MS * 1000; // It's in us
@@ -39,7 +42,9 @@ bool lightshow_poweron_timer_cb(repeating_timer_t *rt) {
         return true;
     }
     else {
-        add_alarm_in_ms(LIGHTSHOW_POST_FADEON_BLINK_CYCLE_DELAY_MS, lightshow_blink_alarm_callback, NULL, true);
+        extern bool matched_color_valid;
+        if (matched_color_valid || matched_color.led_color_representation == 0)
+            add_alarm_in_ms(LIGHTSHOW_POST_FADEON_BLINK_CYCLE_DELAY_MS, lightshow_blink_alarm_callback, NULL, true);
         return false;
     }
 }

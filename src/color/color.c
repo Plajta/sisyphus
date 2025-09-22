@@ -53,9 +53,9 @@ void color_rgb_to_hsv(float r, float g, float b, color_measurement *output_hsv){
     output_hsv->value = color_max * 100;
 }
 
-static bool parse_int(char **p, long min, long max, long *out) {
+static bool parse_int(char **p, long min, long max, long *out, int base) {
     char *endptr;
-    long val = strtol(*p, &endptr, 10);
+    long val = strtol(*p, &endptr, base);
     if (endptr == *p || val < min || val > max) {
         return false;
     }
@@ -106,16 +106,18 @@ int color_lut_load(){
             char *p = buffer;
             char *endptr;
 
+            // Get color values
             long hue_ul, sat_ul, val_ul;
-            if (!parse_int(&p, 0, 360, &hue_ul) ||
-                !parse_int(&p, 0, 100, &sat_ul) ||
-                !parse_int(&p, 0, 100, &val_ul)) {
+            if (!parse_int(&p, 0, 360, &hue_ul, 10) ||
+                !parse_int(&p, 0, 100, &sat_ul, 10) ||
+                !parse_int(&p, 0, 100, &val_ul, 10)) {
                 i = 0;
                 continue; // Bad line
             }
 
             while ((p - buffer) < i && isspace((unsigned char)*p)) p++; // Skip whitespace, with safety
 
+            // Get color code name
             char color_name = *p;
 
             if (!isalpha((unsigned char)color_name)) {
@@ -124,6 +126,16 @@ int color_lut_load(){
                 continue;
             }
 
+            while ((p - buffer) < i && isspace((unsigned char)*p)) p++; // Skip whitespace, with safety
+
+            // Get color representation for LED
+            long color_representation;
+            if(!parse_int(&p, 0, 0xFFFFFF, &color_representation, 16)){
+                color_representation = 0; // Not found default to 0
+            }
+
+
+            // Test memory capacity and add to table
             if (color_count == color_capacity){
                 size_t new_capacity = color_capacity ? color_capacity * 2 : 2;
                 struct color_entry *temp = realloc(color_entries, new_capacity * sizeof(struct color_entry));
@@ -141,6 +153,7 @@ int color_lut_load(){
             color->saturation = (uint8_t)sat_ul;
             color->value = (uint8_t)val_ul;
             color->color_name = color_name;
+            color->led_color_representation = color_representation;
 
             i = 0;
         }
@@ -217,12 +230,14 @@ struct color_entry* get_color_lut_entry(uint8_t index){
  * max_dist is the maximum distance of those two colors.
  * min_clear is the lowest clear channel luminance that can still be considered a color.
  */
-char color_lut_get_code(color_measurement *color, int max_dist, uint8_t min_clear) {
+int color_lut_get_entry(color_measurement *color, struct color_matched_entry *output, int max_dist, uint8_t min_clear) {
     if (color_lut.data == NULL || color_lut.len == 0 || min_clear > color->clear) {
         return 0;
     }
 
     char best_name = 0;
+    long best_representation = 0;
+
     int best_dist = INT_MAX;
 
     for (int i = 0; i < color_lut.len; i++) {
@@ -245,13 +260,17 @@ char color_lut_get_code(color_measurement *color, int max_dist, uint8_t min_clea
         if (dist < best_dist) {
             best_dist = dist;
             best_name = entry->color_name;
+            best_representation = entry->led_color_representation;
         }
     }
 
     // Enforce threshold
     if (best_dist > max_dist) {
-        return 0;
+        return -1;
     }
 
-    return best_name;
+    output->name = best_name;
+    output->led_color_representation = best_representation;
+
+    return 0;
 }
