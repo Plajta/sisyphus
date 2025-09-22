@@ -232,7 +232,7 @@ struct color_entry* get_color_lut_entry(uint8_t index){
  */
 int color_lut_get_entry(color_measurement *color, struct color_matched_entry *output, int max_dist, uint8_t min_clear) {
     if (color_lut.data == NULL || color_lut.len == 0 || min_clear > color->clear) {
-        return 0;
+        return -1;
     }
 
     char best_name = 0;
