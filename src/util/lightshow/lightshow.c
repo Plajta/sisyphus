@@ -49,7 +49,7 @@ bool lightshow_poweron_timer_cb(repeating_timer_t *rt) {
     }
 }
 
-void lightshow_bootup_sequence(int8_t *status_code){
+void lightshow_bootup_sequence(){
     static struct repeating_timer timer;
     led_light_state = true;
     add_repeating_timer_ms(-LIGHTSHOW_POWERON_TIME_DELTA_MS, lightshow_poweron_timer_cb, NULL, &timer); // Negative because that counts the time differently

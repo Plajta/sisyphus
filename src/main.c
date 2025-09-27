@@ -41,8 +41,6 @@ static repeating_timer_t usb_timer;
 struct color_matched_entry matched_color;
 bool matched_color_valid = false;
 
-int8_t system_status_code;
-
 i2c_inst_t *sisyfoss_i2c_inst = i2c_default;
 
 static bool usb_background_task(repeating_timer_t *rt) {
@@ -116,7 +114,7 @@ int main() {
     int err = ws2812_init(PICO_DEFAULT_WS2812_PIN);
     hard_assert(err);
 
-    lightshow_bootup_sequence(&system_status_code);
+    lightshow_bootup_sequence();
     #endif
 
     i2c_init(sisyfoss_i2c_inst, 100 * 1000);
