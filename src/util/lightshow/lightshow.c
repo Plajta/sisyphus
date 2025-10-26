@@ -1,79 +1,59 @@
 #include "lightshow.h"
-#include "color.h"
 #include "ws2812.h"
-#include <string.h>
-
-volatile float t = 0.0f;
+#include "pico/time.h"
+#include <stdbool.h>
 
 volatile bool led_light_state = false;
 
-extern struct color_matched_entry matched_color;
+#define LIGHTSHOW_FADE_TIME_DELTA_MS 10
+#define LIGHTSHOW_FADE_TIME_DELTA ((1.0f/1000.0f)*LIGHTSHOW_FADE_TIME_DELTA_MS)
 
-uint32_t blink_alarm_color;
-volatile alarm_id_t alarm_blink;
+repeating_timer_t timer;
 
-volatile uint blink_cycles = 0;
-#define LIGHTSHOW_POST_FADEON_BLINK_CYCLES 3
-#define LIGHTSHOW_POST_FADEON_BLINK_CYCLE_DELAY_MS 250
+bool lightshow_quartic_fade(repeating_timer_t *rt) {
+    lightshow_quartic_fade_state_t *s = (lightshow_quartic_fade_state_t *)rt->user_data;
+    s->t += LIGHTSHOW_FADE_TIME_DELTA;
 
-int64_t lightshow_blink_alarm_callback(alarm_id_t id, __unused void *user_data) {
-    if (led_light_state){
-        led_light_state = false;
-        ws2812_put_color(0x000000);
-        if (blink_cycles >= LIGHTSHOW_POST_FADEON_BLINK_CYCLES) {
-            alarm_blink = 0;
-            return 0;
-        }
-    }
-    else {
-        blink_cycles++;
-        led_light_state = true;
-        ws2812_put_color(blink_alarm_color);
-    }
+    // Normalize
+    float progress = s->t / s->duration;
+    if (progress > 1.0f)
+        progress = 1.0f;
 
-    return LIGHTSHOW_POST_FADEON_BLINK_CYCLE_DELAY_MS * 1000; // It's in us
-}
+    float curve = progress * progress;
+    curve *= curve;  // t^4
 
-int lightshow_color_blink_setup(uint32_t color) {
-    if (alarm_blink != 0) {
-        cancel_alarm(alarm_blink);
-    }
+    if (s->reverse)
+        curve = 1.0f - curve;
 
-    blink_alarm_color = color;
-    alarm_blink = add_alarm_in_ms(LIGHTSHOW_POST_FADEON_BLINK_CYCLE_DELAY_MS, lightshow_blink_alarm_callback, NULL, true);
+    // Extract RGB for individual fading
+    uint8_t r = (s->base_color >> 16) & 0xFF;
+    uint8_t g = (s->base_color >> 8) & 0xFF;
+    uint8_t b = s->base_color & 0xFF;
 
-    return alarm_blink;
-}
+    // Apply brightness curve
+    r = (uint8_t)(r * curve);
+    g = (uint8_t)(g * curve);
+    b = (uint8_t)(b * curve);
 
-#define LIGHTSHOW_POWERON_TIME 0.5f
-#define LIGHTSHOW_POWERON_TIME_DELTA_MS 10
-#define LIGHTSHOW_POWERON_TIME_DELTA ((1.0f/1000.0f)*LIGHTSHOW_POWERON_TIME_DELTA_MS)
-
-#define LIGHTSHOW_POWERON_FINAL_BRIGHTNESS 10
-#define LIGHTSHOW_POWERON_BRIGHTNESS_COEFFICIENT (uint32_t)((LIGHTSHOW_POWERON_FINAL_BRIGHTNESS)/POWER_OF_4(LIGHTSHOW_POWERON_TIME))
-
-bool lightshow_poweron_timer_cb(repeating_timer_t *rt) {
-    t += LIGHTSHOW_POWERON_TIME_DELTA;
-
-    // t^4 makes a nice curve
-    uint32_t color = (uint32_t)(POWER_OF_4(t) * LIGHTSHOW_POWERON_BRIGHTNESS_COEFFICIENT) << 8; // << 8 does it on the green channel
+    uint32_t color = (r << 16) | (g << 8) | b;
     ws2812_put_color(color);
 
-    if (t < LIGHTSHOW_POWERON_TIME){
-        return true;
+    bool running = s->t < s->duration;
+
+    if (!running && s->start_next_reversed) {
+        cancel_repeating_timer(&timer);
+        s->reverse = !s->reverse;
+        s->t = 0;
+        s->start_next_reversed = false;
+        add_repeating_timer_ms(-LIGHTSHOW_FADE_TIME_DELTA_MS, lightshow_quartic_fade, s, &timer);
     }
-    else {
-        extern bool matched_color_valid;
-        if (matched_color_valid && matched_color.led_color_representation != 0 && (alarm_blink == 0)){
-            blink_alarm_color = matched_color.led_color_representation;
-            alarm_blink = add_alarm_in_ms(LIGHTSHOW_POST_FADEON_BLINK_CYCLE_DELAY_MS, lightshow_blink_alarm_callback, NULL, true);
-        }
-        return false;
-    }
+
+    if (!running) led_light_state = !s->reverse;
+
+    return running;
 }
 
-void lightshow_bootup_sequence(){
-    static struct repeating_timer timer;
-    led_light_state = true;
-    add_repeating_timer_ms(-LIGHTSHOW_POWERON_TIME_DELTA_MS, lightshow_poweron_timer_cb, NULL, &timer); // Negative because that counts the time differently
+void lightshow_fade_setup(lightshow_quartic_fade_state_t *initial_state){
+    cancel_repeating_timer(&timer);
+    add_repeating_timer_ms(-LIGHTSHOW_FADE_TIME_DELTA_MS, lightshow_quartic_fade, initial_state, &timer);
 }

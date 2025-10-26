@@ -56,6 +56,20 @@ void scan_color(){
     // 200 was just a shot i guessed and it seems to work, should probably be lowered
     // 170 is measured specifically for Sisyfoss's experimental 3D model right now, should be treated as a test number
     matched_color_valid = (color_lut_get_entry(&color, &matched_color, 200, 170) == PICO_OK);
+
+    #ifdef PICO_DEFAULT_WS2812_PIN
+    if (matched_color_valid){
+        static lightshow_quartic_fade_state_t lightshow_state;
+
+        lightshow_state.t = 0;
+        lightshow_state.duration = 0.5;
+        lightshow_state.reverse = false;
+        lightshow_state.start_next_reversed = true;
+        lightshow_state.base_color = matched_color.led_color_representation;
+
+        lightshow_fade_setup(&lightshow_state);
+    }
+    #endif
 }
 
 void keyboard_interrupt() {
@@ -113,8 +127,6 @@ int main() {
     // First of all get the status LED, so errors can be shown
     int err = ws2812_init(PICO_DEFAULT_WS2812_PIN);
     hard_assert(err);
-
-    lightshow_bootup_sequence();
     #endif
 
     i2c_init(sisyfoss_i2c_inst, 100 * 1000);
