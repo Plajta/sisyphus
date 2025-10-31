@@ -15,7 +15,7 @@ This repository consists of the following:
 - [LittleFS](https://github.com/littlefs-project/littlefs) - submodule - an amazing small fail-safe filesystem for microcontrollers.
 - [Protocol](protocol/) - a custom protocol for file management, diagnostics and setup
 - [USB](usb/) - just TinyUSB headers
-- [Util](util/) - misc stuff, setup for LittleFS for the RP2040
+- [Util](util/) - misc stuff, setup for LittleFS for the RP2040, ARGB LED color indicator
 
 ## Installation
 If you want to build the firmware yourself look [here](#building).
