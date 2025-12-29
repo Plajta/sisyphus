@@ -8,11 +8,17 @@ struct color_entry {
     uint8_t saturation;
     uint8_t value;
     char color_name;
+    long led_color_representation;
 };
 
 struct color_match_array {
     struct color_entry *data;
     size_t len;
+};
+
+struct color_matched_entry {
+    char name;
+    long led_color_representation;
 };
 
 typedef struct {
@@ -29,12 +35,12 @@ typedef struct {
     uint8_t clear;
 } color_measurement;
 
-#define MAX_LUT_LINE_SIZE 14
+#define MAX_LUT_LINE_SIZE 21
 
 void color_rgb_to_hsv(float r, float g, float b, color_measurement *output_hsv);
 int color_init();
 int color_read_sensor(color_measurement *color);
-char color_lut_get_code(color_measurement *color, int max_dist, uint8_t min_clear);
+int color_lut_get_entry(color_measurement *color, struct color_matched_entry *output, int max_dist, uint8_t min_clear);
 
 // Debug code
 #ifdef SISYPHUS_DEBUG

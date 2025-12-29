@@ -249,10 +249,16 @@ void measure_command(){
 
 #ifdef SISYPHUS_DEBUG
 void last_press_filename_command(){
-    extern char color_code;
+    extern struct color_matched_entry matched_color;
+    extern bool matched_color_valid;
     extern volatile uint8_t button_index;
     char filename[16]; // 16 should be enough
-    snprintf(filename, sizeof(filename), "%c_%d.wav", color_code, button_index);
+    if (matched_color_valid){
+        snprintf(filename, sizeof(filename), "%c_%d.wav", matched_color.name, button_index);
+    }
+    else {
+        snprintf(filename, sizeof(filename), "Invalid match");
+    }
 
     print_newline(filename);
 }
