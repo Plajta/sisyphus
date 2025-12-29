@@ -31,7 +31,7 @@ Builds with included Eternity can be flashed in two ways:
 2. If your board already has Eternity on it, you can flash the `sisyphus.bin` file using the web interface included in this repository (WIP) or with [Eternity's flasher](https://github.com/Plajta/eternity/blob/main/protocol/flasher.py).
 
 ## Usage
-The primary way of interacting with this firmware is using the web interface (WIP) that is included in this repository or using keyboard included on your Sisyphus device.
+The primary way of interacting with this firmware is using a [web interface](https://lithos.plajta.eu/) ([code](https://github.com/Plajta/lithos)).
 
 If you want to take a look inside or just want to do it yourself, look inside in the [Protocol](protocol/) directory for its README and a bunch of interesting scripts.
 
