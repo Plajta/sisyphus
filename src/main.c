@@ -1,4 +1,5 @@
 #include <hardware/gpio.h>
+#include <pico/error.h>
 #include <pico/time.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -12,6 +13,8 @@
 #include "audio.h"
 #include "color.h"
 #include "tca8418.h"
+#include "ws2812.h"
+#include "lightshow.h"
 
 #include "littlefs-pico.h"
 
@@ -35,7 +38,8 @@ volatile bool trigger_audio = false;
 
 static repeating_timer_t usb_timer;
 
-char color_code = 0;
+struct color_matched_entry matched_color;
+bool matched_color_valid = false;
 
 i2c_inst_t *sisyfoss_i2c_inst = i2c_default;
 
@@ -51,7 +55,21 @@ void scan_color(){
     color_read_sensor(&color);
     // 200 was just a shot i guessed and it seems to work, should probably be lowered
     // 170 is measured specifically for Sisyfoss's experimental 3D model right now, should be treated as a test number
-    color_code = color_lut_get_code(&color, 200, 170);
+    matched_color_valid = (color_lut_get_entry(&color, &matched_color, 200, 170) == PICO_OK);
+
+    #ifdef PICO_DEFAULT_WS2812_PIN
+    if (matched_color_valid){
+        static lightshow_quartic_fade_state_t lightshow_state;
+
+        lightshow_state.t = 0;
+        lightshow_state.duration = 0.5;
+        lightshow_state.reverse = false;
+        lightshow_state.start_next_reversed = true;
+        lightshow_state.base_color = matched_color.led_color_representation;
+
+        lightshow_fade_setup(&lightshow_state);
+    }
+    #endif
 }
 
 void keyboard_interrupt() {
@@ -88,7 +106,7 @@ void gpio_irq_dispatcher(uint gpio, uint32_t events){
         trigger_color_scan = true;
     }
     else if (gpio == SISYFOSS_LID_DETECT && (events & GPIO_IRQ_EDGE_RISE)) {
-        color_code = 0;
+        matched_color_valid = false;
     }
     #ifndef SISYFOSS_HAS_KEYBOARD_CONTROLLER
     else if (gpio == BUTTON_PIN && (events & GPIO_IRQ_EDGE_FALL)) {
@@ -105,6 +123,12 @@ void gpio_irq_dispatcher(uint gpio, uint32_t events){
 }
 
 int main() {
+    #ifdef PICO_DEFAULT_WS2812_PIN
+    // First of all get the status LED, so errors can be shown
+    int err = ws2812_init(PICO_DEFAULT_WS2812_PIN);
+    hard_assert(err);
+    #endif
+
     i2c_init(sisyfoss_i2c_inst, 100 * 1000);
     gpio_set_function(PICO_DEFAULT_I2C_SDA_PIN, GPIO_FUNC_I2C);
     gpio_set_function(PICO_DEFAULT_I2C_SCL_PIN, GPIO_FUNC_I2C);
@@ -123,7 +147,7 @@ int main() {
     gpio_put(SISYFOSS_I2S_ENABLE, 1);
     #endif
 
-    int err = pico_lfs_init(&lfs);
+    err = pico_lfs_init(&lfs);
 
     if (err) {
         sleep_ms(5000);
@@ -189,9 +213,9 @@ int main() {
 
             if(trigger_audio){
                 trigger_audio = false;
-                if (color_code != 0){
+                if (matched_color_valid){
                     char filename[16]; // 16 should be enough
-                    snprintf(filename, sizeof(filename), "%c_%d.wav", color_code, button_index);
+                    snprintf(filename, sizeof(filename), "%c_%d.wav", matched_color.name, button_index);
                     play_audio(filename);
                 }
             }
