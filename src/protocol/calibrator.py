@@ -28,6 +28,7 @@ colorinfo_list = [
     ColorInfo(
         name="yellow", code="y", representation=0xAAAA00, ansi_color="\033[0;33m"
     ),
+    ColorInfo(name="white", code="w", representation=0x555555, ansi_color=""),
 ]
 
 
