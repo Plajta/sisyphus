@@ -14,3 +14,9 @@ Built into a strudy, but slim and relatively lite 3D printed construction, held 
 - [3D](3D/) - FreeCAD project, the [STLs](3D/STLs) subdirectory includes the exported files ready for 3D printing
 - [PCBs](PCBs/) - Two KiCAD projects, one for Sisyphus's [mainboard](PCBs/sisyphus) and one for our own slim [RGB sensor module](PCBs/rgb_sensor)
 - [src](src/) - The board's firmware, has it's own README, also usable on a Raspberry Pi Pico with a bit of configuration
+
+## Licensing
+All main directories have their own LICENSE files.
+
+`3D` and `PCBs` are under CC-BY-SA. `src` is licensed under GPL3.
+That means you can use the whole thing, or just a part of it in your commercial projects but must publically share your potential changes under the same license.
