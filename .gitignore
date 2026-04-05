@@ -33,6 +33,7 @@ fp-info-cache
 **/production/
 **/fabrication-toolkit-options.json
 *.round-tracks-config
+PCBs/**/.history/
 
 src/build/
 
