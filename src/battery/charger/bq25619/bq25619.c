@@ -32,6 +32,11 @@ int bq25619_read_status(i2c_inst_t *i2c, bq25619_status *status){
     return PICO_OK;
 }
 
+int bq25619_read_fault_status(i2c_inst_t *i2c, bq25619_fault_status *fault_status){
+    RETURN_IF_ERROR(bq25619_read_register(i2c, BQ25619_REG_STATUS_1, &fault_status->raw_status1));
+    return PICO_OK;
+}
+
 int bq25619_set_input_current_limit(i2c_inst_t *i2c, int max_current){
     bq25619_input_settings s;
     RETURN_IF_ERROR(bq25619_read_register(i2c, BQ25619_REG_INPUT_CURRENT_LIMIT, &s.raw_input_settings));
