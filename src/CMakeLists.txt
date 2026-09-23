@@ -144,6 +144,13 @@ if(SISYFOSS_USE_COLOR_SENSOR)
   list(APPEND SISYPHUS_LIBS color_sensor_veml3328)
 endif()
 
+if(SISYPHUS_HWTEST)
+  target_sources(${PROJECT_NAME} PRIVATE
+    commands/hwtest/hwtest.c
+  )
+  target_compile_definitions(${PROJECT_NAME} PRIVATE SISYPHUS_HWTEST)
+  message(WARNING "SISYPHUS_HWTEST enabled hardware test mode active!")
+endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${SISYPHUS_LIBS})
 
