@@ -4,6 +4,12 @@
 #include <pico/time.h>
 #include "tca8418.h"
 
+tca8418_key_callback_t tca8418_global_key_callback = NULL;
+
+void tca8418_set_key_callback(tca8418_key_callback_t callback) {
+    tca8418_global_key_callback = callback;
+}
+
 int tca8418_init(i2c_inst_t *i2c) {
     #ifdef SISYFOSS_KEYBOARD_RESET
     gpio_init(SISYFOSS_KEYBOARD_RESET);
@@ -103,6 +109,10 @@ int tca8418_get_key_from_fifo(i2c_inst_t *i2c, uint8_t *key, bool *pressed) {
 
     *key = value & 0b1111111; // 7 bits
     *pressed = value >> 7; // 8th bit; 1 is pressed; 0 is released
+
+    if (tca8418_global_key_callback) {
+        tca8418_global_key_callback(*key, *pressed);
+    }
 
     return 0; // Only bottom 4 bits are relevant
 }

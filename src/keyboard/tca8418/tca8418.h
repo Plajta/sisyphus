@@ -52,9 +52,12 @@
 #define TCA8418_REG_GPIO_PULL2 0x2D
 #define TCA8418_REG_GPIO_PULL3 0x2E
 
+typedef void (*tca8418_key_callback_t)(uint8_t key, bool pressed);
+
 int tca8418_init(i2c_inst_t *i2c);
 int tca8418_setup_keyboard(i2c_inst_t *i2c, uint8_t rows, uint16_t cols);
 void tca8418_setup_interrupt(gpio_irq_callback_t callback);
+void tca8418_set_key_callback(tca8418_key_callback_t callback);
 bool tca8418_k_int_available(i2c_inst_t *i2c);
 int tca8418_k_int_reset(i2c_inst_t *i2c);
 uint8_t tca8418_num_events(i2c_inst_t *i2c);
