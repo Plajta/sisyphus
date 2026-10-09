@@ -63,7 +63,7 @@
           "min_clearance": 0.0,
           "min_island_area": 10.0,
           "min_thickness": 0.25,
-          "pad_connection": 1,
+          "pad_connection": 2,
           "remove_islands": 0,
           "thermal_relief_gap": 0.5,
           "thermal_relief_spoke_width": 0.5
@@ -805,7 +805,7 @@
     "annotate_start_num": 0,
     "annotation": {
       "method": 0,
-      "sort_order": 0
+      "sort_order": 1
     },
     "bom_export_filename": "${PROJECTNAME}.csv",
     "bom_fmt_presets": [],
@@ -899,6 +899,42 @@
           "label": "Description_1",
           "name": "Description_1",
           "show": false
+        },
+        {
+          "group_by": false,
+          "label": "LCSC_Part",
+          "name": "LCSC_Part",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Mouser",
+          "name": "Mouser",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "0402",
+          "name": "0402",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "0204",
+          "name": "0204",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "KLC_S3.3",
+          "name": "KLC_S3.3",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "KLC_S4.1",
+          "name": "KLC_S4.1",
+          "show": false
         }
       ],
       "filter_string": "",
@@ -966,7 +1002,7 @@
         "uuid": "8c0b3d8b-46d3-4173-ab1e-a61765f77d61"
       }
     ],
-    "used_designators": "SW1,JP1-2,R8-14,J3-10,Q1,U3-7,L1-2,D1-2,C16-25,#PWR22-60",
+    "used_designators": "TH1,H1-4,SW1-2,JP1-2,R1-14,J1-10,Q1,U1-9,L1-2,D1-2,C1-25,Y1,#PWR1-64",
     "variants": []
   },
   "sheets": [
