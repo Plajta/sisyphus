@@ -12138,7 +12138,7 @@
 	)
 	(wire
 		(pts
-			(xy 227.33 34.29) (xy 227.33 35.56)
+			(xy 232.41 34.29) (xy 232.41 35.56)
 		)
 		(stroke
 			(width 0)
@@ -13028,7 +13028,7 @@
 	)
 	(wire
 		(pts
-			(xy 224.79 40.64) (xy 222.25 40.64)
+			(xy 232.41 40.64) (xy 222.25 40.64)
 		)
 		(stroke
 			(width 0)
@@ -14208,7 +14208,7 @@
 	)
 	(wire
 		(pts
-			(xy 222.25 38.1) (xy 227.33 38.1)
+			(xy 222.25 38.1) (xy 232.41 38.1)
 		)
 		(stroke
 			(width 0)
@@ -14318,7 +14318,7 @@
 	)
 	(wire
 		(pts
-			(xy 222.25 35.56) (xy 227.33 35.56)
+			(xy 222.25 35.56) (xy 232.41 35.56)
 		)
 		(stroke
 			(width 0)
@@ -15835,8 +15835,8 @@
 		)
 		(uuid "a6b6c7fe-4155-4e4e-8060-6e4b0ccbbe69")
 	)
-	(label "NTC"
-		(at 227.33 38.1 180)
+	(label "BATT_NTC"
+		(at 232.41 38.1 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -19363,7 +19363,7 @@
 	)
 	(symbol
 		(lib_id "power:+BATT")
-		(at 227.33 34.29 0)
+		(at 232.41 34.29 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -19374,7 +19374,7 @@
 		(fields_autoplaced yes)
 		(uuid "0f003036-2f15-4525-bbb2-5efbeb40298c")
 		(property "Reference" "#PWR07"
-			(at 227.33 38.1 0)
+			(at 232.41 38.1 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -19385,7 +19385,7 @@
 			)
 		)
 		(property "Value" "+BATT"
-			(at 227.33 29.21 0)
+			(at 232.41 29.21 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -19395,7 +19395,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 227.33 34.29 0)
+			(at 232.41 34.29 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -19406,7 +19406,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 227.33 34.29 0)
+			(at 232.41 34.29 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -19417,7 +19417,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+BATT\""
-			(at 227.33 34.29 0)
+			(at 232.41 34.29 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -24725,7 +24725,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 224.79 40.64 0)
+		(at 232.41 40.64 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -24735,7 +24735,7 @@
 		(dnp no)
 		(uuid "a3c910fc-2f5e-4586-97c9-9a8f87abc66a")
 		(property "Reference" "#PWR010"
-			(at 224.79 46.99 0)
+			(at 232.41 46.99 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -24746,7 +24746,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 228.854 42.418 0)
+			(at 236.474 42.418 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -24756,7 +24756,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 224.79 40.64 0)
+			(at 232.41 40.64 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -24767,7 +24767,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 224.79 40.64 0)
+			(at 232.41 40.64 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -24778,7 +24778,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 224.79 40.64 0)
+			(at 232.41 40.64 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
