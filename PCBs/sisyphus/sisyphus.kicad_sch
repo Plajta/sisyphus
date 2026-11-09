@@ -19206,6 +19206,17 @@
 				)
 			)
 		)
+		(property "LCSC Part" "C295747"
+			(at 172.72 67.31 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "06d26396-a707-44cc-b728-dac90ef25e0e")
 		)
@@ -19882,6 +19893,17 @@
 				)
 			)
 		)
+		(property "LCSC Part" "C265101"
+			(at 355.6 201.93 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "d271cf9b-6768-422d-984b-c9e4eacd2826")
 		)
@@ -20277,7 +20299,7 @@
 				)
 			)
 		)
-		(property "LCSC Part (outdated)" "https://lcsc.com/product-detail/MOSFETs_UMW-Youtai-Semiconductor-Co-Ltd-AO3401A_C347476.html"
+		(property "LCSC Part" "C347476"
 			(at 274.32 45.72 90)
 			(hide yes)
 			(show_name no)
@@ -20731,7 +20753,7 @@
 				)
 			)
 		)
-		(property "LCSC Part (outdated)" "https://lcsc.com/product-detail/Wire-To-Board-Connector_JST-S3B-PH-SM4-TB-LF-SN_C265101.html"
+		(property "LCSC Part" "C265101"
 			(at 217.17 38.1 0)
 			(hide yes)
 			(show_name no)
@@ -20842,6 +20864,17 @@
 			)
 		)
 		(property "Mouser Part" " 700-MAX17048G+T10 "
+			(at 220.98 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part" "C2682616"
 			(at 220.98 60.96 0)
 			(hide yes)
 			(show_name no)
@@ -21158,7 +21191,7 @@
 				)
 			)
 		)
-		(property "LCSC Part (outdated)" "https://lcsc.com/product-detail/Crystals_Abracon-LLC-ABM8-272-T3_C20625731.html"
+		(property "LCSC Part" "C20625731"
 			(at 147.32 209.55 90)
 			(hide yes)
 			(show_name no)
@@ -21729,17 +21762,6 @@
 				)
 			)
 		)
-		(property "LCSC Part (outdated)" "https://lcsc.com/product-detail/Multilayer-Ceramic-Capacitors-MLCC-SMD-SMT_CCTC-TCC0402COG150J500AT_C880657.html"
-			(at 132.08 204.47 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
 		(pin "1"
 			(uuid "4284b30a-5eed-45f2-a84c-1ef84a5cb28d")
 		)
@@ -22030,7 +22052,7 @@
 				)
 			)
 		)
-		(property "LCSC Part (outdated)" "https://lcsc.com/product-detail/Audio-Amplifiers_Analog-Devices-Inc-Maxim-Integrated-MAX98357AETE-T_C910544.html"
+		(property "LCSC Part" "C910544"
 			(at 63.5 185.42 0)
 			(hide yes)
 			(show_name no)
@@ -22446,6 +22468,17 @@
 				)
 			)
 		)
+		(property "LCSC Part" "C265121"
+			(at 270.51 224.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "5"
 			(uuid "2a28cae1-8c26-4b1e-8b54-8bfbb9e348ea")
 		)
@@ -22648,7 +22681,7 @@
 				)
 			)
 		)
-		(property "LCSC Part (outdated)" "https://lcsc.com/product-detail/I-O-Expanders_Texas-Instruments-TCA8418RTWR_C138713.html"
+		(property "LCSC Part" "C138713"
 			(at 285.75 148.59 0)
 			(hide yes)
 			(show_name no)
@@ -23330,7 +23363,7 @@
 				)
 			)
 		)
-		(property "LCSC Part (outdated)" "https://lcsc.com/product-detail/ESD-and-Surge-Protection-TVS-ESD_TECH-PUBLIC-TPUSBLC6-2P6_C2682291.html"
+		(property "LCSC Part" "C2682291"
 			(at 73.66 48.26 0)
 			(hide yes)
 			(show_name no)
@@ -23455,7 +23488,7 @@
 				)
 			)
 		)
-		(property "LCSC Part (outdated)" "https://lcsc.com/product-detail/Schottky-Diodes_FUXINSEMI-MBR230LSFT1G_C7422638.html"
+		(property "LCSC Part" "C7422638"
 			(at 86.36 33.02 0)
 			(hide yes)
 			(show_name no)
@@ -24392,6 +24425,17 @@
 				)
 			)
 		)
+		(property "LCSC Part" "C295747"
+			(at 320.04 200.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "14481b09-7955-45b0-8965-9a7e96054bc2")
 		)
@@ -24942,6 +24986,17 @@
 			)
 		)
 		(property "Mouser Part" "454-W25Q128JVPIMTR"
+			(at 82.55 127 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part" "C2441427"
 			(at 82.55 127 0)
 			(hide yes)
 			(show_name no)
@@ -25519,7 +25574,7 @@
 				)
 			)
 		)
-		(property "LCSC Part (outdated)" "https://lcsc.com/product-detail/DC-DC-Converters_Texas-Instruments-TPS62291DRVR_C52772.html"
+		(property "LCSC Part" "C52772"
 			(at 342.9 43.18 0)
 			(hide yes)
 			(show_name no)
@@ -26790,7 +26845,7 @@
 				)
 			)
 		)
-		(property "LCSC Part (outdated)" "https://lcsc.com/product-detail/Microcontrollers-MCU-MPU-SOC_Raspberry-Pi-RP2040_C2040.html"
+		(property "LCSC Part" "C2040"
 			(at 201.93 196.85 0)
 			(hide yes)
 			(show_name no)
@@ -27241,17 +27296,6 @@
 			)
 		)
 		(property "Mouser Part" ""
-			(at 132.08 214.63 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC Part (outdated)" "https://lcsc.com/product-detail/Multilayer-Ceramic-Capacitors-MLCC-SMD-SMT_CCTC-TCC0402COG150J500AT_C880657.html"
 			(at 132.08 214.63 0)
 			(hide yes)
 			(show_name no)
@@ -27909,6 +27953,17 @@
 			)
 		)
 		(property "Mouser Part" "306-S6BPHSM4TBLFSN"
+			(at 279.4 203.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part" "C265405"
 			(at 279.4 203.2 0)
 			(hide yes)
 			(show_name no)
@@ -28632,7 +28687,7 @@
 				)
 			)
 		)
-		(property "LCSC Part (outdated)" "https://lcsc.com/product-detail/USB-Connectors_G-Switch-GT-USB-7010ASV_C2988369.html"
+		(property "LCSC Part" "C2988369"
 			(at 41.91 48.26 0)
 			(hide yes)
 			(show_name no)
