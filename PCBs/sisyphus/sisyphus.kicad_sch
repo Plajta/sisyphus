@@ -16443,7 +16443,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 52.07 110.49 0)
 			(hide yes)
 			(show_name no)
@@ -16454,7 +16454,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 52.07 110.49 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 52.07 110.49 0)
 			(hide yes)
 			(show_name no)
@@ -16543,7 +16554,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 43.18 119.38 90)
 			(hide yes)
 			(show_name no)
@@ -16554,7 +16565,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 43.18 119.38 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 43.18 119.38 90)
 			(hide yes)
 			(show_name no)
@@ -16645,7 +16667,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 88.9 106.045 0)
 			(hide yes)
 			(show_name no)
@@ -16656,7 +16678,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 88.9 106.045 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 88.9 106.045 0)
 			(hide yes)
 			(show_name no)
@@ -16974,7 +17007,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 161.29 161.29 90)
 			(hide yes)
 			(show_name no)
@@ -16985,7 +17018,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 161.29 161.29 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 161.29 161.29 90)
 			(hide yes)
 			(show_name no)
@@ -17075,7 +17119,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 161.29 168.91 90)
 			(hide yes)
 			(show_name no)
@@ -17086,7 +17130,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 161.29 168.91 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 161.29 168.91 90)
 			(hide yes)
 			(show_name no)
@@ -17331,7 +17386,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 209.55 107.95 0)
 			(hide yes)
 			(show_name no)
@@ -17342,7 +17397,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 209.55 107.95 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 209.55 107.95 0)
 			(hide yes)
 			(show_name no)
@@ -17434,7 +17500,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 198.12 107.95 0)
 			(hide yes)
 			(show_name no)
@@ -17445,7 +17511,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 198.12 107.95 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 198.12 107.95 0)
 			(hide yes)
 			(show_name no)
@@ -17537,7 +17614,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 186.69 107.95 0)
 			(hide yes)
 			(show_name no)
@@ -17548,7 +17625,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 186.69 107.95 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 186.69 107.95 0)
 			(hide yes)
 			(show_name no)
@@ -17640,7 +17728,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 175.26 107.95 0)
 			(hide yes)
 			(show_name no)
@@ -17651,7 +17739,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 175.26 107.95 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 175.26 107.95 0)
 			(hide yes)
 			(show_name no)
@@ -17743,7 +17842,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 163.83 107.95 0)
 			(hide yes)
 			(show_name no)
@@ -17754,7 +17853,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 163.83 107.95 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 163.83 107.95 0)
 			(hide yes)
 			(show_name no)
@@ -17846,7 +17956,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 152.4 107.95 0)
 			(hide yes)
 			(show_name no)
@@ -17857,7 +17967,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 152.4 107.95 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 152.4 107.95 0)
 			(hide yes)
 			(show_name no)
@@ -17949,7 +18070,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 140.97 107.95 0)
 			(hide yes)
 			(show_name no)
@@ -17960,7 +18081,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 140.97 107.95 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 140.97 107.95 0)
 			(hide yes)
 			(show_name no)
@@ -18051,7 +18183,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 176.53 128.27 0)
 			(hide yes)
 			(show_name no)
@@ -18062,7 +18194,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 176.53 128.27 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 176.53 128.27 0)
 			(hide yes)
 			(show_name no)
@@ -18153,7 +18296,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 187.96 128.27 0)
 			(hide yes)
 			(show_name no)
@@ -18164,7 +18307,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 187.96 128.27 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 187.96 128.27 0)
 			(hide yes)
 			(show_name no)
@@ -18255,7 +18409,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 187.96 143.51 0)
 			(hide yes)
 			(show_name no)
@@ -18266,7 +18420,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 187.96 143.51 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 187.96 143.51 0)
 			(hide yes)
 			(show_name no)
@@ -18357,7 +18522,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 222.25 142.24 0)
 			(hide yes)
 			(show_name no)
@@ -18368,7 +18533,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 222.25 142.24 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 222.25 142.24 0)
 			(hide yes)
 			(show_name no)
@@ -18840,7 +19016,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 336.55 232.41 0)
 			(hide yes)
 			(show_name no)
@@ -18851,7 +19027,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 336.55 232.41 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 336.55 232.41 0)
 			(hide yes)
 			(show_name no)
@@ -19017,7 +19204,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 27.94 102.87 90)
 			(hide yes)
 			(show_name no)
@@ -19028,7 +19215,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 27.94 102.87 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 27.94 102.87 90)
 			(hide yes)
 			(show_name no)
@@ -19186,6 +19384,28 @@
 		)
 		(property "Description" "Generic connectable mounting pin connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
 			(at 172.72 67.31 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser Part" "306-S2BPHSM4TBLFSN"
+			(at 172.72 67.31 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
+			(at 172.72 67.31 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -19748,7 +19968,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 360.68 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -19759,7 +19979,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 360.68 215.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 360.68 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -19860,6 +20091,28 @@
 				)
 			)
 		)
+		(property "Mouser Part" "306-S3BPHSM4TBLFSN"
+			(at 355.6 201.93 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
+			(at 355.6 201.93 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "d271cf9b-6768-422d-984b-c9e4eacd2826")
 		)
@@ -19948,6 +20201,28 @@
 			)
 		)
 		(property "Sim.Pins" ""
+			(at 199.39 52.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser Part" ""
+			(at 199.39 52.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 199.39 52.07 0)
 			(hide yes)
 			(show_name no)
@@ -20117,7 +20392,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 306.07 232.41 90)
 			(hide yes)
 			(show_name no)
@@ -20128,7 +20403,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 306.07 232.41 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 306.07 232.41 90)
 			(hide yes)
 			(show_name no)
@@ -20222,7 +20508,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "https://lcsc.com/product-detail/MOSFETs_UMW-Youtai-Semiconductor-Co-Ltd-AO3401A_C347476.html"
+		(property "Sim.Pins" ""
 			(at 274.32 45.72 90)
 			(hide yes)
 			(show_name no)
@@ -20233,7 +20519,29 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 274.32 45.72 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part (outdated)" "https://lcsc.com/product-detail/MOSFETs_UMW-Youtai-Semiconductor-Co-Ltd-AO3401A_C347476.html"
+			(at 274.32 45.72 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 274.32 45.72 90)
 			(hide yes)
 			(show_name no)
@@ -20561,73 +20869,29 @@
 				)
 			)
 		)
-		(property "0204" ""
-			(at 116.84 53.34 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "0402" ""
-			(at 116.84 53.34 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC_Part" "C321025"
-			(at 116.84 53.34 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "KLC_S3.3" ""
-			(at 116.84 53.34 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "KLC_S4.1" ""
-			(at 116.84 53.34 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Mouser" ""
-			(at 116.84 53.34 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
 		(property "Sim.Pins" ""
+			(at 116.84 53.34 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser Part" ""
+			(at 116.84 53.34 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 116.84 53.34 0)
 			(hide yes)
 			(show_name no)
@@ -20720,7 +20984,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "https://lcsc.com/product-detail/Wire-To-Board-Connector_JST-S3B-PH-SM4-TB-LF-SN_C265101.html"
+		(property "Sim.Pins" ""
 			(at 217.17 38.1 0)
 			(hide yes)
 			(show_name no)
@@ -20731,7 +20995,29 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" "306-S3BPHSM4TBLFSN"
+			(at 217.17 38.1 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part (outdated)" "https://lcsc.com/product-detail/Wire-To-Board-Connector_JST-S3B-PH-SM4-TB-LF-SN_C265101.html"
+			(at 217.17 38.1 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 217.17 38.1 0)
 			(hide yes)
 			(show_name no)
@@ -20831,6 +21117,28 @@
 			)
 		)
 		(property "Sim.Pins" ""
+			(at 220.98 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser Part" " 700-MAX17048G+T10 "
+			(at 220.98 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 220.98 60.96 0)
 			(hide yes)
 			(show_name no)
@@ -21020,7 +21328,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 267.97 31.75 0)
 			(hide yes)
 			(show_name no)
@@ -21031,7 +21339,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 267.97 31.75 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 267.97 31.75 0)
 			(hide yes)
 			(show_name no)
@@ -21125,7 +21444,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "https://lcsc.com/product-detail/Crystals_Abracon-LLC-ABM8-272-T3_C20625731.html"
+		(property "Sim.Pins" ""
 			(at 147.32 209.55 90)
 			(hide yes)
 			(show_name no)
@@ -21136,7 +21455,29 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" " 815-ABM8-272-T3 "
+			(at 147.32 209.55 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part (outdated)" "https://lcsc.com/product-detail/Crystals_Abracon-LLC-ABM8-272-T3_C20625731.html"
+			(at 147.32 209.55 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 147.32 209.55 90)
 			(hide yes)
 			(show_name no)
@@ -21480,73 +21821,29 @@
 				)
 			)
 		)
-		(property "LCSC_Part" "C315248"
-			(at 158.75 40.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "0204" "x"
-			(at 158.75 40.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "0402" "x"
-			(at 158.75 40.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "KLC_S3.3" ""
-			(at 158.75 40.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "KLC_S4.1" ""
-			(at 158.75 40.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Mouser" ""
-			(at 158.75 40.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
 		(property "Sim.Pins" ""
+			(at 158.75 40.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser Part" ""
+			(at 158.75 40.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 158.75 40.64 0)
 			(hide yes)
 			(show_name no)
@@ -21638,29 +21935,29 @@
 				)
 			)
 		)
-		(property "Description_1" ""
-			(at 367.03 49.53 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC Part" ""
-			(at 367.03 49.53 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
 		(property "Sim.Pins" ""
+			(at 367.03 49.53 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser Part" ""
+			(at 367.03 49.53 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 367.03 49.53 0)
 			(hide yes)
 			(show_name no)
@@ -21751,7 +22048,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "https://lcsc.com/product-detail/Multilayer-Ceramic-Capacitors-MLCC-SMD-SMT_CCTC-TCC0402COG150J500AT_C880657.html"
+		(property "Sim.Pins" ""
 			(at 132.08 204.47 0)
 			(hide yes)
 			(show_name no)
@@ -21762,7 +22059,29 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 132.08 204.47 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part (outdated)" "https://lcsc.com/product-detail/Multilayer-Ceramic-Capacitors-MLCC-SMD-SMT_CCTC-TCC0402COG150J500AT_C880657.html"
+			(at 132.08 204.47 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 132.08 204.47 0)
 			(hide yes)
 			(show_name no)
@@ -21859,7 +22178,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 267.97 39.37 90)
 			(hide yes)
 			(show_name no)
@@ -21870,7 +22189,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 267.97 39.37 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 267.97 39.37 90)
 			(hide yes)
 			(show_name no)
@@ -22041,7 +22371,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "https://lcsc.com/product-detail/Audio-Amplifiers_Analog-Devices-Inc-Maxim-Integrated-MAX98357AETE-T_C910544.html"
+		(property "Sim.Pins" ""
 			(at 63.5 185.42 0)
 			(hide yes)
 			(show_name no)
@@ -22052,7 +22382,29 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" "700-MAX98357AETE+T"
+			(at 63.5 185.42 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part (outdated)" "https://lcsc.com/product-detail/Audio-Amplifiers_Analog-Devices-Inc-Maxim-Integrated-MAX98357AETE-T_C910544.html"
+			(at 63.5 185.42 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 63.5 185.42 0)
 			(hide yes)
 			(show_name no)
@@ -22190,7 +22542,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 360.68 223.52 0)
 			(hide yes)
 			(show_name no)
@@ -22201,7 +22553,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 360.68 223.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 360.68 223.52 0)
 			(hide yes)
 			(show_name no)
@@ -22446,8 +22809,8 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
-			(at 270.51 224.79 90)
+		(property "Sim.Pins" ""
+			(at 270.51 224.79 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -22457,7 +22820,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" "306-S8BPHSM4TBLFSN"
+			(at 270.51 224.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 270.51 224.79 0)
 			(hide yes)
 			(show_name no)
@@ -22648,7 +23022,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "https://lcsc.com/product-detail/I-O-Expanders_Texas-Instruments-TCA8418RTWR_C138713.html"
+		(property "Sim.Pins" ""
 			(at 285.75 148.59 0)
 			(hide yes)
 			(show_name no)
@@ -22659,7 +23033,29 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" "595-TCA8418RTWR"
+			(at 285.75 148.59 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part (outdated)" "https://lcsc.com/product-detail/I-O-Expanders_Texas-Instruments-TCA8418RTWR_C138713.html"
+			(at 285.75 148.59 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 285.75 148.59 0)
 			(hide yes)
 			(show_name no)
@@ -23065,6 +23461,28 @@
 				)
 			)
 		)
+		(property "Mouser Part" ""
+			(at 157.48 69.85 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
+			(at 157.48 69.85 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "8e316364-c7ab-48bd-a3ce-0b7657c8b449")
 		)
@@ -23308,7 +23726,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "https://lcsc.com/product-detail/ESD-and-Surge-Protection-TVS-ESD_TECH-PUBLIC-TPUSBLC6-2P6_C2682291.html"
+		(property "Sim.Pins" ""
 			(at 73.66 48.26 0)
 			(hide yes)
 			(show_name no)
@@ -23319,7 +23737,29 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" "511-USBLC6-2P6"
+			(at 73.66 48.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part (outdated)" "https://lcsc.com/product-detail/ESD-and-Surge-Protection-TVS-ESD_TECH-PUBLIC-TPUSBLC6-2P6_C2682291.html"
+			(at 73.66 48.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 73.66 48.26 0)
 			(hide yes)
 			(show_name no)
@@ -23389,7 +23829,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Diode_SMD:D_SOD-123"
+		(property "Footprint" "Diode_SMD:D_SOD-123F"
 			(at 86.36 33.02 90)
 			(hide yes)
 			(show_name no)
@@ -23422,7 +23862,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "https://lcsc.com/product-detail/Schottky-Diodes_FUXINSEMI-MBR230LSFT1G_C7422638.html"
+		(property "Sim.Pins" ""
 			(at 86.36 33.02 0)
 			(hide yes)
 			(show_name no)
@@ -23433,7 +23873,29 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" "863-MBR230LSFT1G"
+			(at 86.36 33.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part (outdated)" "https://lcsc.com/product-detail/Schottky-Diodes_FUXINSEMI-MBR230LSFT1G_C7422638.html"
+			(at 86.36 33.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 86.36 33.02 0)
 			(hide yes)
 			(show_name no)
@@ -23523,7 +23985,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 59.69 40.64 90)
 			(hide yes)
 			(show_name no)
@@ -23534,7 +23996,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 59.69 40.64 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 59.69 40.64 90)
 			(hide yes)
 			(show_name no)
@@ -23626,7 +24099,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 360.68 238.76 0)
 			(hide yes)
 			(show_name no)
@@ -23637,7 +24110,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 360.68 238.76 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 360.68 238.76 0)
 			(hide yes)
 			(show_name no)
@@ -23961,62 +24445,29 @@
 				)
 			)
 		)
-		(property "0204" ""
-			(at 116.84 66.04 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "0402" ""
-			(at 116.84 66.04 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "KLC_S3.3" ""
-			(at 116.84 66.04 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "KLC_S4.1" ""
-			(at 116.84 66.04 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Mouser" ""
-			(at 116.84 66.04 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
 		(property "Sim.Pins" ""
+			(at 116.84 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser Part" ""
+			(at 116.84 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 116.84 66.04 0)
 			(hide yes)
 			(show_name no)
@@ -24181,7 +24632,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 165.1 214.63 90)
 			(hide yes)
 			(show_name no)
@@ -24192,7 +24643,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 165.1 214.63 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 165.1 214.63 90)
 			(hide yes)
 			(show_name no)
@@ -24288,7 +24750,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 306.07 234.95 90)
 			(hide yes)
 			(show_name no)
@@ -24299,7 +24761,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 306.07 234.95 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 306.07 234.95 90)
 			(hide yes)
 			(show_name no)
@@ -24392,7 +24865,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 320.04 200.66 0)
 			(hide yes)
 			(show_name no)
@@ -24403,7 +24876,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" "306-S2BPHSM4TBLFSN"
+			(at 320.04 200.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 320.04 200.66 0)
 			(hide yes)
 			(show_name no)
@@ -24499,7 +24983,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 55.88 162.56 0)
 			(hide yes)
 			(show_name no)
@@ -24510,7 +24994,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 55.88 162.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 55.88 162.56 0)
 			(hide yes)
 			(show_name no)
@@ -24602,6 +25097,28 @@
 			)
 		)
 		(property "Sim.Pins" ""
+			(at 144.78 45.72 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser Part" "946-MP2667GG-0000-P"
+			(at 144.78 45.72 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 144.78 45.72 0)
 			(hide yes)
 			(show_name no)
@@ -24952,6 +25469,28 @@
 				)
 			)
 		)
+		(property "Mouser Part" "454-W25Q128JVPIMTR"
+			(at 82.55 127 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
+			(at 82.55 127 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "8"
 			(uuid "b8884445-923f-4f0a-9b4c-c8618b5cacd7")
 		)
@@ -25055,73 +25594,29 @@
 				)
 			)
 		)
-		(property "0204" "x"
-			(at 170.18 52.07 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC_Part" "C23733"
-			(at 170.18 52.07 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "0402" "x"
-			(at 170.18 52.07 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "KLC_S3.3" ""
-			(at 170.18 52.07 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "KLC_S4.1" ""
-			(at 170.18 52.07 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Mouser" ""
-			(at 170.18 52.07 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
 		(property "Sim.Pins" ""
+			(at 170.18 52.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser Part" ""
+			(at 170.18 52.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 170.18 52.07 0)
 			(hide yes)
 			(show_name no)
@@ -25372,7 +25867,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 33.02 195.58 0)
 			(hide yes)
 			(show_name no)
@@ -25383,7 +25878,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 33.02 195.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 33.02 195.58 0)
 			(hide yes)
 			(show_name no)
@@ -25552,7 +26058,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "https://lcsc.com/product-detail/DC-DC-Converters_Texas-Instruments-TPS62291DRVR_C52772.html"
+		(property "Sim.Pins" ""
 			(at 342.9 43.18 0)
 			(hide yes)
 			(show_name no)
@@ -25563,7 +26069,29 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" "595-TPS62291DRVR"
+			(at 342.9 43.18 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part (outdated)" "https://lcsc.com/product-detail/DC-DC-Converters_Texas-Instruments-TPS62291DRVR_C52772.html"
+			(at 342.9 43.18 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 342.9 43.18 0)
 			(hide yes)
 			(show_name no)
@@ -25670,29 +26198,29 @@
 				)
 			)
 		)
-		(property "Description_1" ""
-			(at 316.23 52.07 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC Part" ""
-			(at 316.23 52.07 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
 		(property "Sim.Pins" ""
+			(at 316.23 52.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser Part" ""
+			(at 316.23 52.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 316.23 52.07 0)
 			(hide yes)
 			(show_name no)
@@ -25783,18 +26311,7 @@
 				)
 			)
 		)
-		(property "Description_1" ""
-			(at 322.58 40.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 322.58 40.64 90)
 			(hide yes)
 			(show_name no)
@@ -25805,7 +26322,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 322.58 40.64 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 322.58 40.64 90)
 			(hide yes)
 			(show_name no)
@@ -26291,73 +26819,29 @@
 				)
 			)
 		)
-		(property "LCSC_Part" "C14445"
-			(at 123.19 38.1 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "0204" ""
-			(at 123.19 38.1 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "0402" ""
-			(at 123.19 38.1 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "KLC_S3.3" ""
-			(at 123.19 38.1 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "KLC_S4.1" ""
-			(at 123.19 38.1 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Mouser" ""
-			(at 123.19 38.1 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
 		(property "Sim.Pins" ""
+			(at 123.19 38.1 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser Part" ""
+			(at 123.19 38.1 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 123.19 38.1 0)
 			(hide yes)
 			(show_name no)
@@ -26452,6 +26936,28 @@
 			)
 		)
 		(property "Sim.Pins" ""
+			(at 157.48 77.47 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser Part" ""
+			(at 157.48 77.47 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 157.48 77.47 0)
 			(hide yes)
 			(show_name no)
@@ -26620,7 +27126,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 59.69 38.1 90)
 			(hide yes)
 			(show_name no)
@@ -26631,7 +27137,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 59.69 38.1 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 59.69 38.1 90)
 			(hide yes)
 			(show_name no)
@@ -26878,7 +27395,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "https://lcsc.com/product-detail/Microcontrollers-MCU-MPU-SOC_Raspberry-Pi-RP2040_C2040.html"
+		(property "Sim.Pins" ""
 			(at 201.93 196.85 0)
 			(hide yes)
 			(show_name no)
@@ -26889,7 +27406,29 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" "358-SC091413"
+			(at 201.93 196.85 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part (outdated)" "https://lcsc.com/product-detail/Microcontrollers-MCU-MPU-SOC_Raspberry-Pi-RP2040_C2040.html"
+			(at 201.93 196.85 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 201.93 196.85 0)
 			(hide yes)
 			(show_name no)
@@ -27155,6 +27694,28 @@
 				)
 			)
 		)
+		(property "Mouser Part" ""
+			(at 274.32 58.42 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
+			(at 274.32 58.42 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "de5a0923-dba2-4724-b430-3b55063a723a")
 		)
@@ -27317,7 +27878,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "https://lcsc.com/product-detail/Multilayer-Ceramic-Capacitors-MLCC-SMD-SMT_CCTC-TCC0402COG150J500AT_C880657.html"
+		(property "Sim.Pins" ""
 			(at 132.08 214.63 0)
 			(hide yes)
 			(show_name no)
@@ -27328,7 +27889,29 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 132.08 214.63 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part (outdated)" "https://lcsc.com/product-detail/Multilayer-Ceramic-Capacitors-MLCC-SMD-SMT_CCTC-TCC0402COG150J500AT_C880657.html"
+			(at 132.08 214.63 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 132.08 214.63 0)
 			(hide yes)
 			(show_name no)
@@ -27427,73 +28010,29 @@
 				)
 			)
 		)
-		(property "LCSC_Part" "C161494"
-			(at 127 52.07 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "0204" ""
-			(at 127 52.07 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "0402" ""
-			(at 127 52.07 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "KLC_S3.3" ""
-			(at 127 52.07 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "KLC_S4.1" ""
-			(at 127 52.07 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Mouser" ""
-			(at 127 52.07 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
 		(property "Sim.Pins" ""
+			(at 127 52.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser Part" ""
+			(at 127 52.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 127 52.07 0)
 			(hide yes)
 			(show_name no)
@@ -27740,7 +28279,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 33.02 203.2 0)
 			(hide yes)
 			(show_name no)
@@ -27751,7 +28290,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 33.02 203.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 33.02 203.2 0)
 			(hide yes)
 			(show_name no)
@@ -27847,7 +28397,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 360.68 231.14 0)
 			(hide yes)
 			(show_name no)
@@ -27858,7 +28408,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 360.68 231.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 360.68 231.14 0)
 			(hide yes)
 			(show_name no)
@@ -28040,6 +28601,28 @@
 				)
 			)
 		)
+		(property "Mouser Part" "306-S6BPHSM4TBLFSN"
+			(at 279.4 203.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
+			(at 279.4 203.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "4"
 			(uuid "090e3fdb-2fa9-4f6f-b59b-440e1668b693")
 		)
@@ -28137,7 +28720,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 45.72 162.56 0)
 			(hide yes)
 			(show_name no)
@@ -28148,7 +28731,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 45.72 162.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 45.72 162.56 0)
 			(hide yes)
 			(show_name no)
@@ -28472,7 +29066,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" ""
+		(property "Sim.Pins" ""
 			(at 149.86 227.33 0)
 			(hide yes)
 			(show_name no)
@@ -28483,7 +29077,18 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" ""
+			(at 149.86 227.33 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 149.86 227.33 0)
 			(hide yes)
 			(show_name no)
@@ -28688,7 +29293,7 @@
 				)
 			)
 		)
-		(property "Value" "USB_C_Receptacle_USB2.0_14P"
+		(property "Value" "USB-C"
 			(at 41.91 27.94 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -28698,7 +29303,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Connector_USB:USB_C_Receptacle_G-Switch_GT-USB-7010ASV"
+		(property "Footprint" "Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal"
 			(at 45.72 48.26 0)
 			(hide yes)
 			(show_name no)
@@ -28731,7 +29336,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "https://lcsc.com/product-detail/USB-Connectors_G-Switch-GT-USB-7010ASV_C2988369.html"
+		(property "Sim.Pins" ""
 			(at 41.91 48.26 0)
 			(hide yes)
 			(show_name no)
@@ -28742,7 +29347,29 @@
 				)
 			)
 		)
-		(property "Sim.Pins" ""
+		(property "Mouser Part" "640-USB4105-GF-A-120"
+			(at 41.91 48.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part (outdated)" "https://lcsc.com/product-detail/USB-Connectors_G-Switch-GT-USB-7010ASV_C2988369.html"
+			(at 41.91 48.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "TME Part" ""
 			(at 41.91 48.26 0)
 			(hide yes)
 			(show_name no)

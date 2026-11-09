@@ -848,8 +848,14 @@
         },
         {
           "group_by": false,
-          "label": "LCSC Part",
-          "name": "LCSC Part",
+          "label": "LCSC Part (outdated)",
+          "name": "LCSC Part (outdated)",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Mouser Part",
+          "name": "Mouser Part",
           "show": true
         },
         {
@@ -908,44 +914,8 @@
         },
         {
           "group_by": false,
-          "label": "Description_1",
-          "name": "Description_1",
-          "show": false
-        },
-        {
-          "group_by": false,
-          "label": "LCSC_Part",
-          "name": "LCSC_Part",
-          "show": false
-        },
-        {
-          "group_by": false,
-          "label": "Mouser",
-          "name": "Mouser",
-          "show": false
-        },
-        {
-          "group_by": false,
-          "label": "0402",
-          "name": "0402",
-          "show": false
-        },
-        {
-          "group_by": false,
-          "label": "0204",
-          "name": "0204",
-          "show": false
-        },
-        {
-          "group_by": false,
-          "label": "KLC_S3.3",
-          "name": "KLC_S3.3",
-          "show": false
-        },
-        {
-          "group_by": false,
-          "label": "KLC_S4.1",
-          "name": "KLC_S4.1",
+          "label": "TME Part",
+          "name": "TME Part",
           "show": false
         }
       ],
@@ -953,8 +923,8 @@
       "group_symbols": true,
       "include_excluded_from_bom": false,
       "name": "",
-      "sort_asc": true,
-      "sort_field": "Description_1"
+      "sort_asc": false,
+      "sort_field": "${EXCLUDE_FROM_BOARD}"
     },
     "bus_aliases": {},
     "connection_grid_size": 50.0,
